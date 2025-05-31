@@ -1,0 +1,26 @@
+!SESSION 2025-05-30 12:17:25.208 -----------------------------------------------
+eclipse.buildId=4.35.0.20250306-0811
+java.version=21.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=it_IT
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.java.product -data /home/milena/Documenti/Coding/progetto_pmo_202425
+
+!ENTRY ch.qos.logback.classic 1 0 2025-05-30 12:17:30.975
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-05-30 12:17:33.602
+!MESSAGE Logback config file: /home/milena/Documenti/Coding/progetto_pmo_202425/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.7.0.20241001-1350.xml
+!SESSION 2025-05-30 12:36:07.344 -----------------------------------------------
+eclipse.buildId=4.35.0.20250306-0811
+java.version=21.0.6
+java.vendor=Eclipse Adoptium
+BootLoader constants: OS=linux, ARCH=x86_64, WS=gtk, NL=it_IT
+Framework arguments:  -product org.eclipse.epp.package.java.product
+Command-line arguments:  -os linux -ws gtk -arch x86_64 -product org.eclipse.epp.package.java.product
+
+!ENTRY ch.qos.logback.classic 1 0 2025-05-30 12:36:12.412
+!MESSAGE Activated before the state location was initialized. Retry after the state location is initialized.
+
+!ENTRY ch.qos.logback.classic 1 0 2025-05-30 12:36:15.436
+!MESSAGE Logback config file: /home/milena/Documenti/Coding/progetto_pmo_202425/.metadata/.plugins/org.eclipse.m2e.logback/logback.2.7.0.20241001-1350.xml

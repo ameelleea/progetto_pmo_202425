@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry excluding="main/control/|main/model/|main/palazzetti/|main/view/" kind="src" path="simulazione_ristorante/src"/>
+	<classpathentry kind="src" path="simulazione_ristorante/src/main/control"/>
+	<classpathentry kind="src" path="simulazione_ristorante/src/main/model"/>
+	<classpathentry kind="src" path="simulazione_ristorante/src/main/palazzetti"/>
+	<classpathentry kind="src" path="simulazione_ristorante/src/main/view"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
