@@ -1,5 +1,7 @@
 package main.palazzetti.interfaces;
 
+import main.balducci.interfaces.GruppoDiClienti;
+
 public interface Ristorante {
 
     public void apriLocale();

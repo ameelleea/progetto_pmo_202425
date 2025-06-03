@@ -2,6 +2,8 @@ package main.balducci.interfaces;
 
 import java.util.List;
 
+import main.palazzetti.interfaces.Tavolo;
+
 public interface Reparto {
 
     //+getDipendenti(): Dipendente[]
@@ -17,6 +19,6 @@ public interface Reparto {
     public void rimuoviDipendente(Dipendente d);
 
     //+ordinePronto(Tavolo): boolean
-    public boolean ordinePronto(Object t);
+    public boolean ordinePronto(Tavolo t);
 
 }

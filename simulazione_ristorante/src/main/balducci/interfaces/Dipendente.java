@@ -2,11 +2,14 @@ package main.balducci.interfaces;
 
 import java.util.List;
 
+import main.palazzetti.interfaces.Prodotto;
+import main.palazzetti.interfaces.Tavolo;
+
 public interface Dipendente {
 
     //+getTavolo(): Tavolo
-    public Object getTavolo();
+    public Tavolo getTavolo();
 
     //+getProdotti(): List<Prodotto>
-    public List<Object> getProdotti();
+    public List<Prodotto> getProdotti();
 }

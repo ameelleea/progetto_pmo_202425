@@ -1,5 +1,6 @@
 package main.palazzetti.interfaces;
 
+import main.balducci.interfaces.Dipendente;
 public interface Rango {
 
     public Tavolo[] getTavoli();
