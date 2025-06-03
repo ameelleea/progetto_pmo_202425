@@ -1,6 +1,6 @@
 package main.balducci.interfaces;
 
-import java.util.List;
+import java.util.Map;
 
 import main.palazzetti.interfaces.Prodotto;
 import main.palazzetti.interfaces.Tavolo;
@@ -11,6 +11,6 @@ public interface Ordine {
     public Tavolo getTavolo();
 
     //+getProdotti(): List<Prodotto>
-    public List<Prodotto> getProdotti();
+    public Map<Prodotto, Integer> getProdotti();
     
 }
