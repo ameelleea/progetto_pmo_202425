@@ -1,12 +1,15 @@
 package main.palazzetti.interfaces;
 
+import java.util.Collection;
+
 import main.balducci.interfaces.Dipendente;
 public interface Rango {
 
-    public Tavolo[] getTavoli();
+    public Collection<Tavolo> getTavoli();
 
     public Dipendente getCameriere();
 
-    public Tavolo[] getTavoliLiberi();
+    public Collection<Tavolo> getTavoliLiberi();
+
 }
 

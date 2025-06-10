@@ -1,13 +1,14 @@
 package main.balducci.interfaces;
 
-import java.util.List;
+import java.util.Collection;
 
+import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Tavolo;
 
 public interface Reparto {
 
     //+getDipendenti(): Dipendente[]
-    public List<Dipendente> getDipendenti();
+    public Collection<Dipendente> getDipendenti();
     
     //+aggiungiDipendente(Dipendente): void
     public void aggiungiDipendente(Dipendente d);

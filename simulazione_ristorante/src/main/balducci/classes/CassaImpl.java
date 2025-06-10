@@ -3,6 +3,7 @@ package main.balducci.classes;
 import java.util.List;
 
 import main.balducci.interfaces.*;
+import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Tavolo;
 
 public class CassaImpl implements Cassa {

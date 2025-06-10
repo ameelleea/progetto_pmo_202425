@@ -1,6 +1,6 @@
 package main.palazzetti.interfaces;
 
-import main.balducci.interfaces.GruppoDiClienti;
+import main.balducci.interfaces.GruppoClienti;
 
 public interface Tavolo {
 
@@ -12,7 +12,8 @@ public interface Tavolo {
 
      public int getNumero();  
 
-     public void occupa(GruppoDiClienti g);
+     public void occupa(GruppoClienti g);
  
      public void libera();
+
 }

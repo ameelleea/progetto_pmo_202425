@@ -1,15 +1,14 @@
 package main.balducci.interfaces;
 
-import java.util.List;
-
-import main.palazzetti.interfaces.Prodotto;
-import main.palazzetti.interfaces.Tavolo;
+import java.time.LocalTime;
 
 public interface Dipendente {
 
-    //+getTavolo(): Tavolo
-    public Tavolo getTavolo();
+    public void lavora();
 
-    //+getProdotti(): List<Prodotto>
-    public List<Prodotto> getProdotti();
+    public LocalTime getOraInizioTurno();
+
+    public LocalTime getOraFineTurno();
+
+    public Double getPaga();
 }

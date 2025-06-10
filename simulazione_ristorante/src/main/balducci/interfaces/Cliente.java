@@ -1,12 +1,10 @@
 package main.balducci.interfaces;
 
-import java.util.List;
-
 import main.palazzetti.interfaces.Menu;
-import main.palazzetti.interfaces.Prodotto;
+import main.palazzetti.interfaces.Ordine;
 
 public interface Cliente {
     //public List<Prodotto> ordina(Menu)
-    public List<Prodotto> ordina(Menu m);
+    public Ordine ordina(Menu m);
     
 }

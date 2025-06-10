@@ -2,6 +2,7 @@ package main.balducci.classes;
 
 import java.util.List;
 
+import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Tavolo;
 import main.balducci.interfaces.*;
 

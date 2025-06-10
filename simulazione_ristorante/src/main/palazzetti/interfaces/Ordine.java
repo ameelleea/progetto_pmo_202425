@@ -1,9 +1,6 @@
-package main.balducci.interfaces;
+package main.palazzetti.interfaces;
 
 import java.util.Map;
-
-import main.palazzetti.interfaces.Prodotto;
-import main.palazzetti.interfaces.Tavolo;
 
 public interface Ordine {
 

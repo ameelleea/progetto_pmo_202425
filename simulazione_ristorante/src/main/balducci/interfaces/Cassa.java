@@ -1,7 +1,9 @@
 package main.balducci.interfaces;
 
-import java.util.List;
+import java.util.Collection;
 
+import main.palazzetti.interfaces.Menu;
+import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Tavolo;
 
 public interface Cassa {
@@ -19,11 +21,14 @@ public interface Cassa {
     public void chiudiTavolo(Tavolo t);
 
     //+getTavoliLiberi(): List<Tavolo>
-    public List<Tavolo> getTavoliLiberi();
+    public Collection<Tavolo> getTavoliLiberi();
 
     //+calcolaTotaleGiornata(): Double
     public double calcolaTotaleGiornata();
 
     //+smistaOrdine(Ordine): void
     public void smistaOrdine(Ordine o);
+
+    public Menu getMenu(String tipo);
+
 }
