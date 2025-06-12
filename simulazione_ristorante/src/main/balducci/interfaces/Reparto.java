@@ -22,4 +22,6 @@ public interface Reparto {
     //+ordinePronto(Tavolo): boolean
     public boolean ordinePronto(Tavolo t);
 
+    public String getNome();
+
 }

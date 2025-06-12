@@ -1,47 +1,52 @@
 package main.balducci.classes;
 
+import java.util.Collection;
 import java.util.List;
 
 import main.balducci.interfaces.*;
+import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Tavolo;
 
 public class CassaImpl implements Cassa {
-
-
-    //+calcolaConto(Tavolo): Double
-    public double calcolaConto(Tavolo t){
+    
+    @Override
+    public double calcolaConto(Tavolo t) {
         
     }
 
-    //+calcolaTotaleCameriere(Dipendente): Double
-    public double calcolaTotaleCameriere(Dipendente c){
+    @Override
+    public double calcolaTotaleCameriere(Dipendente c) {
         
     }
 
-    //+apriTavolo(Tavolo): void
-    public void apriTavolo(Tavolo t){
+    @Override
+    public void apriTavolo(Tavolo t) {
         
     }
 
-    //+chiudiTavolo(Tavolo): void
-    public void chiudiTavolo(Tavolo t){
+    @Override
+    public void chiudiTavolo(Tavolo t) {
         
     }
 
-    //+getTavoliLiberi(): List<Tavolo>
-    public List<Tavolo> getTavoliLiberi(){
+    @Override
+    public Collection<Tavolo> getTavoliLiberi() {
         
     }
 
-    //+calcolaTotaleGiornata(): Double
-    public double calcolaTotaleGiornata(){
+    @Override
+    public double calcolaTotaleGiornata() {
         
     }
 
-    //+smistaOrdine(Ordine): void
-    public void smistaOrdine(Ordine o){
+    @Override
+    public void smistaOrdine(Ordine o) {
         
     }
 
+    @Override
+    public Menu getMenu(String tipo) {
+        
+    }
 }
