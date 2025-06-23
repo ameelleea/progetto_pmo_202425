@@ -11,7 +11,7 @@ public class OrdineImpl implements Ordine {
     private Tavolo t;
     private Map<Prodotto, Integer> prodotti;
 
-    OrdineImpl(Tavolo t, Map<Prodotto, Integer> prodotti){
+    public OrdineImpl(Tavolo t, Map<Prodotto, Integer> prodotti){
 
         this.t = t;
         this.prodotti = prodotti;

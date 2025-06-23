@@ -4,6 +4,7 @@ import java.util.List;
 
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Ordine;
+import main.palazzetti.interfaces.Tavolo;
 
 public interface GruppoClienti {
 
@@ -18,4 +19,6 @@ public interface GruppoClienti {
 
     //+getClienti(): List<Cliente>
     public List<Cliente> getClienti();
+
+    public Tavolo getTavolo();
 }

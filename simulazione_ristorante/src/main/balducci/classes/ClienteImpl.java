@@ -13,6 +13,7 @@ import main.palazzetti.interfaces.Prodotto;
 public class ClienteImpl implements Cliente {
 
     private Random rnd = new Random();
+    private GruppoClienti g;
     
     ClienteImpl(){
 
@@ -35,7 +36,7 @@ public class ClienteImpl implements Cliente {
         prodotti.put(bevanda, 1);
         prodotti.put(pasto, 1);
 
-        return new OrdineImpl(prodotti);
+        return new OrdineImpl(g.getTavolo(), prodotti);
     }
     
 }
