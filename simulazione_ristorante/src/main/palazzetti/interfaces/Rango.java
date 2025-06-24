@@ -5,11 +5,10 @@ import java.util.Collection;
 import main.balducci.interfaces.Dipendente;
 public interface Rango {
 
-    public Collection<Tavolo> getTavoli();
+    public List<Tavolo> getTavoli();
 
     public Dipendente getCameriere();
 
-    public Collection<Tavolo> getTavoliLiberi();
+    public List<Tavolo> getTavoliLiberi();
 
 }
-
