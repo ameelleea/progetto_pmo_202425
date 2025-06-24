@@ -10,7 +10,7 @@ import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Prodotto;
 
-public class ClienteImpl implements Cliente {
+public class ClienteImpl extends Thread implements Cliente {
 
     private Random rnd = new Random();
     private GruppoClienti g;

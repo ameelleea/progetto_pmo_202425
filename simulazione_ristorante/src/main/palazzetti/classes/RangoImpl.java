@@ -1,7 +1,7 @@
 package main.palazzetti.classes;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
 
 import main.balducci.interfaces.Dipendente;
 import main.palazzetti.interfaces.Rango;

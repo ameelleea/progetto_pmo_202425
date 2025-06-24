@@ -1,6 +1,6 @@
 package main.palazzetti.interfaces;
 
-import java.util.Collection;
+import java.util.List;
 
 import main.balducci.interfaces.Dipendente;
 public interface Rango {

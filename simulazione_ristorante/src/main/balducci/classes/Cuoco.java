@@ -1,6 +1,9 @@
 package main.balducci.classes;
 
 import java.time.LocalTime;
+import java.util.List;
+
+import main.palazzetti.interfaces.Ordine;
 
 public class Cuoco extends DipendenteImpl {
 
@@ -13,6 +16,12 @@ public class Cuoco extends DipendenteImpl {
     public void lavora() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'lavora'");
+    }
+
+    @Override
+    public List<Ordine> getOrdini() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getOrdini'");
     }
     
 }

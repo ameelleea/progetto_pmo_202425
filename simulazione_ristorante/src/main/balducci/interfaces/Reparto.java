@@ -20,7 +20,7 @@ public interface Reparto {
     public void rimuoviDipendente(Dipendente d);
 
     //+ordinePronto(Tavolo): boolean
-    public boolean ordinePronto(Tavolo t);
+    public boolean ordinePronto(Ordine o);
 
     public String getNome();
 

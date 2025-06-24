@@ -10,6 +10,7 @@ public class OrdineImpl implements Ordine {
 
     private Tavolo t;
     private Map<Prodotto, Integer> prodotti;
+    private StatoOrdine stato;
 
     public OrdineImpl(Tavolo t, Map<Prodotto, Integer> prodotti){
 
@@ -25,6 +26,14 @@ public class OrdineImpl implements Ordine {
     @Override
     public Map<Prodotto, Integer> getProdotti() {
         return this.prodotti;
+    }
+
+    public StatoOrdine getStato(){
+        return this.stato;
+    }
+
+    public void setStato(StatoOrdine s){
+        this.stato = s;
     }
 
     

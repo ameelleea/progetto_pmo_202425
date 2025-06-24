@@ -4,6 +4,10 @@ import main.balducci.interfaces.GruppoClienti;
 
 public interface Tavolo {
 
+     public enum StatoTavolo{
+        NON_ORDINATO, ORDINE_PRONTO, SERVITO, RICHIESTA_CONTO
+    }
+
      public int getNumPosti();
 
      public Boolean isOccupato();
@@ -16,4 +20,7 @@ public interface Tavolo {
  
      public void libera();
 
+     public StatoTavolo getStato();
+
+     public void setStato(StatoTavolo s);
 }

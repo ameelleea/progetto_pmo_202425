@@ -3,6 +3,9 @@ package main.palazzetti.classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.palazzetti.interfaces.Menu;
+import main.palazzetti.interfaces.Prodotto;
+
 public class MenuImpl implements Menu {
     private List<Prodotto> prodotti;
 
@@ -19,7 +22,7 @@ public class MenuImpl implements Menu {
     public List<Prodotto> getProdottiPerTipo(String tipo) {
         List<Prodotto> risultato = new ArrayList<>();
         for (Prodotto p : prodotti) {
-            if (p.getTipo().equalsIgnoreCase(tipo)) {
+            if (p.getReparto().getNome().equalsIgnoreCase(tipo)) {
                 risultato.add(p);
             }
         }

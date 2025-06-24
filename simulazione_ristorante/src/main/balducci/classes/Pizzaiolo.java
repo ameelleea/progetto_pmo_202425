@@ -22,4 +22,10 @@ public class Pizzaiolo extends DipendenteImpl {
             // Prepara la pizza per l'ordine
         }
     }
+
+    @Override
+    public List<Ordine> getOrdini() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getOrdini'");
+    }
 }

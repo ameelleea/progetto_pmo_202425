@@ -12,7 +12,7 @@ public interface GruppoClienti {
 
     public Ordine getOrdineGruppo(Menu m);
 
-    public boolean richiediConto();
+    public void richiediConto();
 
     //+getNumeroPersone(): int
     public int getNumeroPersone();

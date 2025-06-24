@@ -1,4 +1,4 @@
-package main.palazzetti.implementation;
+package main.palazzetti.classes;
 
 import main.balducci.interfaces.GruppoClienti;
 import main.palazzetti.interfaces.Rango;
@@ -49,5 +49,17 @@ public class TavoloImpl implements Tavolo {
     public void libera() {
         this.gruppo = null;
         this.occupato = false;
+    }
+
+    @Override
+    public StatoTavolo getStato() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getStato'");
+    }
+
+    @Override
+    public void setStato(StatoTavolo s) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setStato'");
     }
 }

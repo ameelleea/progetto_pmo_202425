@@ -15,7 +15,7 @@ public interface Cassa {
     public double calcolaTotaleCameriere(Dipendente c);
 
     //+apriTavolo(Tavolo): void
-    public void apriTavolo(Tavolo t);
+    public void apriTavolo(Tavolo t, GruppoClienti g);
 
     //+chiudiTavolo(Tavolo): void
     public void chiudiTavolo(Tavolo t);

@@ -4,7 +4,7 @@ import java.time.LocalTime;
 
 import main.balducci.interfaces.*;
 
-public abstract class DipendenteImpl implements Dipendente {
+public abstract class DipendenteImpl extends Thread implements Dipendente {
         
     private LocalTime inizioTurno, fineTurno;
     private double pagaOraria;
@@ -15,6 +15,13 @@ public abstract class DipendenteImpl implements Dipendente {
         this.pagaOraria = p;
     }
 
+    @Override
+    public void run(){
+        while(true){
+            this.lavora();
+        }
+    }
+    
     @Override
     public LocalTime getOraInizioTurno() {
         
