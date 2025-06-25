@@ -8,33 +8,58 @@ import main.palazzetti.interfaces.Tavolo;
 
 public class OrdineImpl implements Ordine {
 
-    private Tavolo t;
-    private Map<Prodotto, Integer> prodotti;
-    private StatoOrdine stato;
+    private int id;
+    private Tavolo tavoloRiferimento;
+    private Map<Prodotto, Integer> prodottiOrdinati;
+    private Map<Prodotto, StatoProdotto> statoProdotti; 
+    private long tempoInizioPreparazione;
+    private boolean completato;
 
-    public OrdineImpl(Tavolo t, Map<Prodotto, Integer> prodotti){
+    public OrdineImpl(int id, Tavolo tavolo, Map<Prodotto, Integer> prodotti){
+        this.id = id;
+        this.tavoloRiferimento = tavolo;
+        this.prodottiOrdinati = prodotti;
+    }
 
-        this.t = t;
-        this.prodotti = prodotti;
+    @Override
+    public int getId() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getId'");
     }
 
     @Override
     public Tavolo getTavolo() {
-        return this.t;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTavolo'");
     }
 
     @Override
     public Map<Prodotto, Integer> getProdotti() {
-        return this.prodotti;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getProdotti'");
     }
 
-    public StatoOrdine getStato(){
-        return this.stato;
+    @Override
+    public Tavolo getTavoloRiferimento() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTavoloRiferimento'");
     }
 
-    public void setStato(StatoOrdine s){
-        this.stato = s;
+    @Override
+    public void setStatoProdotto(Prodotto prodotto, StatoProdotto stato) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'setStatoProdotto'");
     }
 
-    
+    @Override
+    public boolean isCompletato() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'isCompletato'");
+    }
+
+    @Override
+    public void notificaProdottoPronto(Prodotto prodotto) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'notificaProdottoPronto'");
+    }
 }

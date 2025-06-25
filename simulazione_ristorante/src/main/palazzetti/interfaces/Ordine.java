@@ -3,17 +3,21 @@ package main.palazzetti.interfaces;
 import java.util.Map;
 
 public interface Ordine {
-    public enum StatoOrdine {
-        IN_ATTESA, PRONTO, CONSEGNATO, CONSUMATO;
-    }
 
-    //+getTavolo(): Tavolo
+    public enum StatoProdotto { IN_ATTESA, IN_PREPARAZIONE, PRONTO }
+
+    public int getId();
+
     public Tavolo getTavolo();
 
-    //+getProdotti(): List<Prodotto>
     public Map<Prodotto, Integer> getProdotti();
-
-    public StatoOrdine getStato();
-
-    public void setStato(StatoOrdine s);
+    
+    public Tavolo getTavoloRiferimento();
+    
+    public void setStatoProdotto(Prodotto prodotto, StatoProdotto stato); //Aggiorna lo stato di un prodotto.
+    
+    public boolean isCompletato(); //Controlla se tutti i prodotti sono pronti.
+    
+    //Chiamato da un reparto quando un prodotto è pronto. Se tutti i prodotti sono pronti, notifica l'ordine come completato.
+    public void notificaProdottoPronto(Prodotto prodotto); 
 }
