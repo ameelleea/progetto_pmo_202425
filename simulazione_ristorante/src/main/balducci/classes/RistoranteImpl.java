@@ -9,34 +9,69 @@ import main.balducci.interfaces.Cassa;
 import main.balducci.interfaces.GruppoClienti;
 import main.balducci.interfaces.Reparto;
 import main.balducci.interfaces.Ristorante;
+import main.balducci.interfaces.Reparto.TipoReparto;
+import main.palazzetti.classes.MenuImpl;
+import main.palazzetti.classes.SalaImpl;
+import main.palazzetti.interfaces.Menu;
+import main.palazzetti.interfaces.Sala;
 import main.palazzetti.interfaces.Tavolo;
 
 public class RistoranteImpl implements Ristorante {
 
     private final String nome;
+    private final Sala sala;
+    private final Menu menu;
     private final Cassa cassa;
     private final List<Reparto> reparti;
+    private List<GruppoClienti> gruppiInAttesa;
+    private Maitre maitre;
     private boolean isAperto;
 
-    RistoranteImpl(String nome){
+    public RistoranteImpl(String nome){
         this.nome = nome;
-        this.cassa = new CassaImpl();
         this.reparti = new ArrayList<>();
-        this.reparti.add(new RepartoImpl("CUCINA"));
-        this.reparti.add(new RepartoImpl("BAR"));
-        this.reparti.add(new RepartoImpl("PIZZERIA"));
+        for(TipoReparto t : TipoReparto.values()){
+            this.reparti.add(new RepartoImpl(nome, t));
+        }
+        this.sala = new SalaImpl();
+        this.menu = new MenuImpl();
+        this.cassa = new CassaImpl(this.sala, this.menu, this.reparti);
 
         this.isAperto = true;
     }
 
     @Override
     public void apriLocale() {
+        this.reparti.forEach(r -> {
+            r.getDipendenti().forEach(d -> {
+                d.start();
+            });
+        });
+
+        this.sala.getRanghi().forEach(r -> {
+            r.getCameriere().start();
+        });
+
+        this.maitre.start();
+
         this.isAperto = true;
     }
 
     @Override
     public void chiudiLocale() {
-        this.isAperto = false;
+        this.reparti.forEach(r -> {
+            r.getDipendenti().forEach(d -> {
+                d.interrupt();
+            });
+        });
+
+        this.sala.getRanghi().forEach(r -> {
+            r.getCameriere().interrupt();
+        });
+
+        this.maitre.interrupt();
+
+        this.isAperto = true;
     }
 
     @Override
@@ -50,21 +85,32 @@ public class RistoranteImpl implements Ristorante {
     }
 
     @Override
-    public Reparto getReparto(String nome) {
+    public Reparto getReparto(TipoReparto tipo) {
         return this.reparti.stream()
-                            .filter(r -> r.getNome() == nome)
-                            .findAny()
-                            .get();
+                        .filter(r -> r.getTipoReparto() == tipo)
+                        .findAny()
+                        .get();
     }
 
     @Override
     public Tavolo accogliClienti(GruppoClienti gruppo) {
-        Tavolo tav = this.cassa.getTavoliLiberi()
-                            .stream()
-                            .filter(t -> t.getNumPosti() >= gruppo.getNumeroPersone())
-                            .findAny()
-                            .get();
-        tav.occupa(gruppo);
-        return tav;
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'accogliClienti'");
     }
+
+    @Override
+    public Menu getMenu() {
+        return this.menu;
+    }
+
+    @Override
+    public Cassa getCassa() {
+        return this.cassa;
+    }
+
+    @Override
+    public Sala getSala() {
+        return this.sala;
+    }
+
 }

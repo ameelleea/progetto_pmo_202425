@@ -1,18 +1,19 @@
 package main.balducci.classes;
 
-import java.time.LocalTime;
-
 import main.balducci.interfaces.*;
+import main.palazzetti.interfaces.Ordine;
 
-public abstract class DipendenteImpl extends Thread implements Dipendente {
+public abstract class DipendenteImpl implements Dipendente, Runnable {
         
-    private LocalTime inizioTurno, fineTurno;
-    private double pagaOraria;
+    private int id;
+    private String nome;
+    private double stipendioOra;
+    private Reparto repartoAppartenenza;
+    private Ordine ordineCorrente; // L'ordine che sta preparando
+    private boolean disponibile;
 
-    DipendenteImpl(LocalTime i, LocalTime f, double p){
-        this.inizioTurno = i;
-        this.fineTurno = f;
-        this.pagaOraria = p;
+    DipendenteImpl(int id, String nome, double stipendioOra, Reparto reparto){
+
     }
 
     @Override
@@ -22,21 +23,21 @@ public abstract class DipendenteImpl extends Thread implements Dipendente {
         }
     }
     
-    @Override
-    public LocalTime getOraInizioTurno() {
-        
-        return this.inizioTurno;
-    }
-
-    @Override
-    public LocalTime getOraFineTurno() {
-        
-        return this.fineTurno;
-    }
+    //@Override
+    //public LocalTime getOraInizioTurno() {
+    //    
+    //    return this.inizioTurno;
+    //}
+//
+    //@Override
+    //public LocalTime getOraFineTurno() {
+    //    
+    //    return this.fineTurno;
+    //}
 
     @Override
     public Double getPaga() {
         
-        return this.pagaOraria;
+        return null;
     }
 }

@@ -14,11 +14,11 @@ public interface GruppoClienti {
 
     public void richiediConto();
 
-    //+getNumeroPersone(): int
-    public int getNumeroPersone();
+    public int getNumeroClienti();
 
-    //+getClienti(): List<Cliente>
     public List<Cliente> getClienti();
 
     public Tavolo getTavolo();
+
+    public void setTavoloAssegnato(Tavolo tavolo); //Assegna il tavolo e notifica i clienti in attesa.
 }

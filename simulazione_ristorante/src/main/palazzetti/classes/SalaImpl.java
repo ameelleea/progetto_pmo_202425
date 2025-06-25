@@ -33,5 +33,10 @@ public class SalaImpl implements Sala {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'getRango'");
     }
+
+    @Override
+    public List<Rango> getRanghi() {
+        return this.ranghi;
+    }
 }
 

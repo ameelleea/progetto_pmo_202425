@@ -1,64 +1,67 @@
 package main.balducci.classes;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
+import java.util.concurrent.BlockingQueue;
 
 import main.palazzetti.interfaces.Ordine;
-import main.palazzetti.interfaces.Prodotto;
-import main.palazzetti.interfaces.Tavolo;
-import main.palazzetti.interfaces.Ordine.StatoOrdine;
 import main.balducci.interfaces.*;
 
 public class RepartoImpl implements Reparto {
     
     private String nome;
-    private List<Dipendente> dipendenti;
-    private List<Ordine> ordiniDaEvadere;
+    private List<Dipendente> lavoratori; // Lista di lavoratori specifici del reparto
+    private BlockingQueue<Ordine> codaOrdini; // Coda per gli ordini in arrivo
+    private TipoReparto tipoReparto;
 
-    RepartoImpl(String nome){
-        this.dipendenti = new LinkedList<>();
-        this.ordiniDaEvadere = new ArrayList<>();
-    }
+    public RepartoImpl(String nome, TipoReparto tipo){
 
-    public List<Dipendente> getDipendenti(){
-     return this.dipendenti;   
-    }
-    
-    @Override
-    public void aggiungiDipendente(Dipendente d){
-        this.dipendenti.add(d);
-    }
-
-    public void assegnaOrdinazione(Ordine o){
-        this.dipendenti.stream()
-                        .sorted(d -> d.getOrdini().size())
-                        .findFirst()
-                        .get();           
     }
 
     @Override
-    public void aggiungiOrdinazione(Ordine o){
-        this.ordiniDaEvadere.add(o);
-        this.assegnaOrdinazione(o);
+    public List<Dipendente> getDipendenti() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getDipendenti'");
     }
 
     @Override
-    public void rimuoviDipendente(Dipendente d){
-        this.dipendenti.remove(d);
+    public void aggiungiDipendente(Dipendente d) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'aggiungiDipendente'");
     }
 
     @Override
-    public boolean ordinePronto(Ordine o){
-        o.setStato(StatoOrdine.PRONTO);
-        this.ordiniDaEvadere.remove(o);
-        return true;
+    public void aggiungiOrdinazione(Ordine o) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'aggiungiOrdinazione'");
     }
 
     @Override
-    public String getNome() {
-        return this.nome;
+    public void rimuoviDipendente(Dipendente d) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'rimuoviDipendente'");
     }
 
+    @Override
+    public TipoReparto getTipoReparto() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getTipoReparto'");
+    }
+
+    @Override
+    public void riceviOrdine(Ordine ordine) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'riceviOrdine'");
+    }
+
+    @Override
+    public void gestisciOrdine(Ordine ordine, Dipendente lavoratore) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'gestisciOrdine'");
+    }
+
+    @Override
+    public void avviaLavoratori() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'avviaLavoratori'");
+    }
 }

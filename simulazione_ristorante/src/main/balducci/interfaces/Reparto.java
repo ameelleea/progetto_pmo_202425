@@ -1,16 +1,16 @@
 package main.balducci.interfaces;
 
-import java.util.Collection;
-
+import java.util.List;
 import main.palazzetti.interfaces.Ordine;
-import main.palazzetti.interfaces.Tavolo;
 
 public interface Reparto {
 
+    public enum TipoReparto { CUCINA, PIZZERIA, BAR }
+
     //+getDipendenti(): Dipendente[]
-    public Collection<Dipendente> getDipendenti();
+    public List<Dipendente> getDipendenti();
     
-    //+aggiungiDipendente(Dipendente): void
+    //Aggiunge un lavoratore.
     public void aggiungiDipendente(Dipendente d);
 
     //+aggiungiOrdinazione(Prodotto): void
@@ -19,9 +19,15 @@ public interface Reparto {
     //+rimuoviDipendente(Dipendente): void
     public void rimuoviDipendente(Dipendente d);
 
-    //+ordinePronto(Tavolo): boolean
-    public boolean ordinePronto(Ordine o);
+    public TipoReparto getTipoReparto();
 
-    public String getNome();
+    //Aggiunge l'ordine alla coda.
+    public void riceviOrdine(Ordine ordine); 
+   
+    //Metodo astratto per la logica specifica di preparazione.
+    public void gestisciOrdine(Ordine ordine, Dipendente lavoratore);
+
+    //Inizia i thread dei lavoratori.
+    public void avviaLavoratori(); 
 
 }

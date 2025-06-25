@@ -1,34 +1,45 @@
 package main.balducci.interfaces;
 
-import java.util.Collection;
+import java.util.List;
 
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Ordine;
+import main.palazzetti.interfaces.Prodotto;
 import main.palazzetti.interfaces.Tavolo;
 
 public interface Cassa {
 
-    //+calcolaConto(Tavolo): Double
     public double calcolaConto(Tavolo t);
 
-    //+calcolaTotaleCameriere(Dipendente): Double
-    public double calcolaTotaleCameriere(Dipendente c);
+    //Calcola l'incasso totale, i guadagni netti per dipendente e per reparto, sottraendo gli stipendi.
+    public void calcolaTotaliDiFineTurno(List<Dipendente> dipendenti);
 
-    //+apriTavolo(Tavolo): void
-    public void apriTavolo(Tavolo t, GruppoClienti g);
+    public void apriTavolo(Tavolo t);
 
-    //+chiudiTavolo(Tavolo): void
+    //Libera il tavolo, aggiorna l'incasso e resetta il conto del tavolo.
     public void chiudiTavolo(Tavolo t);
 
-    //+getTavoliLiberi(): List<Tavolo>
-    public Collection<Tavolo> getTavoliLiberi();
+    public List<Tavolo> getTavoliLiberi();
 
-    //+calcolaTotaleGiornata(): Double
     public double calcolaTotaleGiornata();
 
-    //+smistaOrdine(Ordine): void
+    //Riceve un ordine dal cameriere.
+    //Aggiunge l'ordine alla mappa ordiniInCorso.
+    //Smista i prodotti dell'ordine ai rispettivi Reparto (aggiungendoli alle loro code).
     public void smistaOrdine(Ordine o);
 
     public Menu getMenu(String tipo);
+
+    //Chiamato da un Reparto quando un prodotto è pronto. Aggiorna lo stato dell'ordine.
+    public void notificaProdottoPronto(Prodotto prodotto, Ordine ordine); 
+    
+    //Chiamato dall'Ordine stesso quando tutti i suoi prodotti sono pronti. La cassa notifica il cameriere che l'ordine è pronto per essere servito.    
+    public void notificaOrdineCompletato(Ordine ordine); 
+
+    //Calcola il conto per un tavolo.
+    public double richiediConto(Tavolo tavolo); 
+
+    //Aggiunge l'importo all'incasso totale e al conto del tavolo.
+    public void registraIncasso(double importo, Tavolo tavolo);  
 
 }
