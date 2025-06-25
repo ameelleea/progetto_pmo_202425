@@ -1,13 +1,15 @@
 package main.palazzetti.interfaces;
 
-import java.time.Duration;
-import main.balducci.interfaces.Reparto;
+import main.balducci.interfaces.Reparto.TipoReparto;
 
 public interface Prodotto {
-   public  String getNome();
-   public  Duration getTempoPreparazione();
-   public  Reparto getReparto();
-   public  double getPrezzo();
-   public  void setPrezzo(Double prezzo);
+   public enum TipoProdotto {PORTATA, BEVANDA, CAFFETTERIA, DOLCE}
+
+   public String getNome();
+   public int getTempoPreparazione();
+   public TipoReparto getReparto();
+   public TipoProdotto getTipo();
+   public double getPrezzo();
+   public void setPrezzo(Double prezzo);
 
 }

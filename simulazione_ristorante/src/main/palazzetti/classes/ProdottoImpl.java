@@ -1,21 +1,23 @@
 package main.palazzetti.classes;
 
-import java.time.Duration;
 import main.palazzetti.interfaces.Prodotto;
 import main.balducci.interfaces.Reparto;
+import main.balducci.interfaces.Reparto.TipoReparto;
 
 public class ProdottoImpl implements Prodotto {
-    private String nome;
-    private Duration tempoPreparazione;
-    private Reparto reparto;
+    private final String nome;
+    private final int tempoPreparazione;
+    private final Reparto.TipoReparto reparto;
     private double prezzo;
+    private final TipoProdotto tipo;
     
 
-    public ProdottoImpl(String nome, Duration tempoPreparazione, Reparto reparto, double prezzo) {
+    public ProdottoImpl(String nome, double prezzo, Reparto.TipoReparto reparto, int tempoPreparazione, TipoProdotto tipo) {
         this.nome = nome;
         this.tempoPreparazione = tempoPreparazione;
         this.reparto = reparto;
         this.prezzo = prezzo;
+        this.tipo = tipo;
       
     }
 
@@ -25,12 +27,12 @@ public class ProdottoImpl implements Prodotto {
     }
 
     @Override
-    public Duration getTempoPreparazione() {
+    public int getTempoPreparazione() {
         return tempoPreparazione;
     }
 
     @Override
-    public Reparto getReparto() {
+    public TipoReparto getReparto() {
         return reparto;
     }
 
@@ -42,5 +44,10 @@ public class ProdottoImpl implements Prodotto {
     @Override
     public void setPrezzo(Double prezzo) {
         this.prezzo = prezzo;
+    }
+
+    @Override
+    public TipoProdotto getTipo() {
+        return this.tipo;
     }
 }
