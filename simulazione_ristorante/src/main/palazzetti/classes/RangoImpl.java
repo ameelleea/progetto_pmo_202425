@@ -8,12 +8,14 @@ import main.palazzetti.interfaces.Rango;
 import main.palazzetti.interfaces.Tavolo;
 
 public class RangoImpl implements Rango {
+    private int id;
+    private Dipendente cameriereAssegnato;
     private List<Tavolo> tavoli;
-    private Dipendente cameriere;
 
-    public RangoImpl(Dipendente cameriere) {
+    public RangoImpl(int id, Dipendente cameriere) {
         this.tavoli = new ArrayList<>();
-        this.cameriere = cameriere;
+        this.id = id;
+        this.cameriereAssegnato = cameriere;
     }
 
     public void aggiungiTavolo(Tavolo t) {
@@ -27,7 +29,7 @@ public class RangoImpl implements Rango {
 
     @Override
     public Dipendente getCameriere() {
-        return cameriere;
+        return cameriereAssegnato;
     }
 
     @Override
@@ -39,5 +41,15 @@ public class RangoImpl implements Rango {
             }
         }
         return liberi;
+    }
+
+    @Override
+    public int getId(){
+        return this.id;
+    }
+
+    @Override
+    public void setCameriere(Dipendente c) {
+        this.cameriereAssegnato = c;
     }
 }

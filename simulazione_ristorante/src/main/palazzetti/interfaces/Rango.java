@@ -1,8 +1,8 @@
 package main.palazzetti.interfaces;
 
 import java.util.List;
-
 import main.balducci.interfaces.Dipendente;
+
 public interface Rango {
 
     public List<Tavolo> getTavoli();
@@ -11,4 +11,9 @@ public interface Rango {
 
     public List<Tavolo> getTavoliLiberi();
 
+    public void aggiungiTavolo(Tavolo tavolo);
+
+    public int getId();
+
+    public void setCameriere(Dipendente c);
 }
