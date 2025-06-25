@@ -43,19 +43,19 @@ public class MenuImpl implements Menu {
     }
 
   @Override
-public Prodotto getProdottoCasuale(TipoReparto reparto, TipoProdotto tipo) {
-    List<Prodotto> filtrati = new ArrayList<>();
-    for (Prodotto p : prodotti) {
-        if (p.getReparto().getTipo().equals(reparto) && p.getTipo().equals(tipo)) {
-            filtrati.add(p);
+    public Prodotto getProdottoCasuale(TipoReparto reparto, TipoProdotto tipo) {
+        List<Prodotto> filtrati = new ArrayList<>();
+        for (Prodotto p : prodotti) {
+            if (p.getReparto().equals(reparto) && p.getTipo().equals(tipo)) {
+                filtrati.add(p);
+            }
         }
+        if (filtrati.isEmpty()) {
+            return null;
+        }
+        int casuale = (int)(Math.random() * filtrati.size());
+        return filtrati.get(casuale);
     }
-    if (filtrati.isEmpty()) {
-        return null;
-    }
-    int casuale = (int)(Math.random() * filtrati.size());
-    return filtrati.get(casuale);
-}
 
 
     @Override

@@ -45,4 +45,9 @@ public class SalaImpl implements Sala {
         }
         return null;
     }
+
+    @Override
+    public List<Rango> getRanghi() {
+        return this.ranghi;
+    }
 }

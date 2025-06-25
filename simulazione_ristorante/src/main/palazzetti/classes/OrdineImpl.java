@@ -12,7 +12,7 @@ public class OrdineImpl implements Ordine {
     private Tavolo tavoloRiferimento;
     private Map<Prodotto, Integer> prodottiOrdinati;
     private Map<Prodotto, StatoProdotto> statoProdotti; 
-    private long tempoInizioPreparazione;
+    //private long tempoInizioPreparazione;
     private boolean completato;
 
     public OrdineImpl(int id, Tavolo tavolo, Map<Prodotto, Integer> prodotti){
@@ -20,8 +20,6 @@ public class OrdineImpl implements Ordine {
         this.tavoloRiferimento = tavolo;
         this.prodottiOrdinati = prodotti;
     }
-
-    
 
     @Override
     public int getId() {
@@ -45,18 +43,18 @@ public class OrdineImpl implements Ordine {
 
     @Override
     public void setStatoProdotto(Prodotto prodotto, StatoProdotto stato) {
-        statoProdotti.put(prodotto, stato);
+        this.statoProdotti.put(prodotto, stato);
         
     }
 
     @Override
     public boolean isCompletato() {
-        return completato;
+        return this.completato;
     }
 
     @Override
     public void notificaProdottoPronto(Prodotto prodotto) {
-        statoProdotti.put(prodotto, StatoProdotto.PRONTO);
+        this.statoProdotti.put(prodotto, StatoProdotto.PRONTO);
         
     }
 }
