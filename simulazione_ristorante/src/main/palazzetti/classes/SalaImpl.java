@@ -18,20 +18,31 @@ public class SalaImpl implements Sala {
 
     @Override
     public Rango getRangoByTavolo(Tavolo tavolo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRangoByTavolo'");
+        for (Rango r : ranghi) {
+            if (r.getTavoli().contains(tavolo)) {
+                return r;
+            }
+        }
+        return null;
     }
 
     @Override
-    public Rango getRandoByCameriere(Dipendente c) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRandoByCameriere'");
+    public Rango getRangoByCameriere(Dipendente c) {
+        for (Rango r : ranghi) {
+            if (r.getCameriere().equals(c)) {
+                return r;
+            }
+        }
+        return null;
     }
 
     @Override
     public Rango getRango(Rango r) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getRango'");
+        for (Rango rango : ranghi) {
+            if (rango.equals(r)) {
+                return rango;
+            }
+        }
+        return null;
     }
 }
-
