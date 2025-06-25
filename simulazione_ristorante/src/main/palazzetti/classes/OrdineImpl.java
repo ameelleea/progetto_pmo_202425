@@ -21,45 +21,43 @@ public class OrdineImpl implements Ordine {
         this.prodottiOrdinati = prodotti;
     }
 
+    
+
     @Override
     public int getId() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getId'");
+        return id;
     }
 
     @Override
     public Tavolo getTavolo() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTavolo'");
+        return tavoloRiferimento;
     }
 
     @Override
     public Map<Prodotto, Integer> getProdotti() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getProdotti'");
+        return prodottiOrdinati;
     }
 
     @Override
     public Tavolo getTavoloRiferimento() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTavoloRiferimento'");
+        return tavoloRiferimento;
     }
 
     @Override
     public void setStatoProdotto(Prodotto prodotto, StatoProdotto stato) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setStatoProdotto'");
+        statoProdotti.put(prodotto, stato);
+        
     }
 
     @Override
     public boolean isCompletato() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'isCompletato'");
+        return completato;
     }
 
     @Override
     public void notificaProdottoPronto(Prodotto prodotto) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificaProdottoPronto'");
+        statoProdotti.put(prodotto, StatoProdotto.PRONTO);
+        
     }
 }
+   
