@@ -1,65 +1,49 @@
 package main.palazzetti.classes;
 
 import main.balducci.interfaces.GruppoClienti;
-import main.palazzetti.interfaces.Rango;
 import main.palazzetti.interfaces.Tavolo;
 
 public class TavoloImpl implements Tavolo {
-    private int numero;
-    private int numPosti;
+    private final int numero;
+    private final int numeroPosti;
     private boolean occupato;
-    private GruppoClienti gruppo;
-    private Rango rango;
+    private GruppoClienti gruppoCorrente;
 
-    public TavoloImpl(int numero, int numPosti, Rango rango) {
+    public TavoloImpl(int numero, int numeroPosti) {
         this.numero = numero;
-        this.numPosti = numPosti;
-        this.rango = rango;
+        this.numeroPosti = numeroPosti;
         this.occupato = false;
-        this.gruppo = null;
-    }
-
-    @Override
-    public int getNumPosti() {
-        return numPosti;
-    }
-
-    @Override
-    public Boolean isOccupato() {
-        return occupato;
-    }
-
-    @Override
-    public Rango getRango() {
-        return rango;
     }
 
     @Override
     public int getNumero() {
-        return numero;
+        return this.numero;
     }
 
     @Override
-    public void occupa(GruppoClienti g) {
-        this.gruppo = g;
+    public int getNumeroPosti() {
+        return this.numeroPosti;
+    }
+
+    @Override
+    public boolean isOccupato() {
+        return this.occupato;
+    }
+
+    @Override
+    public void occupa(GruppoClienti gruppo) {
+        this.gruppoCorrente = gruppo;
         this.occupato = true;
     }
 
     @Override
     public void libera() {
-        this.gruppo = null;
+        this.gruppoCorrente = null;
         this.occupato = false;
     }
 
     @Override
-    public StatoTavolo getStato() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getStato'");
-    }
-
-    @Override
-    public void setStato(StatoTavolo s) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setStato'");
+    public GruppoClienti getGruppoCorrente() {
+        return this.gruppoCorrente;
     }
 }

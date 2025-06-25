@@ -6,21 +6,12 @@ public interface Tavolo {
 
      public enum StatoTavolo{
         NON_ORDINATO, ORDINE_PRONTO, SERVITO, RICHIESTA_CONTO
-    }
+     }
 
-     public int getNumPosti();
-
-     public Boolean isOccupato();
-
-     public Rango getRango();
-
-     public int getNumero();  
-
-     public void occupa(GruppoClienti g);
- 
-     public void libera();
-
-     public StatoTavolo getStato();
-
-     public void setStato(StatoTavolo s);
+     public int getNumero();
+     public int getNumeroPosti();
+     public boolean isOccupato();
+     public void occupa(GruppoClienti gruppo); //Segna il tavolo come occupato e associa il gruppo.
+     public void libera(); //Segna il tavolo come libero.
+     public GruppoClienti getGruppoCorrente();
 }
