@@ -3,13 +3,11 @@ package main.palazzetti.interfaces;
 import main.balducci.interfaces.Dipendente;
 
 public interface Sala {
+    
+    //Trova il rango a cui appartiene un tavolo.
+    public Rango getRangoByTavolo(Tavolo tavolo); 
 
-    public Rango getRango(int num);
+    public Rango getRandoByCameriere(Dipendente c);
 
-    public void aggiungiTavolo(Rango r);
-
-    public void rimuoviTavolo(Rango r, Tavolo t);
-
-    public void modificaCameriere(Rango r, Dipendente c);
-
+    public Rango getRango(Rango r);
 }

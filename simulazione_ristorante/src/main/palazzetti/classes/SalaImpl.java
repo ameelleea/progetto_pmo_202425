@@ -10,37 +10,28 @@ import java.util.*;
 
 public class SalaImpl implements Sala {
 
-    private Map<Integer, Rango> ranghi; 
+    private List<Rango> ranghi; 
 
     public SalaImpl() {
-        this.ranghi = new HashMap<>();
+        this.ranghi = new ArrayList<>();
     }
 
     @Override
-    public Rango getRango(int num) {
-        return ranghi.get(num);
+    public Rango getRangoByTavolo(Tavolo tavolo) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getRangoByTavolo'");
     }
 
     @Override
-    public void aggiungiTavolo(Rango r) {
-        
-        //ranghi.putIfAbsent(r.getNumero(), r);
+    public Rango getRandoByCameriere(Dipendente c) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getRandoByCameriere'");
     }
 
     @Override
-    public void rimuoviTavolo(Rango r, Tavolo t) {
-        //Rango rango = ranghi.get(r.getNumero());
-        //if (rango != null) {
-        //    rango.rimuoviTavolo(t);
-        //}
-    }
-
-    @Override
-    public void modificaCameriere(Rango r, Dipendente c) {
-        //Rango rango = ranghi.get(r.getNumero());
-        //if (rango != null) {
-        //    rango.setCameriere(c);
-        //}
+    public Rango getRango(Rango r) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getRango'");
     }
 }
 
