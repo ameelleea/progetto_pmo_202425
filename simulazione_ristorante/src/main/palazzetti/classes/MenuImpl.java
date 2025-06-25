@@ -3,8 +3,10 @@ package main.palazzetti.classes;
 import java.util.ArrayList;
 import java.util.List;
 
+import main.balducci.interfaces.Reparto.TipoReparto;
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Prodotto;
+import main.palazzetti.interfaces.Prodotto.TipoProdotto;
 
 public class MenuImpl implements Menu {
     private List<Prodotto> prodotti;
@@ -19,14 +21,31 @@ public class MenuImpl implements Menu {
     }
 
     @Override
-    public List<Prodotto> getProdottiPerTipo(String tipo) {
+    public List<Prodotto> getProdottiPerTipo(TipoProdotto tipo) {
         List<Prodotto> risultato = new ArrayList<>();
         for (Prodotto p : prodotti) {
-            if (p.getReparto().getNome().equalsIgnoreCase(tipo)) {
+            if (p.getTipo().equals(tipo)) {
                 risultato.add(p);
             }
         }
         return risultato;
+    }
+
+    @Override
+    public List<Prodotto> getProdottiPerReparto(TipoReparto r) {
+        List<Prodotto> risultato = new ArrayList<>();
+        for (Prodotto p : prodotti) {
+            if (p.getReparto().equals(r)) {
+                risultato.add(p);
+            }
+        }
+        return risultato;
+    }
+
+    @Override
+    public Prodotto getProdottoCasuale(TipoReparto reparto, TipoProdotto tipo) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getProdottoCasuale'");
     }
 
     @Override
