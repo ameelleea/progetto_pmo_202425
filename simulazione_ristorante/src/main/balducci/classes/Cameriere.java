@@ -1,52 +1,43 @@
 package main.balducci.classes;
 
-import java.time.LocalTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.Semaphore;
-import java.util.concurrent.locks.Condition;
 
-import main.palazzetti.interfaces.Tavolo.StatoTavolo;
 import main.balducci.interfaces.Cassa;
 import main.palazzetti.interfaces.Menu;
-import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Rango;
-import main.palazzetti.interfaces.Tavolo;
 
 public class Cameriere extends DipendenteImpl {
 
-    private String id;
-    private String nome;
-    private double stipendioOra;
     private Rango rangoAppartenenza;
     private Cassa cassa;
     private Menu menu;
+    private double totaleGiornata;
+    private Semaphore nuovoGruppo;
 
 
-    public Cameriere(String id, String nome, double stipendioOra, Rango rango, Cassa cassa, Menu menu) {
-        super(i, f, p);
-        this.tavoliServiti = new HashMap<>();
-        tavoli.forEach(t -> this.tavoliServiti.put(t.getNumero(), StatoTavolo.NON_ORDINATO));
+    public Cameriere(int id, double stipendioOra, Rango rango, Cassa cassa, Menu menu) {
+        super(id, stipendioOra);
+        this.rangoAppartenenza = rango;
+        this.nuovoGruppo = new Semaphore(0);
     }
 
     @Override
-    public void lavora() {
-        while(true){
-            
+    public void run(){
+        try{
+            while(true){
+                this.nuovoGruppo.acquire();
+
+                this.
+            }
+        }catch(InterruptedException e){
+
         }
 
-
-        
     }
 
-    @Override
-    public List<Ordine> getOrdini() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getOrdini'");
+    public void nuovoGruppo(){
+        this.nuovoGruppo.release();
     }
-
-    public void run():
     /*Ciclo continuo:
     Notifica Occupazione Tavolo: Quando un GruppoClienti prende posto, notifica questo cameriere. Il cameriere notifica la Cassa.
     Prende Ordine: Riceve la richiesta di ordinazione da un GruppoClienti.

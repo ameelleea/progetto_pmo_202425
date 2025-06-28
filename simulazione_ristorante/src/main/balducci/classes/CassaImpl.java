@@ -2,6 +2,7 @@ package main.balducci.classes;
 
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 import main.balducci.interfaces.*;
 import main.palazzetti.interfaces.Menu;
@@ -27,8 +28,14 @@ public class CassaImpl implements Cassa {
 
     @Override
     public double calcolaConto(Tavolo t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'calcolaConto'");
+
+        return t.getGruppoCorrente()
+                .getOrdineGruppo(menu)
+                .getProdotti()
+                .entrySet()
+                .stream()
+                .mapToDouble(p -> p.getKey().getPrezzo() * p.getValue())
+                .sum();
     }
 
     @Override
@@ -68,12 +75,6 @@ public class CassaImpl implements Cassa {
     }
 
     @Override
-    public Menu getMenu(String tipo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getMenu'");
-    }
-
-    @Override
     public void notificaProdottoPronto(Prodotto prodotto, Ordine ordine) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'notificaProdottoPronto'");
@@ -86,16 +87,8 @@ public class CassaImpl implements Cassa {
     }
 
     @Override
-    public double richiediConto(Tavolo tavolo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'richiediConto'");
-    }
-
-    @Override
     public void registraIncasso(double importo, Tavolo tavolo) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'registraIncasso'");
     }
-
-    
 }

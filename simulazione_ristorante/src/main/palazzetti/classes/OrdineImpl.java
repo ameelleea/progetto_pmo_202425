@@ -19,6 +19,7 @@ public class OrdineImpl implements Ordine {
         this.id = id;
         this.tavoloRiferimento = tavolo;
         this.prodottiOrdinati = prodotti;
+        this.completato = false;
     }
 
     @Override
@@ -55,7 +56,10 @@ public class OrdineImpl implements Ordine {
     @Override
     public void notificaProdottoPronto(Prodotto prodotto) {
         this.statoProdotti.put(prodotto, StatoProdotto.PRONTO);
-        
+
+        if(this.statoProdotti.values().stream().allMatch(p -> p == StatoProdotto.PRONTO)){
+            this.completato = true;
+        }
     }
 }
    

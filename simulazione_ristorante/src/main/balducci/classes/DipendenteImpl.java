@@ -1,43 +1,34 @@
 package main.balducci.classes;
 
 import main.balducci.interfaces.*;
-import main.palazzetti.interfaces.Ordine;
 
-public abstract class DipendenteImpl implements Dipendente, Runnable {
+public abstract class DipendenteImpl extends Thread implements Dipendente {
         
-    private int id;
-    private String nome;
+    private int idDipendente;
     private double stipendioOra;
-    private Reparto repartoAppartenenza;
-    private Ordine ordineCorrente; // L'ordine che sta preparando
-    private boolean disponibile;
 
-    DipendenteImpl(int id, String nome, double stipendioOra, Reparto reparto){
 
+    DipendenteImpl(int id, double stipendioOra){
+        this.idDipendente = id;
+        this.stipendioOra = stipendioOra;
+    }
+    @Override
+    public int getIdDipendente(){
+        return this.idDipendente;
     }
 
     @Override
-    public void run(){
-        while(true){
-            this.lavora();
-        }
+    public Double getPaga(){
+        return this.stipendioOra;
     }
-    
-    //@Override
-    //public LocalTime getOraInizioTurno() {
-    //    
-    //    return this.inizioTurno;
-    //}
-//
-    //@Override
-    //public LocalTime getOraFineTurno() {
-    //    
-    //    return this.fineTurno;
-    //}
 
     @Override
-    public Double getPaga() {
-        
-        return null;
+    public void start(){
+        super.start();
+    }
+
+    @Override
+    public void interrupt(){
+        super.interrupt();
     }
 }

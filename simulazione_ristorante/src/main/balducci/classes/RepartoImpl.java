@@ -1,67 +1,69 @@
 package main.balducci.classes;
 
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
+import java.util.stream.IntStream;
 
 import main.palazzetti.interfaces.Ordine;
+import main.palazzetti.interfaces.Prodotto;
 import main.balducci.interfaces.*;
 
 public class RepartoImpl implements Reparto {
     
-    private String nome;
     private List<Dipendente> lavoratori; // Lista di lavoratori specifici del reparto
     private BlockingQueue<Ordine> codaOrdini; // Coda per gli ordini in arrivo
     private TipoReparto tipoReparto;
 
-    public RepartoImpl(String nome, TipoReparto tipo){
+    public RepartoImpl(TipoReparto tipo){
 
     }
 
     @Override
     public List<Dipendente> getDipendenti() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getDipendenti'");
+        return this.lavoratori;
     }
 
     @Override
     public void aggiungiDipendente(Dipendente d) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'aggiungiDipendente'");
+        this.lavoratori.add(d);
     }
 
     @Override
     public void aggiungiOrdinazione(Ordine o) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'aggiungiOrdinazione'");
+        this.codaOrdini.add(o);
     }
 
     @Override
     public void rimuoviDipendente(Dipendente d) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'rimuoviDipendente'");
+        this.lavoratori.remove(d);
     }
 
     @Override
     public TipoReparto getTipoReparto() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'getTipoReparto'");
+        return this.tipoReparto;
     }
 
     @Override
-    public void riceviOrdine(Ordine ordine) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'riceviOrdine'");
-    }
-
-    @Override
-    public void gestisciOrdine(Ordine ordine, Dipendente lavoratore) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'gestisciOrdine'");
+    public void gestisciOrdine(Ordine ordine) {
+        Map<Prodotto, Integer> prodotti = ordine.getProdotti();
+        prodotti.forEach((p, q) -> {
+            IntStream.range(0, q).forEach(i -> {
+                        this.lavoratori.stream()
+                            .filter(l -> l instanceof Preparatore) 
+                            .map(l -> (Preparatore) l)             
+                            .filter(Preparatore::isDisponibile)    
+                            .findFirst()
+                            .ifPresent(prep -> {
+                                prep.setOrdineCorrente(p);
+                                ordine.setStatoProdotto(null, null);
+                            }); 
+            });
+        });
     }
 
     @Override
     public void avviaLavoratori() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'avviaLavoratori'");
+        this.lavoratori.forEach(l -> l.start());
     }
 }

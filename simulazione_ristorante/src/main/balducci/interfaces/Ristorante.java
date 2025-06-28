@@ -3,7 +3,6 @@ package main.balducci.interfaces;
 import main.balducci.interfaces.Reparto.TipoReparto;
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Sala;
-import main.palazzetti.interfaces.Tavolo;
 
 public interface Ristorante {
 
@@ -17,12 +16,14 @@ public interface Ristorante {
 
     public Reparto getReparto(TipoReparto tipo);
 
-    public Tavolo accogliClienti(GruppoClienti gruppo);
+    public void accogliClienti(GruppoClienti gruppo);
 
     public Menu getMenu();
     
     public Cassa getCassa();
     
     public Sala getSala();
+
+    public GruppoClienti getProssimoGruppo();
 
 }

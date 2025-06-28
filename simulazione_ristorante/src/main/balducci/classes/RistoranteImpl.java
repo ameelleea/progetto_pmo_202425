@@ -2,8 +2,6 @@ package main.balducci.classes;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.concurrent.Semaphore;
 
 import main.balducci.interfaces.Cassa;
 import main.balducci.interfaces.GruppoClienti;
@@ -31,7 +29,7 @@ public class RistoranteImpl implements Ristorante {
         this.nome = nome;
         this.reparti = new ArrayList<>();
         for(TipoReparto t : TipoReparto.values()){
-            this.reparti.add(new RepartoImpl(nome, t));
+            this.reparti.add(new RepartoImpl(t));
         }
         this.sala = new SalaImpl();
         this.menu = new MenuImpl();
@@ -42,11 +40,7 @@ public class RistoranteImpl implements Ristorante {
 
     @Override
     public void apriLocale() {
-        this.reparti.forEach(r -> {
-            r.getDipendenti().forEach(d -> {
-                d.start();
-            });
-        });
+        this.reparti.forEach(r -> r.avviaLavoratori());
 
         this.sala.getRanghi().forEach(r -> {
             r.getCameriere().start();
@@ -93,9 +87,9 @@ public class RistoranteImpl implements Ristorante {
     }
 
     @Override
-    public Tavolo accogliClienti(GruppoClienti gruppo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'accogliClienti'");
+    public void accogliClienti(GruppoClienti gruppo) {
+        this.gruppiInAttesa.add(gruppo);
+        this.maitre.nuovoGruppo();
     }
 
     @Override
@@ -113,4 +107,8 @@ public class RistoranteImpl implements Ristorante {
         return this.sala;
     }
 
+    @Override
+    public GruppoClienti getProssimoGruppo() {
+        return this.gruppiInAttesa.remove(0);
+    }
 }
