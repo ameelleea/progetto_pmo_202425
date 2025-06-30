@@ -9,6 +9,8 @@ public interface GruppoClienti {
 
     public void cena();
     
+    public String getId();
+    
     public void richiediTavolo(Ristorante r);
 
     public Ordine getOrdineGruppo(String giro);

@@ -14,7 +14,7 @@ public class Cameriere extends DipendenteImpl {
     private Rango rangoAppartenenza;
 
     public Cameriere(int id, double stipendioOra, Ristorante ristorante, Rango rango) {
-        super(id, stipendioOra);
+        super("Cameriere " + id, stipendioOra);
         this.ristorante = ristorante;
         this.rangoAppartenenza = rango;
     }

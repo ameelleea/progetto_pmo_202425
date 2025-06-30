@@ -25,9 +25,10 @@ public class App {
             System.out.println("Tick " + tick);
 
             if (tick % 5 == 0) {
-                System.out.println("Creo nuovo gruppo di clienti!");
                 int numClienti = rnd.nextInt(10) + 1;
                 GruppoClienti nuovGruppoClienti = new GruppoClientiImpl(gruppi.size()+1, numClienti, ristorante);
+                gruppi.add(nuovGruppoClienti);
+                System.out.println("Creato gruppo con " + numClienti + " clienti.");
                 nuovGruppoClienti.richiediTavolo(ristorante);
             }
 

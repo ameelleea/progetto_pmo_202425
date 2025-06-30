@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -17,7 +16,7 @@ import main.palazzetti.interfaces.Tavolo;
 
 public class GruppoClientiImpl implements GruppoClienti {
 
-    private int id;
+    private String id;
     private int numeroClienti;
     private List<Cliente> clienti;
     private Tavolo tavoloAssegnato;
@@ -29,20 +28,20 @@ public class GruppoClientiImpl implements GruppoClienti {
     private boolean haRichiestoConto;
 
     public GruppoClientiImpl(int id, int numClienti, Ristorante ristorante){
-        this.id = id;
+        this.id = "Gruppo clienti " + id;
         this.ristorante = ristorante;
         this.numeroClienti = numClienti;
         this.clienti = new ArrayList<>();
 
         for(int i=0; i < numClienti; i++){
-            this.clienti.add(new ClienteImpl(i, this, ristorante));
+            this.clienti.add(new ClienteImpl(i, this));
         }
     }
 
     @Override
     public void cena() {
         Stream<List<Prodotto>> liste = this.clienti.stream()
-                                            .map(c -> c.ordina(this.ristorante.getMenu(), "primogiro"));
+                                            .map(c -> c.ordina(this.ristorante.getMenu(), 1));
 
         Map<Prodotto, Integer> ordiniPrimoGiro = liste
             .flatMap(List::stream)
@@ -58,7 +57,7 @@ public class GruppoClientiImpl implements GruppoClienti {
 
         if(new Random().nextInt() > 0){
             liste = this.clienti.stream()
-                                            .map(c -> c.ordina(this.ristorante.getMenu(), "secondogiro"));
+                                .map(c -> c.ordina(this.ristorante.getMenu(), 2));
 
             Map<Prodotto, Integer> ordiniSecondoGiro = liste
                 .flatMap(List::stream)
@@ -74,6 +73,11 @@ public class GruppoClientiImpl implements GruppoClienti {
         this.haRichiestoConto = true;
     }
 
+    @Override
+    public String getId(){
+        return this.id;
+    }
+    @Override
     public int getNumeroClienti(){
         return this.numeroClienti;
     }
@@ -84,6 +88,7 @@ public class GruppoClientiImpl implements GruppoClienti {
 
     @Override
     public void richiediTavolo(Ristorante r) {
+        System.out.println(this.id + " richiede tavolo.");
         r.accogliClienti(this);
     }
 

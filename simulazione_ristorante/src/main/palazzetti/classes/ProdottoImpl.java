@@ -1,18 +1,17 @@
 package main.palazzetti.classes;
 
 import main.palazzetti.interfaces.Prodotto;
-import main.balducci.interfaces.Reparto;
-import main.balducci.interfaces.Reparto.TipoReparto;
+import main.balducci.classes.TipoReparto;
 
 public class ProdottoImpl implements Prodotto {
     private final String nome;
     private final int tempoPreparazione;
-    private final Reparto.TipoReparto reparto;
+    private final TipoReparto reparto;
     private double prezzo;
     private final TipoProdotto tipo;
     
 
-    public ProdottoImpl(String nome, double prezzo, Reparto.TipoReparto reparto, int tempoPreparazione, TipoProdotto tipo) {
+    public ProdottoImpl(String nome, double prezzo, TipoReparto reparto, int tempoPreparazione, TipoProdotto tipo) {
         this.nome = nome;
         this.tempoPreparazione = tempoPreparazione;
         this.reparto = reparto;

@@ -5,8 +5,8 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import main.balducci.interfaces.*;
-import main.balducci.interfaces.Reparto.TipoReparto;
 import main.palazzetti.classes.OrdineImpl;
+import main.balducci.classes.TipoReparto;
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Prodotto;
@@ -19,7 +19,7 @@ public class CassaImpl implements Cassa {
     private double incassoTotaleGiornaliero;
     private List<Ordine> ordiniInCorso; // Ordini attivi per ogni tavolo
     private Map<Dipendente, Double> guadagniPerDipendente; // Per calcolare i guadagni di ciascuno
-    private Map<Reparto.TipoReparto, Double> guadagniPerReparto;
+    private Map<TipoReparto, Double> guadagniPerReparto;
     private Map<Tavolo, Double> contiTavoli; // Conti parziali per tavolo
     private Sala sala; // Riferimento alla sala per conoscere i tavoli
     private List<Reparto> reparti;

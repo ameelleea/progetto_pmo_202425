@@ -10,7 +10,7 @@ public class Maitre extends DipendenteImpl{
     private Ristorante ristorante;
     private int gruppiDaGestire;
 
-    public Maitre(int id, double stipendioOra, Ristorante ristorante){
+    public Maitre(String id, double stipendioOra, Ristorante ristorante){
         super(id, stipendioOra);  
         this.gruppiDaGestire = 0;  
     }

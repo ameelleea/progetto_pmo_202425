@@ -2,7 +2,7 @@ package main.balducci.interfaces;
 
 public interface Dipendente {
 
-    public int getIdDipendente();
+    public String getIdDipendente();
 
     public Double getPaga();
 

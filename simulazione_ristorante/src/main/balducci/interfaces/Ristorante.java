@@ -1,6 +1,6 @@
 package main.balducci.interfaces;
 
-import main.balducci.interfaces.Reparto.TipoReparto;
+import main.balducci.classes.TipoReparto;
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Sala;
 

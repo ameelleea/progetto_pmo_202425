@@ -3,7 +3,7 @@ package main.palazzetti.classes;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.balducci.interfaces.Reparto.TipoReparto;
+import main.balducci.classes.TipoReparto;
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Prodotto;
 import main.palazzetti.interfaces.Prodotto.TipoProdotto;

@@ -1,6 +1,6 @@
 package main.palazzetti.interfaces;
 
-import main.balducci.interfaces.Reparto.TipoReparto;
+import main.balducci.classes.TipoReparto;
 
 public interface Prodotto {
    public enum TipoProdotto {PORTATA, BEVANDA, CAFFETTERIA, DOLCE}

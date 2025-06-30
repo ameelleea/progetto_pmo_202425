@@ -4,17 +4,17 @@ import main.balducci.interfaces.*;
 
 public abstract class DipendenteImpl implements Dipendente {
         
-    private int idDipendente;
+    private String id;
     private double stipendioOra;
 
 
-    DipendenteImpl(int id, double stipendioOra){
-        this.idDipendente = id;
+    DipendenteImpl(String id, double stipendioOra){
+        this.id = id;
         this.stipendioOra = stipendioOra;
     }
     @Override
-    public int getIdDipendente(){
-        return this.idDipendente;
+    public String getIdDipendente(){
+        return this.id;
     }
 
     @Override
