@@ -93,10 +93,22 @@ public class GruppoClientiImpl implements GruppoClienti {
     }
 
     @Override
-    public Ordine getOrdineGruppo(String giro) {
-        if("primogiro".equals(giro)){
+    public Ordine getOrdineGruppo() {
+
+        Map<Prodotto, Integer> ordiniTotali = new HashMap<>(this.primoGiro.getProdotti());
+
+        secondoGiro.getProdotti().forEach((p, q) -> 
+            ordiniTotali.merge(p, q, Integer::sum)
+        );
+
+        return new OrdineImpl(tavoloAssegnato, ordiniTotali);
+    }
+
+    @Override
+    public Ordine getOrdineGruppo(int giro) {
+        if(giro == 1){
             return this.primoGiro;
-        }else if("secondogiro".equals(giro)){
+        }else if(giro == 2){
             return this.secondoGiro;
         }else{
             Map<Prodotto, Integer> ordiniTotali = new HashMap<>(this.primoGiro.getProdotti());
@@ -120,13 +132,13 @@ public class GruppoClientiImpl implements GruppoClienti {
     }
 
     @Override 
-    public boolean haOrdinato(String giro){
-        if (giro.equals("primogiro")){
+    public boolean haOrdinato(int giro){
+        if (giro == 1){
             return this.haOrdinatoPrimoGiro;
-        }else if(giro.equals("secondogiro")){
+        }else if(giro == 2){
             return this.haOrdinatoSecondoGiro;
         }else{
-            throw new IllegalArgumentException(giro);
+            throw new IllegalArgumentException();
         }
     }
     @Override

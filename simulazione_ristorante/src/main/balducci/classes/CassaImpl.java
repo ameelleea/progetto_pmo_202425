@@ -1,5 +1,7 @@
 package main.balducci.classes;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -24,15 +26,21 @@ public class CassaImpl implements Cassa {
     private Sala sala; // Riferimento alla sala per conoscere i tavoli
     private List<Reparto> reparti;
 
-    public CassaImpl(Sala sala, Menu menu, List<Reparto> reparti){
-
+    public CassaImpl(Sala sala, List<Reparto> reparti){
+        this.sala = sala;
+        this.reparti = reparti;
+        this.incassoTotaleGiornaliero = 0;
+        this.ordiniInCorso = new ArrayList<>(); 
+        this.guadagniPerDipendente = new HashMap<>(); 
+        this.guadagniPerReparto = new HashMap<>();
+        this.contiTavoli = new HashMap<>(); 
     }
 
     @Override
     public double calcolaConto(Tavolo t) {
 
         double totaleTavolo =  t.getGruppoCorrente()
-                                .getOrdineGruppo(null)
+                                .getOrdineGruppo()
                                 .getProdotti()
                                 .entrySet()
                                 .stream()

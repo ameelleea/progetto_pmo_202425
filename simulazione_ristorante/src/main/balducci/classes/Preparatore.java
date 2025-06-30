@@ -19,6 +19,9 @@ public class Preparatore extends DipendenteImpl{
         super("Preparatore " + id, stipendioOra);
         this.repartoAppartenenza = reparto;
         this.disponibile = true;
+        this.numTavoloOrdine = 0;
+        this.ordineCorrente = Optional.empty();
+        this.quantità = Optional.empty();
     }
 
     @Override

@@ -29,11 +29,11 @@ public class Cameriere extends DipendenteImpl {
 
                 GruppoClienti gruppo = t.getGruppoCorrente();
 
-                if (!gruppo.haOrdinato("primogiro")) {
-                    Ordine ordinePrimo = gruppo.getOrdineGruppo("primogiro");
+                if (!gruppo.haOrdinato(1)) {
+                    Ordine ordinePrimo = gruppo.getOrdineGruppo(1);
                     cassa.smistaOrdine(ordinePrimo);
-                }else if (!gruppo.haOrdinato("secondogiro")) {
-                    Ordine ordineSecondo = gruppo.getOrdineGruppo("secondogiro");
+                }else if (!gruppo.haOrdinato(2)) {
+                    Ordine ordineSecondo = gruppo.getOrdineGruppo(2);
                     cassa.smistaOrdine(ordineSecondo);
                 }else if (gruppo.richiedeConto()) {
                     cassa.calcolaConto(t);

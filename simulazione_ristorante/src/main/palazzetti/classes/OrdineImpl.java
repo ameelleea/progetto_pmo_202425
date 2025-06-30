@@ -11,7 +11,6 @@ public class OrdineImpl implements Ordine {
     private Tavolo tavoloRiferimento;
     private Map<Prodotto, Integer> prodottiOrdinati;
     private Map<Prodotto, StatoProdotto> statoProdotti; 
-    //private long tempoInizioPreparazione;
     private boolean completato;
 
     public OrdineImpl(Tavolo tavolo, Map<Prodotto, Integer> prodotti){

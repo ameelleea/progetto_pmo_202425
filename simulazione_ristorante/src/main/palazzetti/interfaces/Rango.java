@@ -13,7 +13,7 @@ public interface Rango {
 
     public void aggiungiTavolo(Tavolo tavolo);
 
-    public int getId();
+    public String getId();
 
     public void setCameriere(Dipendente c);
 }

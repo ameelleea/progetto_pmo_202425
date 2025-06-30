@@ -13,7 +13,9 @@ public interface GruppoClienti {
     
     public void richiediTavolo(Ristorante r);
 
-    public Ordine getOrdineGruppo(String giro);
+    public Ordine getOrdineGruppo();
+
+    public Ordine getOrdineGruppo(int giro);
 
     public boolean richiedeConto();
 
@@ -23,7 +25,7 @@ public interface GruppoClienti {
 
     public Tavolo getTavolo();
 
-    public boolean haOrdinato(String giro);
+    public boolean haOrdinato(int giro);
 
     public void setTavoloAssegnato(Tavolo tavolo); //Assegna il tavolo e notifica i clienti in attesa.
 }
