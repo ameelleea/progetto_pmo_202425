@@ -11,7 +11,7 @@ public interface Cassa {
     public double calcolaConto(Tavolo t);
 
     //Calcola l'incasso totale, i guadagni netti per dipendente e per reparto, sottraendo gli stipendi.
-    public void calcolaTotaliDiFineTurno(List<Dipendente> dipendenti);
+    public void calcolaTotaliDiFineTurno();
 
     public void apriTavolo(Tavolo t);
 
@@ -20,7 +20,7 @@ public interface Cassa {
 
     public List<Tavolo> getTavoliLiberi();
 
-    public double calcolaTotaleGiornata();
+    public double totaleGiornata();
 
     //Riceve un ordine dal cameriere.
     //Aggiunge l'ordine alla mappa ordiniInCorso.
