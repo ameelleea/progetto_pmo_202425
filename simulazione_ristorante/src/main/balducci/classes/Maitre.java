@@ -35,7 +35,7 @@ public class Maitre extends DipendenteImpl{
                     prossimo.setTavoloAssegnato(t);
                     Dipendente cameriere = this.ristorante.getSala().getRangoByTavolo(t).getCameriere();
                     if(cameriere instanceof Cameriere){
-                        (Cameriere) cameriere.nuovoGruppo();
+                        ((Cameriere) cameriere).nuovoGruppo();
                     }
                 });
             }
@@ -47,12 +47,4 @@ public class Maitre extends DipendenteImpl{
     public void nuovoGruppo(){
         this.gruppiDaGestire.release(1);
     }
-    /*Ciclo continuo:
-    Controlla se ci sono gruppi in attesa (ristorante.getProssimoGruppoInAttesa()).
-    Accede alla Cassa per vedere i tavoli liberi (cassa.getTavoliLiberi()).
-    Trova un tavolo adatto per il gruppo.
-    Se trova un tavolo:
-    Assegna il tavolo al gruppo (gruppo.setTavoloAssegnato(tavolo)).
-    Notifica la Cassa che il tavolo è occupato (cassa.occupaTavolo(tavolo)).
-    Se non trova un tavolo, il gruppo rimane in attesa.*/
 }

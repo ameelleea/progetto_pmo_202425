@@ -12,7 +12,6 @@ import main.palazzetti.classes.MenuImpl;
 import main.palazzetti.classes.SalaImpl;
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Sala;
-import main.palazzetti.interfaces.Tavolo;
 
 public class RistoranteImpl implements Ristorante {
 

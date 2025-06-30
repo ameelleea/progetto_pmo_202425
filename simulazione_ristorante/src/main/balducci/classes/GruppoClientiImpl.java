@@ -15,7 +15,7 @@ import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Prodotto;
 import main.palazzetti.interfaces.Tavolo;
 
-public class GruppoClientiImpl implements GruppoClienti, Runnable {
+public class GruppoClientiImpl extends Thread implements GruppoClienti {
 
     private int id;
     private int numeroClienti;
@@ -40,7 +40,6 @@ public class GruppoClientiImpl implements GruppoClienti, Runnable {
 
     @Override
     public void run() {
-        try{
             //Richiedi tavolo al ristorante
             this.richiediTavolo(ristorante);
 
@@ -77,9 +76,6 @@ public class GruppoClientiImpl implements GruppoClienti, Runnable {
             }
 
             this.richiediConto();
-        }catch(InterruptedException e){
-            System.out.println("Gruppo " + this.id + " interrotto");
-        }
     }
 
     public int getNumeroClienti(){
