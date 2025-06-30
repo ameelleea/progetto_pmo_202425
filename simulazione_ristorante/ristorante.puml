@@ -1,0 +1,141 @@
+@startuml ristorante
+
+interface Menu {
+    + getProdotti(): List<Prodotto> 
+    + getProdottiPerTipo(tipo: TipoProdotto): List<Prodotto>
+    + getProdottiPerReparto(TipoReparto r): List<Prodotto> 
+    + getProdottoCasuale(reparto: TipoReparto, tipo: TipoProdotto): Prodotto 
+    + aggiungiProdotto(p: Prodotto)
+    + rimuoviProdotto(p: Prodotto)
+
+}
+
+interface Ordine {
+    + getId(): int
+    + getTavolo(): Tavolo
+    + getProdotti(): Map<Prodotto, Integer> 
+    + getTavoloRiferimento(): Tavolo
+    + setStatoProdotto(prodotto: Prodotto, stato: StatoProdotto)
+    + isCompletato(): boolean
+    + notificaProdottoPronto(prodotto: Prodotto): void 
+}
+
+interface Prodotto {
+   + getNome(): String
+   + getTempoPreparazione(): int
+   + getReparto(): TipoReparto
+   + getTipo(): TipoProdotto
+   + getPrezzo(): double
+   + setPrezzo(prezzo: double)
+}
+
+interface Rango {
+    + getTavoli(): List<Tavolo> 
+    + getCameriere(): Dipendente 
+    + getTavoliLiberi(): List<Tavolo> 
+    + aggiungiTavolo(tavolo: Tavolo)
+    + getId(): int
+    + setCameriere(c: Dipendente)
+}
+
+interface Sala {
+    + getRangoByTavolo(tavolo: Tavolo): Rango 
+    + getRangoByCameriere(c: Dipendente): Rango
+    + getRango(r: Rango): Rango
+    + getRanghi(): List<Rango> 
+}
+
+
+interface Tavolo {
+    + getNumero(): int
+    + getNumeroPosti(): int
+    + isOccupato(): boolean
+    + occupa(gruppo: GruppoClienti)
+    + libera()
+    + getGruppoCorrente(): GruppoClienti 
+}
+
+interface Cassa {
+    + calcolaConto(t: Tavolo): double
+    + calcolaTotaliDiFineTurno(): void
+    + apriTavolo(t: Tavolo): void
+    + chiudiTavolo(t: Tavolo): void
+    + getTavoliLiberi(): List<Tavolo> 
+    + totaleGiornata(): double
+    + smistaOrdine(o: Ordine): void
+    + notificaProdottoPronto(rodotto: Prodotto, ordine: Ordine): void 
+    + notificaOrdineCompletato(ordine: Ordine): void
+    + registraIncasso(importo: double, tavolo: Tavolo): void 
+}
+
+interface Cliente {
+    + ordina(m: Menu, tipo: String): List<Prodotto> 
+}
+
+interface Dipendente {
+    + getIdDipendente(): int
+    + getPaga(): double
+    + lavora(): void
+}
+
+interface GruppoClienti {
+    + richiediTavolo(r: Ristorante): void
+    + getOrdineGruppo(giro: Optional<String>): Ordine 
+    + richiediConto(): void
+    + getNumeroClienti(): int
+    + getClienti(): List<Cliente> 
+    + getTavolo(): Tavolo 
+    + haOrdinato(giro: String): boolean 
+    + setTavoloAssegnato(tavolo: Tavolo): void
+}
+
+interface Reparto {
+    + getDipendenti(): List<Dipendente> 
+    + aggiungiDipendente(d: Dipendente): void
+    + aggiungiOrdinazione(o: Ordine): void
+    + rimuoviDipendente(d: Dipendente): void
+    + getTipoReparto(): TipoReparto 
+    + gestisciOrdine(o: Ordine): void
+    + avviaLavoratori(): void
+}
+
+interface Ristorante {
+    + apriLocale(): void
+    + chiudiLocale(): void
+    + isAperto(): boolean
+    + getNome(): String
+    + getReparto(TipoReparto tipo): Reparto
+    + accogliClienti(GruppoClienti gruppo): void
+    + getMenu(): Menu
+    + getCassa(): Cassa
+    + getSala(): Sala
+    + getProssimoGruppo(): GruppoClienti
+}
+
+enum StatoProdotto {
+  IN_ATTESA
+  IN_PREPARAZIONE
+  PRONTO
+}
+
+enum TipoProdotto {
+  PORTATA
+  BEVANDA
+  CAFFETTERIA
+  DOLCE
+}
+
+enum StatoTavolo {
+  NON_ORDINATO
+  ORDINE_PRONTO
+  SERVITO
+  RICHIESTA_CONTO
+}
+
+enum TipoReparto {
+  CUCINA
+  PIZZERIA
+  BAR
+}
+
+@enduml

@@ -54,8 +54,10 @@ public class CassaImpl implements Cassa {
 
     @Override
     public void apriTavolo(Tavolo t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'apriTavolo'");
+        Dipendente cameriere = this.sala.getRangoByTavolo(t).getCameriere();
+        if(cameriere instanceof Cameriere){
+            ((Cameriere) cameriere).nuovoGruppo();
+        }
     }
 
     @Override

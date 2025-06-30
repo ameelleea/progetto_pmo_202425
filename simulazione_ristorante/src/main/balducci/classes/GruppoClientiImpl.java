@@ -15,7 +15,7 @@ import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Prodotto;
 import main.palazzetti.interfaces.Tavolo;
 
-public class GruppoClientiImpl extends Thread implements GruppoClienti {
+public class GruppoClientiImpl implements GruppoClienti {
 
     private int id;
     private int numeroClienti;

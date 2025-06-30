@@ -1,7 +1,9 @@
 package main.balducci.classes;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 
 import main.balducci.interfaces.Cassa;
 import main.balducci.interfaces.GruppoClienti;
@@ -20,7 +22,7 @@ public class RistoranteImpl implements Ristorante {
     private final Menu menu;
     private final Cassa cassa;
     private final List<Reparto> reparti;
-    private List<GruppoClienti> gruppiInAttesa;
+    private Queue<GruppoClienti> gruppiInAttesa;
     private Maitre maitre;
     private boolean isAperto;
 
@@ -33,37 +35,17 @@ public class RistoranteImpl implements Ristorante {
         this.sala = new SalaImpl();
         this.menu = new MenuImpl();
         this.cassa = new CassaImpl(this.sala, this.menu, this.reparti);
-
+        this.gruppiInAttesa = new LinkedList<>();
         this.isAperto = true;
     }
 
     @Override
     public void apriLocale() {
-        this.reparti.forEach(r -> r.avviaLavoratori());
-
-        this.sala.getRanghi().forEach(r -> {
-            r.getCameriere().start();
-        });
-
-        this.maitre.start();
-
         this.isAperto = true;
     }
 
     @Override
     public void chiudiLocale() {
-        this.reparti.forEach(r -> {
-            r.getDipendenti().forEach(d -> {
-                d.interrupt();
-            });
-        });
-
-        this.sala.getRanghi().forEach(r -> {
-            r.getCameriere().interrupt();
-        });
-
-        this.maitre.interrupt();
-
         this.isAperto = true;
     }
 
@@ -108,6 +90,6 @@ public class RistoranteImpl implements Ristorante {
 
     @Override
     public GruppoClienti getProssimoGruppo() {
-        return this.gruppiInAttesa.remove(0);
+        return this.gruppiInAttesa.poll();
     }
 }

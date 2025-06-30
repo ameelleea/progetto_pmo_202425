@@ -6,8 +6,5 @@ public interface Dipendente {
 
     public Double getPaga();
 
-    public void start();
-
-    public void interrupt();
-
+    public void lavora();
 }

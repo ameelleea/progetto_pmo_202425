@@ -14,11 +14,11 @@ public class Preparatore extends DipendenteImpl{
         this.repartoAppartenenza = reparto;
         this.disponibile = true;
     }
-
+    
     @Override
-    public void run(){
-        
-
+    public void lavora() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'lavora'");
     }
 
     public boolean isDisponibile(){
@@ -28,5 +28,4 @@ public class Preparatore extends DipendenteImpl{
     public void setOrdineCorrente(Prodotto ordinato){
         this.ordineCorrente = ordinato;
     } 
-    
 }

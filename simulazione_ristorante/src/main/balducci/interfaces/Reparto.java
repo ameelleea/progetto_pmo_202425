@@ -21,7 +21,5 @@ public interface Reparto {
     //Metodo astratto per la logica specifica di preparazione.
     public void gestisciOrdine(Ordine ordine);
 
-    //Inizia i thread dei lavoratori.
-    public void avviaLavoratori(); 
-
+    public void avviLavoratori();
 }

@@ -2,7 +2,7 @@ package main.balducci.classes;
 
 import main.balducci.interfaces.*;
 
-public abstract class DipendenteImpl extends Thread implements Dipendente {
+public abstract class DipendenteImpl implements Dipendente {
         
     private int idDipendente;
     private double stipendioOra;
@@ -20,15 +20,5 @@ public abstract class DipendenteImpl extends Thread implements Dipendente {
     @Override
     public Double getPaga(){
         return this.stipendioOra;
-    }
-
-    @Override
-    public void start(){
-        super.start();
-    }
-
-    @Override
-    public void interrupt(){
-        super.interrupt();
     }
 }

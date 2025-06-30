@@ -1,50 +1,48 @@
 package main.balducci.classes;
 
 import java.util.Optional;
-import java.util.concurrent.Semaphore;
 
-import main.balducci.interfaces.Dipendente;
 import main.balducci.interfaces.GruppoClienti;
 import main.balducci.interfaces.Ristorante;
 import main.palazzetti.interfaces.Tavolo;
 
 public class Maitre extends DipendenteImpl{
     private Ristorante ristorante;
-    private Semaphore gruppiDaGestire;
+    private int gruppiDaGestire;
 
     public Maitre(int id, double stipendioOra, Ristorante ristorante){
         super(id, stipendioOra);  
-        this.gruppiDaGestire = new Semaphore(0);  
+        this.gruppiDaGestire = 0;  
     }
 
     @Override
-    public void run(){
-        try{
-            while(true){
-                this.gruppiDaGestire.acquire();
-
+    public void lavora(){
+        while(this.ristorante.isAperto()){
+            if(this.gruppiDaGestire > 0){
                 GruppoClienti prossimo = this.ristorante.getProssimoGruppo();
-                Optional<Tavolo> libero = this.ristorante.getCassa()
-                    .getTavoliLiberi()
-                    .stream()
-                    .filter(t -> !t.isOccupato())
-                    .filter(t -> t.getNumeroPosti() >= prossimo.getNumeroClienti())
-                    .findAny();
+                Optional<Tavolo> libero = Optional.empty();
+                
+                libero = this.ristorante.getCassa()
+                .getTavoliLiberi()
+                .stream()
+                .filter(t -> t.getNumeroPosti() >= prossimo.getNumeroClienti())
+                .findAny();
 
-                libero.ifPresent(t -> {
-                    prossimo.setTavoloAssegnato(t);
-                    Dipendente cameriere = this.ristorante.getSala().getRangoByTavolo(t).getCameriere();
-                    if(cameriere instanceof Cameriere){
-                        ((Cameriere) cameriere).nuovoGruppo();
-                    }
-                });
+                if(libero.isPresent()){
+                    libero.ifPresent(t -> {
+                        prossimo.setTavoloAssegnato(t);
+                        this.ristorante.getCassa().apriTavolo(t);
+                    });
+                }else{
+                    ristorante.accogliClienti(prossimo);
+                }
+
+                this.gruppiDaGestire--;
             }
-        }catch(InterruptedException e){
-           System.out.println("Maitre interrotto");
         }
     }
 
     public void nuovoGruppo(){
-        this.gruppiDaGestire.release(1);
+        this.gruppiDaGestire++;
     }
 }

@@ -63,7 +63,7 @@ public class RepartoImpl implements Reparto {
     }
 
     @Override
-    public void avviaLavoratori() {
-        this.lavoratori.forEach(l -> l.start());
+    public void avviLavoratori() {
+        this.lavoratori.forEach(l -> l.lavora());
     }
 }
