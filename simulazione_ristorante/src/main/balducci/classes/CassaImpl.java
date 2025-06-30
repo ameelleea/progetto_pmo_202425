@@ -12,6 +12,7 @@ import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Prodotto;
 import main.palazzetti.interfaces.Sala;
 import main.palazzetti.interfaces.Tavolo;
+import main.palazzetti.interfaces.Tavolo.StatoTavolo;
 
 public class CassaImpl implements Cassa {
 
@@ -93,7 +94,7 @@ public class CassaImpl implements Cassa {
                 ));
 
         mappaPerReparto.entrySet().forEach(e -> {
-            Ordine ordineReparto = new OrdineImpl(o.getId(), o.getTavolo(), e.getValue());
+            Ordine ordineReparto = new OrdineImpl(o.getId(), o.getTavoloRiferimento(), e.getValue());
             Reparto reparto = reparti.stream().filter(r -> r.getTipoReparto() == e.getKey()).findAny().orElse(null);
             reparto.aggiungiOrdinazione(ordineReparto);
         });
@@ -104,17 +105,16 @@ public class CassaImpl implements Cassa {
     @Override
     public void notificaProdottoPronto(Prodotto prodotto, Ordine ordine) {
         this.ordiniInCorso.get(this.ordiniInCorso.indexOf(ordine)).notificaProdottoPronto(prodotto);
+        if()
     }
 
     @Override
     public void notificaOrdineCompletato(Ordine ordine) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificaOrdineCompletato'");
+        ordine.getTavoloRiferimento().setStatoTavolo(StatoTavolo.ORDINE_PRONTO);
     }
 
     @Override
     public void registraIncasso(double importo, Tavolo tavolo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'registraIncasso'");
+        
     }
 }

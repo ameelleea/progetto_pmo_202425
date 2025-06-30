@@ -6,15 +6,13 @@ import main.palazzetti.interfaces.Tavolo;
 public class TavoloImpl implements Tavolo {
     private final int numero;
     private final int numeroPosti;
-    private boolean occupato;
     private GruppoClienti gruppoCorrente;
     private StatoTavolo stato;
 
     public TavoloImpl(int numero, int numeroPosti) {
         this.numero = numero;
         this.numeroPosti = numeroPosti;
-        this.occupato = false;
-        this.stato = StatoTavolo.NON_ORDINATO;
+        this.stato = StatoTavolo.LIBERO;
     }
 
     @Override
@@ -29,19 +27,19 @@ public class TavoloImpl implements Tavolo {
 
     @Override
     public boolean isOccupato() {
-        return this.occupato;
+        return this.stato != StatoTavolo.LIBERO;
     }
 
     @Override
     public void occupa(GruppoClienti gruppo) {
         this.gruppoCorrente = gruppo;
-        this.occupato = true;
+        this.stato = StatoTavolo.NON_ORDINATO;
     }
 
     @Override
     public void libera() {
         this.gruppoCorrente = null;
-        this.occupato = false;
+        this.stato = StatoTavolo.LIBERO;
     }
 
     @Override

@@ -28,11 +28,6 @@ public class OrdineImpl implements Ordine {
     }
 
     @Override
-    public Tavolo getTavolo() {
-        return tavoloRiferimento;
-    }
-
-    @Override
     public Map<Prodotto, Integer> getProdotti() {
         return prodottiOrdinati;
     }

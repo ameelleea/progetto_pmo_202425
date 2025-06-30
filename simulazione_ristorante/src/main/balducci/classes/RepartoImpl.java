@@ -2,7 +2,7 @@ package main.balducci.classes;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.BlockingQueue;
+import java.util.Queue;
 import java.util.stream.IntStream;
 
 import main.palazzetti.interfaces.Ordine;
@@ -13,11 +13,17 @@ import main.balducci.interfaces.*;
 public class RepartoImpl implements Reparto {
     
     private List<Dipendente> lavoratori; // Lista di lavoratori specifici del reparto
-    private BlockingQueue<Ordine> codaOrdini; // Coda per gli ordini in arrivo
+    private Queue<Ordine> codaOrdini; // Coda per gli ordini in arrivo
     private TipoReparto tipoReparto;
+    private boolean aperto;
 
     public RepartoImpl(TipoReparto tipo){
 
+    }
+
+    @Override 
+    public boolean isAperto(){
+        return this.aperto;
     }
 
     @Override
@@ -48,6 +54,7 @@ public class RepartoImpl implements Reparto {
     @Override
     public void gestisciOrdine(Ordine ordine) {
         Map<Prodotto, Integer> prodotti = ordine.getProdotti();
+        
         prodotti.forEach((p, q) -> {
             IntStream.range(0, q).forEach(i -> {
                         this.lavoratori.stream()

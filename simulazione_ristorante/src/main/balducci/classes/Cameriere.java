@@ -39,7 +39,6 @@ public class Cameriere extends DipendenteImpl {
                     cassa.calcolaConto(t);
                 }
 
-                // 4. RITIRO ORDINI PRONTI
                 if (t.getStatoTavolo() == StatoTavolo.ORDINE_PRONTO) {
                     t.setStatoTavolo(StatoTavolo.SERVITO);
                 }

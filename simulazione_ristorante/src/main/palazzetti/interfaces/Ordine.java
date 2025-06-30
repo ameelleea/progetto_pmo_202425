@@ -8,8 +8,6 @@ public interface Ordine {
 
     public int getId();
 
-    public Tavolo getTavolo();
-
     public Map<Prodotto, Integer> getProdotti();
     
     public Tavolo getTavoloRiferimento();

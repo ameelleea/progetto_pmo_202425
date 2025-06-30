@@ -7,6 +7,7 @@ public interface Reparto {
 
     public enum TipoReparto { CUCINA, PIZZERIA, BAR }
 
+    public boolean isAperto();
     public List<Dipendente> getDipendenti();
     
     //Aggiunge un lavoratore.

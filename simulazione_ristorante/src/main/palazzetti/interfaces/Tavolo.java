@@ -5,7 +5,7 @@ import main.balducci.interfaces.GruppoClienti;
 public interface Tavolo {
 
      public enum StatoTavolo{
-        NON_ORDINATO, ORDINE_PRONTO, SERVITO, RICHIESTA_CONTO
+        LIBERO, NON_ORDINATO, ORDINATO_PRIMO_GIRO, ORDINATO_SECONDO_GIRO, ORDINE_PRONTO, SERVITO, RICHIESTA_CONTO
      }
 
      public int getNumero();
