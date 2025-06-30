@@ -8,6 +8,7 @@ import main.palazzetti.interfaces.Prodotto;
 public class Preparatore extends DipendenteImpl{
 
     private Reparto repartoAppartenenza;
+    private int numTavoloOrdine;
     private Optional<Prodotto> ordineCorrente;
     private boolean disponibile;
 
@@ -26,8 +27,11 @@ public class Preparatore extends DipendenteImpl{
                 int tempoPrep = ordineCorrente.get().getTempoPreparazione();
                 if (tempoPrep > 0) {
                     tempoPrep--;
+                }else{
+                    repartoAppartenenza.notificaProdottoPronto(ordineCorrente.get(), numTavoloOrdine);
+                    this.ordineCorrente = Optional.empty();
+                    this.disponibile = true;
                 }
-                ordineCorrente.get().
             }
         }
     }
@@ -36,7 +40,8 @@ public class Preparatore extends DipendenteImpl{
         return this.disponibile;
     }
 
-    public void setOrdineCorrente(Prodotto ordinato){
+    public void setOrdineCorrente(int numT, Prodotto ordinato){
+        this.numTavoloOrdine = numT;
         this.ordineCorrente = Optional.of(ordinato);
     } 
 }

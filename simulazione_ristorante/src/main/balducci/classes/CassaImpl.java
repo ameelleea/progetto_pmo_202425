@@ -54,18 +54,8 @@ public class CassaImpl implements Cassa {
     }
 
     @Override
-    public void apriTavolo(Tavolo t) {
-        t.occupa();
-        Dipendente cameriere = this.sala.getRangoByTavolo(t).getCameriere();
-        if(cameriere instanceof Cameriere){
-            ((Cameriere) cameriere).nuovoGruppo();
-        }
-    }
-
-    @Override
     public void chiudiTavolo(Tavolo t) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'chiudiTavolo'");
+        t.libera();
     }
 
     @Override
@@ -94,7 +84,7 @@ public class CassaImpl implements Cassa {
                 ));
 
         mappaPerReparto.entrySet().forEach(e -> {
-            Ordine ordineReparto = new OrdineImpl(o.getId(), o.getTavoloRiferimento(), e.getValue());
+            Ordine ordineReparto = new OrdineImpl(o.getTavoloRiferimento(), e.getValue());
             Reparto reparto = reparti.stream().filter(r -> r.getTipoReparto() == e.getKey()).findAny().orElse(null);
             reparto.aggiungiOrdinazione(ordineReparto);
         });
@@ -104,13 +94,26 @@ public class CassaImpl implements Cassa {
 
     @Override
     public void notificaProdottoPronto(Prodotto prodotto, Ordine ordine) {
-        this.ordiniInCorso.get(this.ordiniInCorso.indexOf(ordine)).notificaProdottoPronto(prodotto);
-        if()
+        this.ordiniInCorso.stream()
+                        .filter(o -> o.getTavoloRiferimento().equals(ordine.getTavoloRiferimento()))
+                        .findFirst()
+                        .ifPresent(o -> o.notificaProdottoPronto(prodotto));
     }
 
     @Override
     public void notificaOrdineCompletato(Ordine ordine) {
-        ordine.getTavoloRiferimento().setStatoTavolo(StatoTavolo.ORDINE_PRONTO);
+        Ordine ordineOriginale = this.ordiniInCorso.stream()
+                        .filter(o -> o.getTavoloRiferimento().getNumero() == ordine.getTavoloRiferimento().getNumero())
+                        .findFirst()
+                        .orElse(null);
+        
+        ordine.getProdotti().entrySet()
+                            .stream()
+                            .forEach(p -> ordineOriginale.notificaProdottoPronto(p.getKey()));
+
+        if(ordineOriginale.isCompletato()){
+            ordineOriginale.getTavoloRiferimento().setStatoTavolo(StatoTavolo.ORDINE_PRONTO);
+        }
     }
 
     @Override

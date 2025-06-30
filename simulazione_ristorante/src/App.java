@@ -16,13 +16,30 @@ public class App {
 
         ristorante.apriLocale();
 
-        long tempo = Duration.ofMinutes(5).toMillis();
+        int durataTotale = (int) Duration.ofMinutes(2).toSeconds();
+        int tick = 0;
 
-        while(tempo > 0){
-            int numClienti = rnd.nextInt(10) + 1;
-            GruppoClienti nuovGruppoClienti = new GruppoClientiImpl(gruppi.size()+1, numClienti, ristorante);
-            nuovGruppoClienti.richiediTavolo(ristorante);
+        while (tick < durataTotale) {
+            tick++;
+
+            System.out.println("Tick " + tick);
+
+            if (tick % 5 == 0) {
+                System.out.println("Creo nuovo gruppo di clienti!");
+                int numClienti = rnd.nextInt(10) + 1;
+                GruppoClienti nuovGruppoClienti = new GruppoClientiImpl(gruppi.size()+1, numClienti, ristorante);
+                nuovGruppoClienti.richiediTavolo(ristorante);
+            }
+
+            try {
+                Thread.sleep(1000); // attende 1 secondo
+            } catch (InterruptedException e) {
+                System.out.println("Simulazione interrotta!");
+                break;
+            }
         }
+
+        System.out.println("Simulazione terminata!");
 
         ristorante.chiudiLocale();
     }

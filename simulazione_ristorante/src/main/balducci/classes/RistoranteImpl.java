@@ -30,11 +30,12 @@ public class RistoranteImpl implements Ristorante {
         this.nome = nome;
         this.reparti = new ArrayList<>();
         for(TipoReparto t : TipoReparto.values()){
-            this.reparti.add(new RepartoImpl(t));
+            this.reparti.add(new RepartoImpl(t, this));
         }
         this.sala = new SalaImpl();
         this.menu = new MenuImpl();
         this.cassa = new CassaImpl(this.sala, this.menu, this.reparti);
+        this.maitre = new Maitre(0, 0, this);
         this.gruppiInAttesa = new LinkedList<>();
         this.isAperto = true;
     }
@@ -47,6 +48,7 @@ public class RistoranteImpl implements Ristorante {
     @Override
     public void chiudiLocale() {
         this.isAperto = true;
+        //Fai tutti i calcoli
     }
 
     @Override

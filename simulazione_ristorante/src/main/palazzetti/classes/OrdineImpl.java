@@ -8,23 +8,16 @@ import main.palazzetti.interfaces.Tavolo;
 
 public class OrdineImpl implements Ordine {
 
-    private int id;
     private Tavolo tavoloRiferimento;
     private Map<Prodotto, Integer> prodottiOrdinati;
     private Map<Prodotto, StatoProdotto> statoProdotti; 
     //private long tempoInizioPreparazione;
     private boolean completato;
 
-    public OrdineImpl(int id, Tavolo tavolo, Map<Prodotto, Integer> prodotti){
-        this.id = id;
+    public OrdineImpl(Tavolo tavolo, Map<Prodotto, Integer> prodotti){
         this.tavoloRiferimento = tavolo;
         this.prodottiOrdinati = prodotti;
         this.completato = false;
-    }
-
-    @Override
-    public int getId() {
-        return id;
     }
 
     @Override

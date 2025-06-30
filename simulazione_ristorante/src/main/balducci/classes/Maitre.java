@@ -31,7 +31,7 @@ public class Maitre extends DipendenteImpl{
                 if(libero.isPresent()){
                     libero.ifPresent(t -> {
                         prossimo.setTavoloAssegnato(t);
-                        this.ristorante.getCassa().apriTavolo(t);
+                        t.occupa(prossimo);
                     });
                 }else{
                     ristorante.accogliClienti(prossimo);

@@ -13,8 +13,6 @@ public interface Cassa {
     //Calcola l'incasso totale, i guadagni netti per dipendente e per reparto, sottraendo gli stipendi.
     public void calcolaTotaliDiFineTurno();
 
-    public void apriTavolo(Tavolo t);
-
     //Libera il tavolo, aggiorna l'incasso e resetta il conto del tavolo.
     public void chiudiTavolo(Tavolo t);
 

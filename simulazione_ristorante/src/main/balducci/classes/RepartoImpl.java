@@ -7,17 +7,17 @@ import java.util.stream.IntStream;
 
 import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Prodotto;
-import main.palazzetti.interfaces.Ordine.StatoProdotto;
 import main.balducci.interfaces.*;
 
 public class RepartoImpl implements Reparto {
     
+    private Ristorante ristorante;
     private List<Dipendente> lavoratori; // Lista di lavoratori specifici del reparto
     private Queue<Ordine> codaOrdini; // Coda per gli ordini in arrivo
     private TipoReparto tipoReparto;
     private boolean aperto;
 
-    public RepartoImpl(TipoReparto tipo){
+    public RepartoImpl(TipoReparto tipo, Ristorante ristorante){
 
     }
 
@@ -63,11 +63,23 @@ public class RepartoImpl implements Reparto {
                             .filter(Preparatore::isDisponibile)    
                             .findFirst()
                             .ifPresent(prep -> {
-                                prep.setOrdineCorrente(p);
-                                ordine.setStatoProdotto(p, StatoProdotto.IN_PREPARAZIONE);
+                                prep.setOrdineCorrente(ordine.getTavoloRiferimento().getNumero(), p);
                             }); 
             });
         });
+    }
+
+    @Override
+    public void notificaProdottoPronto(Prodotto prodotto, int numT) {
+        this.codaOrdini.stream()
+                        .filter(o -> o.getTavoloRiferimento().getNumero() == numT)
+                        .findFirst()
+                        .ifPresent(o -> {
+                            o.notificaProdottoPronto(prodotto);
+                            if(o.isCompletato()){
+                                this.ristorante.getCassa().notificaOrdineCompletato(o);
+                            }
+                        });
     }
 
     @Override

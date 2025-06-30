@@ -2,6 +2,8 @@ package main.balducci.interfaces;
 
 import java.util.List;
 import main.palazzetti.interfaces.Ordine;
+import main.palazzetti.interfaces.Prodotto;
+import main.palazzetti.interfaces.Tavolo;
 
 public interface Reparto {
 
@@ -22,5 +24,6 @@ public interface Reparto {
     //Metodo astratto per la logica specifica di preparazione.
     public void gestisciOrdine(Ordine ordine);
 
+    public void notificaProdottoPronto(Prodotto p, int numT); 
     public void avviLavoratori();
 }

@@ -52,7 +52,7 @@ public class GruppoClientiImpl implements GruppoClienti {
                 Integer::sum
             ));
 
-        this.primoGiro = new OrdineImpl(this.id, tavoloAssegnato, ordiniPrimoGiro);
+        this.primoGiro = new OrdineImpl(tavoloAssegnato, ordiniPrimoGiro);
         this.haOrdinatoPrimoGiro = true;
         while(!this.primoGiro.isCompletato());
 
@@ -67,7 +67,7 @@ public class GruppoClientiImpl implements GruppoClienti {
                     p -> 1,
                     Integer::sum
                 ));
-            this.secondoGiro = new OrdineImpl(this.id, tavoloAssegnato, ordiniSecondoGiro);
+            this.secondoGiro = new OrdineImpl(tavoloAssegnato, ordiniSecondoGiro);
             while(!this.secondoGiro.isCompletato());
         }
 
@@ -100,7 +100,7 @@ public class GruppoClientiImpl implements GruppoClienti {
                 ordiniTotali.merge(p, q, Integer::sum)
             );
 
-            return new OrdineImpl(this.id, tavoloAssegnato, ordiniTotali);
+            return new OrdineImpl(tavoloAssegnato, ordiniTotali);
         }
     }
 

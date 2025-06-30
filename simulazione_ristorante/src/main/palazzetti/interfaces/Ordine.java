@@ -6,8 +6,6 @@ public interface Ordine {
 
     public enum StatoProdotto { IN_ATTESA, IN_PREPARAZIONE, PRONTO }
 
-    public int getId();
-
     public Map<Prodotto, Integer> getProdotti();
     
     public Tavolo getTavoloRiferimento();
