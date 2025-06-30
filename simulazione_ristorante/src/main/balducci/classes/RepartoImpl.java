@@ -7,6 +7,7 @@ import java.util.stream.IntStream;
 
 import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Prodotto;
+import main.palazzetti.interfaces.Ordine.StatoProdotto;
 import main.balducci.interfaces.*;
 
 public class RepartoImpl implements Reparto {
@@ -56,7 +57,7 @@ public class RepartoImpl implements Reparto {
                             .findFirst()
                             .ifPresent(prep -> {
                                 prep.setOrdineCorrente(p);
-                                ordine.setStatoProdotto(null, null);
+                                ordine.setStatoProdotto(p, StatoProdotto.IN_PREPARAZIONE);
                             }); 
             });
         });

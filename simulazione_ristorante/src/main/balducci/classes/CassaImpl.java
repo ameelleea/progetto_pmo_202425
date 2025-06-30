@@ -54,6 +54,7 @@ public class CassaImpl implements Cassa {
 
     @Override
     public void apriTavolo(Tavolo t) {
+        t.occupa();
         Dipendente cameriere = this.sala.getRangoByTavolo(t).getCameriere();
         if(cameriere instanceof Cameriere){
             ((Cameriere) cameriere).nuovoGruppo();

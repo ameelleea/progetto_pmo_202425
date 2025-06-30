@@ -26,6 +26,7 @@ public class GruppoClientiImpl implements GruppoClienti {
     private Ordine secondoGiro;
     private boolean haOrdinatoPrimoGiro;
     private boolean haOrdinatoSecondoGiro;
+    private boolean haRichiestoConto;
 
     public GruppoClientiImpl(int id, int numClienti, Ristorante ristorante){
         this.id = id;
@@ -39,43 +40,38 @@ public class GruppoClientiImpl implements GruppoClienti {
     }
 
     @Override
-    public void run() {
-            //Richiedi tavolo al ristorante
-            this.richiediTavolo(ristorante);
+    public void cena() {
+        Stream<List<Prodotto>> liste = this.clienti.stream()
+                                            .map(c -> c.ordina(this.ristorante.getMenu(), "primogiro"));
 
-            //Attendo che venga assegnato
-            while(this.tavoloAssegnato == null);
-            Stream<List<Prodotto>> liste = this.clienti.stream()
-                                               .map(c -> c.ordina(this.ristorante.getMenu(), "primogiro"));
+        Map<Prodotto, Integer> ordiniPrimoGiro = liste
+            .flatMap(List::stream)
+            .collect(Collectors.toMap(
+                p -> p,
+                p -> 1,
+                Integer::sum
+            ));
 
-            Map<Prodotto, Integer> ordiniPrimoGiro = liste
+        this.primoGiro = new OrdineImpl(this.id, tavoloAssegnato, ordiniPrimoGiro);
+        this.haOrdinatoPrimoGiro = true;
+        while(!this.primoGiro.isCompletato());
+
+        if(new Random().nextInt() > 0){
+            liste = this.clienti.stream()
+                                            .map(c -> c.ordina(this.ristorante.getMenu(), "secondogiro"));
+
+            Map<Prodotto, Integer> ordiniSecondoGiro = liste
                 .flatMap(List::stream)
                 .collect(Collectors.toMap(
                     p -> p,
                     p -> 1,
                     Integer::sum
                 ));
+            this.secondoGiro = new OrdineImpl(this.id, tavoloAssegnato, ordiniSecondoGiro);
+            while(!this.secondoGiro.isCompletato());
+        }
 
-            this.primoGiro = new OrdineImpl(this.id, tavoloAssegnato, ordiniPrimoGiro);
-            this.haOrdinatoPrimoGiro = true;
-            while(!this.primoGiro.isCompletato());
-
-            if(new Random().nextInt() > 0){
-                liste = this.clienti.stream()
-                                               .map(c -> c.ordina(this.ristorante.getMenu(), "secondogiro"));
-
-                Map<Prodotto, Integer> ordiniSecondoGiro = liste
-                    .flatMap(List::stream)
-                    .collect(Collectors.toMap(
-                        p -> p,
-                        p -> 1,
-                        Integer::sum
-                    ));
-                this.secondoGiro = new OrdineImpl(this.id, tavoloAssegnato, ordiniSecondoGiro);
-                while(!this.secondoGiro.isCompletato());
-            }
-
-            this.richiediConto();
+        this.haRichiestoConto = true;
     }
 
     public int getNumeroClienti(){
@@ -92,10 +88,10 @@ public class GruppoClientiImpl implements GruppoClienti {
     }
 
     @Override
-    public Ordine getOrdineGruppo(Optional<String> giro) {
-        if(Optional.of("primogiro").equals(giro)){
+    public Ordine getOrdineGruppo(String giro) {
+        if("primogiro".equals(giro)){
             return this.primoGiro;
-        }else if(Optional.of("secondogiro").equals(giro)){
+        }else if("secondogiro".equals(giro)){
             return this.secondoGiro;
         }else{
             Map<Prodotto, Integer> ordiniTotali = new HashMap<>(this.primoGiro.getProdotti());
@@ -109,8 +105,8 @@ public class GruppoClientiImpl implements GruppoClienti {
     }
 
     @Override
-    public void richiediConto() {
-        
+    public boolean richiedeConto() {
+        return this.haRichiestoConto;
     }
 
     @Override

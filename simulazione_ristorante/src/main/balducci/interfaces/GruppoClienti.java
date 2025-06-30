@@ -1,18 +1,19 @@
 package main.balducci.interfaces;
 
 import java.util.List;
-import java.util.Optional;
 
 import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Tavolo;
 
 public interface GruppoClienti {
 
+    public void cena();
+    
     public void richiediTavolo(Ristorante r);
 
-    public Ordine getOrdineGruppo(Optional<String> giro);
+    public Ordine getOrdineGruppo(String giro);
 
-    public void richiediConto();
+    public boolean richiedeConto();
 
     public int getNumeroClienti();
 

@@ -1,34 +1,50 @@
 package main.balducci.classes;
 
-import java.util.concurrent.Semaphore;
-
 import main.balducci.interfaces.Cassa;
-import main.palazzetti.interfaces.Menu;
+import main.balducci.interfaces.GruppoClienti;
+import main.balducci.interfaces.Ristorante;
+import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Rango;
+import main.palazzetti.interfaces.Tavolo;
+import main.palazzetti.interfaces.Tavolo.StatoTavolo;
 
 public class Cameriere extends DipendenteImpl {
 
+    private Ristorante ristorante;
     private Rango rangoAppartenenza;
-    private Cassa cassa;
-    private Menu menu;
-    private double totaleGiornata;
-    private Semaphore nuovoGruppo;
 
-
-    public Cameriere(int id, double stipendioOra, Rango rango, Cassa cassa, Menu menu) {
+    public Cameriere(int id, double stipendioOra, Ristorante ristorante, Rango rango) {
         super(id, stipendioOra);
+        this.ristorante = ristorante;
         this.rangoAppartenenza = rango;
-        this.nuovoGruppo = new Semaphore(0);
     }
 
     @Override
     public void lavora(){
-        while(true){
+        while(this.ristorante.isAperto()){
+            Cassa cassa = this.ristorante.getCassa();
 
+            for (Tavolo t : rangoAppartenenza.getTavoli()) {
+                if (!t.isOccupato()) continue;
+
+                GruppoClienti gruppo = t.getGruppoCorrente();
+
+                if (!gruppo.haOrdinato("primogiro")) {
+                    Ordine ordinePrimo = gruppo.getOrdineGruppo("primogiro");
+                    cassa.smistaOrdine(ordinePrimo);
+                }else if (!gruppo.haOrdinato("secondogiro")) {
+                    Ordine ordineSecondo = gruppo.getOrdineGruppo("secondogiro");
+                    cassa.smistaOrdine(ordineSecondo);
+                }else if (gruppo.richiedeConto()) {
+                    cassa.calcolaConto(t);
+                }
+
+                // 4. RITIRO ORDINI PRONTI
+                if (t.getStatoTavolo() == StatoTavolo.ORDINE_PRONTO) {
+                    t.setStatoTavolo(StatoTavolo.SERVITO);
+                }
+            }
         }
     }
-
-    public void nuovoGruppo(){
-        this.nuovoGruppo.release();
-    }
 }
+

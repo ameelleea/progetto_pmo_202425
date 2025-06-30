@@ -8,11 +8,13 @@ public class TavoloImpl implements Tavolo {
     private final int numeroPosti;
     private boolean occupato;
     private GruppoClienti gruppoCorrente;
+    private StatoTavolo stato;
 
     public TavoloImpl(int numero, int numeroPosti) {
         this.numero = numero;
         this.numeroPosti = numeroPosti;
         this.occupato = false;
+        this.stato = StatoTavolo.NON_ORDINATO;
     }
 
     @Override
@@ -45,5 +47,15 @@ public class TavoloImpl implements Tavolo {
     @Override
     public GruppoClienti getGruppoCorrente() {
         return this.gruppoCorrente;
+    }
+
+    @Override
+    public void setStatoTavolo(StatoTavolo stato) {
+        this.stato = stato;
+    }
+
+    @Override
+    public StatoTavolo getStatoTavolo() {
+        return this.stato;
     }
 }
