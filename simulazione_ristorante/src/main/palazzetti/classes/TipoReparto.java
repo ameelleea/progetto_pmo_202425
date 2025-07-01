@@ -1,4 +1,4 @@
-package main.balducci.classes;
+package main.palazzetti.classes;
 
 public enum TipoReparto {
     CUCINA,

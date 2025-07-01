@@ -9,6 +9,7 @@ import main.balducci.interfaces.Cassa;
 import main.balducci.interfaces.GruppoClienti;
 import main.balducci.interfaces.Reparto;
 import main.balducci.interfaces.Ristorante;
+import main.palazzetti.classes.MenuImpl;
 import main.palazzetti.classes.SalaImpl;
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Sala;
@@ -31,7 +32,7 @@ public class RistoranteImpl implements Ristorante {
             this.reparti.add(new RepartoImpl(t, this, t.getNumDipendenti()));
         }
         this.sala = new SalaImpl(20, 4, this);
-        this.menu = Menu.createMenu();
+        this.menu = MenuImpl.fromJson();
         this.cassa = new CassaImpl(this.sala, this.reparti);
         this.maitre = new Maitre("Maitre", StipendiDipendenti.MAITRE.getPaga(), this);
         this.gruppiInAttesa = new LinkedList<>();

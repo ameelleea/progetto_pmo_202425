@@ -1,4 +1,4 @@
-package main.palazzetti.json;
+package main.palazzetti.classes;
 
 public class JsonProdotto {
     private String nome;

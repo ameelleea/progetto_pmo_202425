@@ -1,4 +1,4 @@
-package main.palazzetti.interfaces;
+package main.palazzetti.classes;
 
 public enum TipoProdotto {
     PIZZA,
