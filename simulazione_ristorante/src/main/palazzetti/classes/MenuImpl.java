@@ -1,7 +1,13 @@
 package main.palazzetti.classes;
 
+import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 import main.balducci.classes.TipoReparto;
 import main.palazzetti.interfaces.Menu;
@@ -13,6 +19,27 @@ public class MenuImpl implements Menu {
 
     public MenuImpl() {
         this.prodotti = new ArrayList<>();
+    }
+
+    public static MenuImpl fromJson(String filePath) {
+        ObjectMapper mapper = new ObjectMapper();
+        MenuImpl menu = new MenuImpl();
+
+        try {
+            List<JsonProdotto> prodottiJson = mapper.readValue(
+                new File(filePath),
+                new TypeReference<List<JsonProdotto>>() {}
+            );
+
+            for (JsonProdotto p : prodottiJson) {
+                Prodotto prodotto = ProdottoImpl.fromJson(p);
+                menu.aggiungiProdotto(prodotto);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return menu;
     }
 
     @Override
@@ -42,7 +69,7 @@ public class MenuImpl implements Menu {
         return risultato;
     }
 
-  @Override
+    @Override
     public Prodotto getProdottoCasuale(TipoReparto reparto, TipoProdotto tipo) {
         List<Prodotto> filtrati = new ArrayList<>();
         for (Prodotto p : prodotti) {
@@ -56,7 +83,6 @@ public class MenuImpl implements Menu {
         int casuale = (int)(Math.random() * filtrati.size());
         return filtrati.get(casuale);
     }
-
 
     @Override
     public void aggiungiProdotto(Prodotto p) {

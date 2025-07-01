@@ -9,7 +9,6 @@ public class ProdottoImpl implements Prodotto {
     private final TipoReparto reparto;
     private double prezzo;
     private final TipoProdotto tipo;
-    
 
     public ProdottoImpl(String nome, double prezzo, TipoReparto reparto, int tempoPreparazione, TipoProdotto tipo) {
         this.nome = nome;
@@ -17,7 +16,16 @@ public class ProdottoImpl implements Prodotto {
         this.reparto = reparto;
         this.prezzo = prezzo;
         this.tipo = tipo;
-      
+    }
+
+    public static ProdottoImpl fromJson(JsonProdotto j) {
+        return new ProdottoImpl(
+            j.getNome(),
+            j.getPrezzo(),
+            TipoReparto.valueOf(j.getReparto()),
+            j.getTempoPreparazione(),
+            TipoProdotto.valueOf(j.getTipo())
+        );
     }
 
     @Override

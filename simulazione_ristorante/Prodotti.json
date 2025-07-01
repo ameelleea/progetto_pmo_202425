@@ -1,0 +1,37 @@
+[
+  {
+    "nome": "Pizza Margherita",
+    "tempoPreparazione": 10,
+    "prezzo": 8.5,
+    "tipo": "PIZZA",
+    "reparto": "PIZZERIA"
+  },
+  {
+    "nome": "Spaghetti alla Carbonara",
+    "tempoPreparazione": 15,
+    "prezzo": 9.0,
+    "tipo": "PIATTO",
+    "reparto": "CUCINA"
+  },
+  {
+    "nome": "Coca Cola",
+    "tempoPreparazione": 1,
+    "prezzo": 2.5,
+    "tipo": "BEVANDA",
+    "reparto": "BAR"
+  },
+  {
+    "nome": "Tiramisù",
+    "tempoPreparazione": 5,
+    "prezzo": 4.5,
+    "tipo": "DESSERT",
+    "reparto": "CUCINA"
+  },
+  {
+    "nome": "Caffè Espresso",
+    "tempoPreparazione": 2,
+    "prezzo": 1.2,
+    "tipo": "CAFFETTERIA",
+    "reparto": "BAR"
+  }
+]
