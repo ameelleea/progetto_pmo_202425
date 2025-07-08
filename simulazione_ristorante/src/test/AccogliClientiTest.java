@@ -25,7 +25,7 @@ public class AccogliClientiTest {
         gruppo3 = new GruppoClientiImpl(0, 10, ristorante);
     }
 
-    @Test
+    /*@Test
     void testAddFlight() {
         ristorante.addFlight(flight1);
         assertTrue(ristorante.getFlights().contains(flight1), "Flight should be added to the ristorante.");
@@ -38,5 +38,5 @@ public class AccogliClientiTest {
         
         ristorante.addFlight(flight3);
         assertEquals("LT1762",ristorante.getFlights().first().getFlightCode());
-    }
+    }*/
 }

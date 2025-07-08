@@ -24,6 +24,7 @@ public class RistoranteImpl implements Ristorante {
     private Queue<GruppoClienti> gruppiInAttesa;
     private Maitre maitre;
     private boolean isAperto;
+    private String menuPath;
 
     public RistoranteImpl(String nome){
         this.nome = nome;
@@ -32,7 +33,7 @@ public class RistoranteImpl implements Ristorante {
             this.reparti.add(new RepartoImpl(t, this, t.getNumDipendenti()));
         }
         this.sala = new SalaImpl(20, 4, this);
-        this.menu = MenuImpl.fromJson();
+        this.menu = MenuImpl.fromJson(menuPath);
         this.cassa = new CassaImpl(this.sala, this.reparti);
         this.maitre = new Maitre("Maitre", StipendiDipendenti.MAITRE.getPaga(), this);
         this.gruppiInAttesa = new LinkedList<>();
@@ -92,5 +93,10 @@ public class RistoranteImpl implements Ristorante {
     @Override
     public GruppoClienti getProssimoGruppo() {
         return this.gruppiInAttesa.poll();
+    }
+
+    @Override
+    public void setMenuPath(String path) {
+        this.menuPath = path;
     }
 }

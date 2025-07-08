@@ -11,8 +11,7 @@ interface Menu {
 }
 
 interface Ordine {
-    + getId(): int
-    + getTavolo(): Tavolo
+    + getTavoloRiferimento(): Tavolo
     + getProdotti(): Map<Prodotto, Integer> 
     + getTavoloRiferimento(): Tavolo
     + setStatoProdotto(prodotto: Prodotto, stato: StatoProdotto)
@@ -34,7 +33,7 @@ interface Rango {
     + getCameriere(): Dipendente 
     + getTavoliLiberi(): List<Tavolo> 
     + aggiungiTavolo(tavolo: Tavolo)
-    + getId(): int
+    + getId(): String
     + setCameriere(c: Dipendente)
 }
 
@@ -53,23 +52,25 @@ interface Tavolo {
     + occupa(gruppo: GruppoClienti)
     + libera()
     + getGruppoCorrente(): GruppoClienti 
+    + getStatoTavolo(): StatoTavolo
+    + setStatoTavolo(s: StatoTavolo)
 }
 
 interface Cassa {
     + calcolaConto(t: Tavolo): double
-    + calcolaTotaliDiFineTurno(): void
-    + apriTavolo(t: Tavolo): void
-    + chiudiTavolo(t: Tavolo): void
+    + calcolaTotaliDiFineTurno()
+    + apriTavolo(t: Tavolo)
+    + chiudiTavolo(t: Tavolo)
     + getTavoliLiberi(): List<Tavolo> 
     + totaleGiornata(): double
-    + smistaOrdine(o: Ordine): void
-    + notificaProdottoPronto(rodotto: Prodotto, ordine: Ordine): void 
-    + notificaOrdineCompletato(ordine: Ordine): void
-    + registraIncasso(importo: double, tavolo: Tavolo): void 
+    + smistaOrdine(o: Ordine)
+    + notificaProdottoPronto(rodotto: Prodotto, ordine: Ordine) 
+    + notificaOrdineCompletato(ordine: Ordine)
+    + registraIncasso(importo: double, tavolo: Tavolo) 
 }
 
 interface Cliente {
-    + ordina(m: Menu, tipo: String): List<Prodotto> 
+    + ordina(m: Menu, giro: int): List<Prodotto> 
 }
 
 interface Dipendente {
@@ -79,24 +80,31 @@ interface Dipendente {
 }
 
 interface GruppoClienti {
-    + richiediTavolo(r: Ristorante): void
-    + getOrdineGruppo(giro: Optional<String>): Ordine 
-    + richiediConto(): void
+    + cena()
+    + getID(): String
+    + richiediTavolo(r: Ristorante)
+    + getOrdineGruppo(): Ordine
+    + getOrdineGruppo(giro: String): Ordine 
+    + richiedeConto(): boolean
     + getNumeroClienti(): int
     + getClienti(): List<Cliente> 
     + getTavolo(): Tavolo 
-    + haOrdinato(giro: String): boolean 
-    + setTavoloAssegnato(tavolo: Tavolo): void
+    + haOrdinato(giro: int): boolean 
+    + setTavoloAssegnato(tavolo: Tavolo)
 }
 
 interface Reparto {
+    + isAperto(): boolean
+    + apriReparto()
+    + chiudiReparto()
     + getDipendenti(): List<Dipendente> 
-    + aggiungiDipendente(d: Dipendente): void
-    + aggiungiOrdinazione(o: Ordine): void
-    + rimuoviDipendente(d: Dipendente): void
+    + aggiungiDipendente(d: Dipendente)
+    + aggiungiOrdinazione(o: Ordine)
+    + rimuoviDipendente(d: Dipendente)
     + getTipoReparto(): TipoReparto 
-    + gestisciOrdine(o: Ordine): void
-    + avviaLavoratori(): void
+    + gestisciOrdine(o: Ordine)
+    + notificaProdottoPronto(p: Prodotto, numT: int)
+    + avviaLavoratori()
 }
 
 interface Ristorante {
