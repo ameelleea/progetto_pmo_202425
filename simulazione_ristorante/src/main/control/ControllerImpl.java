@@ -2,7 +2,6 @@ package main.control;
 
 import main.balducci.interfaces.GruppoClienti;
 import main.model.Model;
-import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Tavolo;
 import main.view.View;
 
@@ -20,7 +19,6 @@ public class ControllerImpl implements Controller, ModelListener {
     private String menuPath;
     private int numClienti;
     private int numeroTavoli;
-    private int numeroDip;
 
     public ControllerImpl(Model model, View view) {
         this.model = model;
@@ -29,43 +27,11 @@ public class ControllerImpl implements Controller, ModelListener {
     }
 
     public void simula(){
-
-    }
-
-    @Override
-    public void onTavoloAssegnato(GruppoClienti gruppo, Tavolo tavolo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onTavoloAssegnato'");
-    }
-
-    @Override
-    public void onOrdineInviato(Ordine ordine) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onOrdineInviato'");
-    }
-
-    @Override
-    public void onOrdineServito(Tavolo tavolo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onOrdineServito'");
-    }
-
-    @Override
-    public void onContoRichiesto(Tavolo tavolo, double importo) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onContoRichiesto'");
-    }
-
-    @Override
-    public void onLocaleAperto() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onLocaleAperto'");
-    }
-
-    @Override
-    public void onLocaleChiuso() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'onLocaleChiuso'");
+        this.model.setMenuPath(menuPath);
+        this.model.setNumClienti(numClienti);
+        this.model.setNumeroTavoli(numeroTavoli);
+        this.model.setDurataSimulazione(durata);
+        this.model.simula();
     }
 
     @Override
@@ -109,13 +75,9 @@ public class ControllerImpl implements Controller, ModelListener {
     }
 
     @Override
-    public void setNumeroDipendenti(int numero) {
-        this.numeroDip = numero;
-    }
-
-    @Override
     public void setNumeroClienti(int numero) {
         this.numClienti = numero;
+        this.model.setNumClienti(numero);
     }
 
     @Override
@@ -126,5 +88,49 @@ public class ControllerImpl implements Controller, ModelListener {
     @Override
     public void setMenuPath(String path) {
         this.menuPath = path;
+    }
+
+    @Override
+    public String getMenuPath() {
+        return this.menuPath;
+    }
+
+    @Override
+    public List<Tavolo> getTavoli() {
+        return this.model.getTavoli();
+    }
+
+    @Override
+    public int getNumeroClienti() {
+        return this.numClienti;
+    }
+
+    @Override
+    public int getNumeroTavoli() {
+        return this.numeroTavoli;
+    }
+
+    @Override
+    public void notificaTavoloOccupato() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'notificaTavoloOccupato'");
+    }
+
+    @Override
+    public void notficaTavoloLibero() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'notficaTavoloLibero'");
+    }
+
+    @Override
+    public void notificaNuovoOrdine() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'notificaNuovoOrdine'");
+    }
+
+    @Override
+    public void notificaContoRichiesto() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'notificaContoRichiesto'");
     }
 }

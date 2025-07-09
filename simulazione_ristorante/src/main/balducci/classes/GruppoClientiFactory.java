@@ -2,6 +2,7 @@ package main.balducci.classes;
 
 import main.balducci.interfaces.Ristorante;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import main.balducci.interfaces.GruppoClienti;
@@ -12,23 +13,23 @@ public class GruppoClientiFactory {
     private int numeroClienti;
     private int gruppiCreati;
 
-    GruppoClientiFactory(int numeroClienti){
+    public GruppoClientiFactory(int numeroClienti){
         this.numeroClienti = numeroClienti;
-        this.gruppiCreati = 0;
+        this.gruppiCreati = 1;
+        this.gruppiAttivi = new ArrayList<>();
     }
 
     public void generaClienti(Ristorante ristorante){
         while(this.numeroClienti > 0){
-            try{
-                Thread.sleep(30000);
-            }catch(InterruptedException e){
-                System.out.println(e);
-            }
 
-            int dimensioneGruppo = (int)(Math.random() * 9) + 2;
-            new GruppoClientiImpl(gruppiCreati+1, dimensioneGruppo, ristorante).richiediTavolo(ristorante);
+            int max = Math.min(numeroClienti, 9); 
+            int dimensioneGruppo = 2 + (int)(Math.random() * (max));
 
+            GruppoClienti nuovGruppo = new GruppoClientiImpl(gruppiCreati, dimensioneGruppo, ristorante);
+            this.gruppiAttivi.add(nuovGruppo);
+            this.gruppiCreati++;
             this.numeroClienti -= dimensioneGruppo;
+            System.out.println("Creato gruppo " + nuovGruppo.getId() + " con nr clienti " + nuovGruppo.getNumeroClienti());
         }
     }
 

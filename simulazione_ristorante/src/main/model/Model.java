@@ -8,8 +8,6 @@ import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Tavolo;
 
 public interface Model {
-    void apriLocale();
-    void chiudiLocale();
     boolean isLocaleAperto();
     void aggiungiModelListener(ModelListener listener);
     void rimuoviModelListener(ModelListener listener);
@@ -22,5 +20,9 @@ public interface Model {
     void notificaNuovoOrdine();
     void notificaContoRichiesto();
     void getOrdiniInCorso();
+    void setNumClienti(int num);
+    void setNumeroTavoli(int numero);
+	void setDurataSimulazione(int durata);
+	void setMenuPath(String path);
 }
 

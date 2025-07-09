@@ -1,6 +1,5 @@
 package main.model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +19,12 @@ public class ModelImpl implements Model{
 	private int durata;
 	private Ristorante ristorante;
 	private GruppoClientiFactory generatoreClienti;
+	private int numClienti;
+	private int numTavoli;
+	private String menuPath;
 	
 	public ModelImpl(final int durata) {
 		this.durata = durata;
-		this.ristorante = new RistoranteImpl(null);
-		this.generatoreClienti = new GruppoClientiFactory();
 	}
 	
 	public void setDurata(int durata) {
@@ -32,23 +32,16 @@ public class ModelImpl implements Model{
 	}
 	
 	public void simula() {
+		this.ristorante = new RistoranteImpl("Borgo", numTavoli, menuPath);
+		this.generatoreClienti = new GruppoClientiFactory(numClienti);
 		LocalDateTime tempoInizio = LocalDateTime.now();
-		while(LocalDateTime.now().isBefore(tempoInizio.plusMinutes((long) durata))) {
-			this.ristorante.apriLocale();
-			this.generatoreClienti.generaClienti(ristorante);
-		}
-	}
+		this.ristorante.apriLocale();
+		this.generatoreClienti.generaClienti(ristorante);
 
-	@Override
-	public void apriLocale() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'apriLocale'");
-	}
-
-	@Override
-	public void chiudiLocale() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'chiudiLocale'");
+		//while(LocalDateTime.now().isBefore(tempoInizio.plusMinutes((long) durata))) {
+		//	
+		//
+		//}
 	}
 
 	@Override
@@ -68,7 +61,8 @@ public class ModelImpl implements Model{
 
 	@Override
 	public List<GruppoClienti> getGruppiInAttesa() {
-		this.ristorante.g
+		//this.ristorante.g
+		throw new UnsupportedOperationException("Unimplemented method 'notificaTavoloOccupato'");
 	}
 
 	@Override
@@ -108,8 +102,28 @@ public class ModelImpl implements Model{
 	}
 
 	@Override
-	public void getOrdiniInCors() {
+	public void getOrdiniInCorso() {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getOrdiniInCors'");
+		throw new UnsupportedOperationException("Unimplemented method 'getOrdiniInCorso'");
+	}
+
+	@Override
+	public void setNumClienti(int num) {
+		this.numClienti = num;
+	}
+
+	@Override
+	public void setNumeroTavoli(int numero) {
+		this.numTavoli = numero;
+	}
+
+	@Override
+	public void setDurataSimulazione(int durata) {
+		this.durata = durata;
+	}
+
+	@Override
+	public void setMenuPath(String path) {
+		this.menuPath = path;
 	}
 }

@@ -1,9 +1,14 @@
 package main.control;
 
+import java.util.List;
+
 import main.model.Model;
+import main.palazzetti.interfaces.Tavolo;
 import main.view.View;
 
 public interface Controller{
+
+	void simula();
 
 	void setView(View view);
 	
@@ -18,10 +23,12 @@ public interface Controller{
 	int getDurataMinimaSimulazione();
 
 	int getDurataMassimaSimulazione();
+
+	int getNumeroClienti();
+	
+	int getNumeroTavoli();
 	
 	void setNumeroTavoli(int numero);
-    
-	void setNumeroDipendenti(int numero);
     
 	void setNumeroClienti(int numero);
     
@@ -30,5 +37,7 @@ public interface Controller{
 	void setMenuPath(String path);
 	
 	String getMenuPath();
+
+	List<Tavolo> getTavoli();
 }
 

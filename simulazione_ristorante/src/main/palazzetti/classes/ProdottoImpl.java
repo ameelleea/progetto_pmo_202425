@@ -24,7 +24,8 @@ public class ProdottoImpl implements Prodotto {
             j.getPrezzo(),
             TipoReparto.valueOf(j.getReparto()),
             j.getTempoPreparazione(),
-            TipoProdotto.valueOf(j.getTipo())
+            TipoProdotto.valueOf(j.getTipo().trim().toUpperCase())
+
         );
     }
 

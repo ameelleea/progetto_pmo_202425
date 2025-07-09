@@ -1,42 +1,40 @@
 package main.view;
 
-import java.time.LocalDate;
-import java.util.List;
-
 import main.control.Controller;
-import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Tavolo;
 
 public class ViewImpl implements SwingView{
 
 	private Controller controller;
-    private RistoranteFrame frame;
-    private ViewObserver observer;
+    //private RistoranteFrame frame;
+	private RistFrame frame;
 
     public ViewImpl() {
         this.controller = null;
     }
-
-    public void setObserver(ViewObserver observer) {
-    	this.observer = observer;
-    }
-
+	
+	@Override
     public Controller getController() {
-        return this.frame.getController();
+        return this.controller;
     }
-
+	
+	@Override
     public void setController(Controller controller) {
     	this.controller = controller;
     }
-
+	
+	@Override
     public void mostraGUI() {
-    	frame = new SupermercatoFrame(controller, this.observer);
+    	//frame = new RistoranteFrame(controller, this.observer);
+		frame = new RistFrame(this.controller, this);
 		frame.setVisible(true);
     }
-    
+
+    @Override
     public int getDurata() {
-    	return frame.getDurataInserita();
+    	//return frame.getDurataInserita();
+		throw new UnsupportedOperationException("Unimplemented method 'mostraMessaggio'");
     }
 
 	@Override
@@ -52,12 +50,6 @@ public class ViewImpl implements SwingView{
 	}
 
 	@Override
-	public void aggiornaMenu(Menu menu) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'aggiornaMenu'");
-	}
-
-	@Override
 	public void aggiornaOrdine(Tavolo tavolo, Ordine ordine) {
 		// TODO Auto-generated method stub
 		throw new UnsupportedOperationException("Unimplemented method 'aggiornaOrdine'");
@@ -70,8 +62,19 @@ public class ViewImpl implements SwingView{
 	}
 
 	@Override
-	public void setViewObserver(ViewObserver observer) {
+	public void notificaSimulazioneAvviata() {
+        controller.setNumeroTavoli(frame.getNumTavoli());
+        controller.setNumeroClienti(frame.getNumClienti());
+        controller.setDurataSimulazione(frame.getDurataInserita());
+        controller.setMenuPath(frame.getPathInserito());
+		controller.simula();
+		frame.inizializzaTavoli();
+
+	}
+
+	@Override
+	public void notificaSimulazioneFermata() {
 		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'setViewObserver'");
+		throw new UnsupportedOperationException("Unimplemented method 'notificaSimulazioneFermata'");
 	}
 }

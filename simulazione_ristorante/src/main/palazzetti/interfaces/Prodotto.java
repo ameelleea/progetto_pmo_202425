@@ -1,9 +1,9 @@
 package main.palazzetti.interfaces;
 
 import main.balducci.classes.TipoReparto;
+import main.palazzetti.classes.TipoProdotto;
 
 public interface Prodotto {
-   public enum TipoProdotto {PORTATA, BEVANDA, CAFFETTERIA, DOLCE}
 
    public String getNome();
    public int getTempoPreparazione();

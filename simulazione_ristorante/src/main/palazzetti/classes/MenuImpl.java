@@ -11,7 +11,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import main.balducci.classes.TipoReparto;
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Prodotto;
-import main.palazzetti.interfaces.Prodotto.TipoProdotto;
 
 public class MenuImpl implements Menu {
     private List<Prodotto> prodotti;
@@ -23,7 +22,6 @@ public class MenuImpl implements Menu {
     public static MenuImpl fromJson(String filePath) {
         ObjectMapper mapper = new ObjectMapper();
         MenuImpl menu = new MenuImpl();
-
         try {
             List<JsonProdotto> prodottiJson = mapper.readValue(
                 new File(filePath),

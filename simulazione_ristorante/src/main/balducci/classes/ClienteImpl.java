@@ -5,9 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import main.balducci.interfaces.*;
+import main.palazzetti.classes.TipoProdotto;
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Prodotto;
-import main.palazzetti.interfaces.Prodotto.TipoProdotto;
 
 public class ClienteImpl implements Cliente {
 
@@ -41,7 +41,7 @@ public class ClienteImpl implements Cliente {
             .findAny()
             .ifPresent(p -> ordineBevandeEPiatto.add(p));
 
-            ordineBevandeEPiatto.add(m.getProdottoCasuale(TipoReparto.BAR, TipoProdotto.DOLCE));
+            ordineBevandeEPiatto.add(m.getProdottoCasuale(TipoReparto.BAR, TipoProdotto.DESSERT));
             m.getProdottiPerTipo(TipoProdotto.PORTATA)
             .stream()
             .findAny()

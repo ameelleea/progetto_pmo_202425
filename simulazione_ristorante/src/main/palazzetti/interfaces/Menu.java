@@ -3,7 +3,7 @@ package main.palazzetti.interfaces;
 import java.util.List;
 
 import main.balducci.classes.TipoReparto;
-import main.palazzetti.interfaces.Prodotto.TipoProdotto;
+import main.palazzetti.classes.TipoProdotto;
 
 public interface Menu {
 

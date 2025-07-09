@@ -4,35 +4,35 @@
     "tempoPreparazione": 8,
     "reparto": "PIZZERIA",
     "prezzo": 6.50,
-    "tipo": "PIZZA"
+    "tipo": "PORTATA"
   },
   {
     "nome": "Diavola",
     "tempoPreparazione": 10,
     "reparto": "PIZZERIA",
     "prezzo": 7.50,
-    "tipo": "PIZZA"
+    "tipo": "PORTATA"
   },
   {
     "nome": "Quattro Stagioni",
     "tempoPreparazione": 11,
     "reparto": "PIZZERIA",
     "prezzo": 8.00,
-    "tipo": "PIZZA"
+    "tipo": "PORTATA"
   },
   {
     "nome": "Bufala",
     "tempoPreparazione": 9,
     "reparto": "PIZZERIA",
     "prezzo": 8.50,
-    "tipo": "PIZZA"
+    "tipo": "PORTATA"
   },
   {
     "nome": "Capricciosa",
     "tempoPreparazione": 10,
     "reparto": "PIZZERIA",
     "prezzo": 8.00,
-    "tipo": "PIZZA"
+    "tipo": "PORTATA"
   },
   {
     "nome": "Lasagna",
@@ -144,35 +144,35 @@
     "tempoPreparazione": 5,
     "reparto": "CUCINA",
     "prezzo": 4.50,
-    "tipo": "DOLCE"
+    "tipo": "DESSERT"
   },
   {
     "nome": "Panna cotta",
     "tempoPreparazione": 4,
     "reparto": "CUCINA",
     "prezzo": 4.00,
-    "tipo": "DOLCE"
+    "tipo": "DESSERT"
   },
   {
     "nome": "Cheesecake",
     "tempoPreparazione": 6,
     "reparto": "CUCINA",
     "prezzo": 4.80,
-    "tipo": "DOLCE"
+    "tipo": "DESSERT"
   },
   {
     "nome": "Gelato",
     "tempoPreparazione": 3,
     "reparto": "CUCINA",
     "prezzo": 3.50,
-    "tipo": "DOLCE"
+    "tipo": "DESSERT"
   },
   {
     "nome": "Torta al cioccolato",
     "tempoPreparazione": 5,
     "reparto": "CUCINA",
     "prezzo": 5.00,
-    "tipo": "DOLCE"
+    "tipo": "DESSERT"
   }
 ]
 

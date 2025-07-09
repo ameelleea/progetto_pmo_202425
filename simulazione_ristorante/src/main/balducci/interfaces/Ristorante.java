@@ -25,7 +25,4 @@ public interface Ristorante {
     public Sala getSala();
 
     public GruppoClienti getProssimoGruppo();
-
-    public void setMenuPath(String path);
-
 }
