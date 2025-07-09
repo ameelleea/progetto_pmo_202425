@@ -120,7 +120,7 @@ public class RistFrame extends javax.swing.JFrame {
         settingsPanel = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        clientiSpin = new javax.swing.JSpinner(new SpinnerNumberModel(20, 1, 100, 1));
+        clientiSpin = new javax.swing.JSpinner(new SpinnerNumberModel(2, 1, 100, 1));
         jLabel9 = new javax.swing.JLabel();
         tavoliSpin = new javax.swing.JSpinner(new SpinnerNumberModel(20, 1, 100, 1));
         jLabel11 = new javax.swing.JLabel();

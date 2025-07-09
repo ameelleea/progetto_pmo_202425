@@ -1,5 +1,6 @@
 package main.balducci.classes;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,9 +55,17 @@ public class GruppoClientiImpl implements GruppoClienti {
 
         this.primoGiro = new OrdineImpl(tavoloAssegnato, ordiniPrimoGiro);
         this.haOrdinatoPrimoGiro = true;
+        System.out.println(id + " ha ordinato primo giro.");
         while(!this.primoGiro.isCompletato());
 
+        try{
+        Thread.sleep(Duration.ofSeconds(5));
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
+        System.out.println(this.id + " ha finito di mangiare il primo giro.");
         if(new Random().nextInt() > 0){
+            System.out.println(this.id + " sta ordinando il secondo giro.");
             liste = this.clienti.stream()
                                 .map(c -> c.ordina(this.ristorante.getMenu(), 2));
 
@@ -68,9 +77,18 @@ public class GruppoClientiImpl implements GruppoClienti {
                     Integer::sum
                 ));
             this.secondoGiro = new OrdineImpl(tavoloAssegnato, ordiniSecondoGiro);
+            this.haOrdinatoSecondoGiro = true;
+            System.out.println(id + " ha ordinato secondo giro.");
             while(!this.secondoGiro.isCompletato());
+
+            try{
+                Thread.sleep(Duration.ofSeconds(40));
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
         }
 
+        System.out.println(id + " ha chiesto il conto.");
         this.haRichiestoConto = true;
     }
 
@@ -96,13 +114,15 @@ public class GruppoClientiImpl implements GruppoClienti {
     @Override
     public Ordine getOrdineGruppo() {
 
-        Map<Prodotto, Integer> ordiniTotali = new HashMap<>(this.primoGiro.getProdotti());
+            Map<Prodotto, Integer> ordiniTotali = new HashMap<>(this.primoGiro.getProdotti());
 
-        secondoGiro.getProdotti().forEach((p, q) -> 
-            ordiniTotali.merge(p, q, Integer::sum)
-        );
+            if(this.secondoGiro != null){
+            secondoGiro.getProdotti().forEach((p, q) -> 
+                ordiniTotali.merge(p, q, Integer::sum)
+            );
+            }
 
-        return new OrdineImpl(tavoloAssegnato, ordiniTotali);
+            return new OrdineImpl(tavoloAssegnato, ordiniTotali);
     }
 
     @Override
@@ -114,9 +134,11 @@ public class GruppoClientiImpl implements GruppoClienti {
         }else{
             Map<Prodotto, Integer> ordiniTotali = new HashMap<>(this.primoGiro.getProdotti());
 
+            if(this.secondoGiro != null){
             secondoGiro.getProdotti().forEach((p, q) -> 
                 ordiniTotali.merge(p, q, Integer::sum)
             );
+            }
 
             return new OrdineImpl(tavoloAssegnato, ordiniTotali);
         }

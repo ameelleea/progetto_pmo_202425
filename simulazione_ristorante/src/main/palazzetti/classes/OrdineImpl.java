@@ -1,5 +1,6 @@
 package main.palazzetti.classes;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import main.palazzetti.interfaces.Ordine;
@@ -11,12 +12,13 @@ public class OrdineImpl implements Ordine {
     private Tavolo tavoloRiferimento;
     private Map<Prodotto, Integer> prodottiOrdinati;
     private Map<Prodotto, StatoProdotto> statoProdotti; 
-    private boolean completato;
+    private volatile boolean completato;
 
     public OrdineImpl(Tavolo tavolo, Map<Prodotto, Integer> prodotti){
         this.tavoloRiferimento = tavolo;
         this.prodottiOrdinati = prodotti;
         this.completato = false;
+        this.statoProdotti = new HashMap<>();
     }
 
     @Override
@@ -41,7 +43,7 @@ public class OrdineImpl implements Ordine {
     }
 
     @Override
-    public void notificaProdottoPronto(Prodotto prodotto) {
+    public synchronized void notificaProdottoPronto(Prodotto prodotto) {
         this.statoProdotti.put(prodotto, StatoProdotto.PRONTO);
 
         if(this.statoProdotti.values().stream().allMatch(p -> p == StatoProdotto.PRONTO)){

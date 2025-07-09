@@ -39,8 +39,8 @@ public class ControllerImpl implements Controller, ModelListener {
             try{
 		    this.model.simula();
             }catch (Exception e) {
-    e.printStackTrace();
-}
+            e.printStackTrace();
+            }
 		});
         
     }

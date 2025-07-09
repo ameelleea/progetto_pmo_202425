@@ -3,7 +3,6 @@ package main.balducci.interfaces;
 import java.util.List;
 
 import main.palazzetti.interfaces.Ordine;
-import main.palazzetti.interfaces.Prodotto;
 import main.palazzetti.interfaces.Tavolo;
 
 public interface Cassa {
@@ -24,9 +23,6 @@ public interface Cassa {
     //Aggiunge l'ordine alla mappa ordiniInCorso.
     //Smista i prodotti dell'ordine ai rispettivi Reparto (aggiungendoli alle loro code).
     public void smistaOrdine(Ordine o);
-
-    //Chiamato da un Reparto quando un prodotto è pronto. Aggiorna lo stato dell'ordine.
-    public void notificaProdottoPronto(Prodotto prodotto, Ordine ordine); 
     
     //Chiamato dall'Ordine stesso quando tutti i suoi prodotti sono pronti. La cassa notifica il cameriere che l'ordine è pronto per essere servito.    
     public void notificaOrdineCompletato(Ordine ordine); 

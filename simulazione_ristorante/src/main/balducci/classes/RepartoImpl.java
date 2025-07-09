@@ -16,16 +16,16 @@ public class RepartoImpl implements Reparto {
     private List<Dipendente> lavoratori;
     private Queue<Ordine> codaOrdini;
     private TipoReparto tipoReparto;
-    private boolean aperto;
+    private volatile boolean aperto;
 
     public RepartoImpl(TipoReparto tipo, Ristorante ristorante, int numDipendenti){
         this.ristorante = ristorante;
         this.lavoratori = new ArrayList<>();
+        this.tipoReparto = tipo;
         for(int i = 1; i <= numDipendenti; i++){
             this.lavoratori.add(new Preparatore(i, StipendiDipendenti.PREPARATORE.getPaga(), this));
         }
         this.codaOrdini = new LinkedList<>();
-        this.tipoReparto = tipo;
         this.aperto = false;
     }
 
@@ -61,6 +61,7 @@ public class RepartoImpl implements Reparto {
 
     @Override
     public void gestisciOrdine(Ordine ordine) {
+        System.out.println("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
         Map<Prodotto, Integer> prodotti = ordine.getProdotti();
         
         prodotti.entrySet().forEach(e -> {
@@ -70,9 +71,11 @@ public class RepartoImpl implements Reparto {
                 .filter(Preparatore::isDisponibile)    
                 .findFirst()
                 .ifPresent(prep -> {
+                    System.out.println("Trovato preparatore libero");
                     prep.setOrdineCorrente(ordine.getTavoloRiferimento().getNumero(), e);
                 }); 
         });
+        this.codaOrdini.add(ordine);
     }
 
     @Override
@@ -83,7 +86,9 @@ public class RepartoImpl implements Reparto {
                         .ifPresent(o -> {
                             o.notificaProdottoPronto(prodotto);
                             if(o.isCompletato()){
+                                System.out.println("Ordine tavolo " + o.getTavoloRiferimento().getNumero() + " completato");
                                 this.ristorante.getCassa().notificaOrdineCompletato(o);
+                                
                             }
                         });
     }

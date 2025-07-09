@@ -8,7 +8,6 @@ import main.palazzetti.interfaces.Prodotto;
 
 public class Preparatore extends DipendenteImpl{
 
-    private String id;
     private Reparto repartoAppartenenza;
     private int numTavoloOrdine;
     private Optional<Prodotto> ordineCorrente;
@@ -16,7 +15,8 @@ public class Preparatore extends DipendenteImpl{
     private boolean disponibile;
 
     public Preparatore(int id, double stipendioOra, Reparto reparto){
-        super("Preparatore " + id, stipendioOra);
+        super("Preparatore " + id + " " + reparto.getTipoReparto(), stipendioOra);
+        System.out.println(reparto);
         this.repartoAppartenenza = reparto;
         this.disponibile = true;
         this.numTavoloOrdine = 0;
@@ -26,18 +26,20 @@ public class Preparatore extends DipendenteImpl{
 
     @Override
     public void lavora() {
+        System.out.println(this.getIdDipendente() + " avviato");
         while(this.repartoAppartenenza.isAperto()){
             if(this.ordineCorrente.isPresent()){
                 this.disponibile = false;
 
-                System.out.println(this.id + " prepara " + quantità + " " + ordineCorrente.get().getNome());
+                System.out.println(this.getIdDipendente() + " prepara " + quantità.get() + " " + ordineCorrente.get().getNome());
                 try{
                     Thread.sleep(ordineCorrente.get().getTempoPreparazione() * quantità.get());
                 }catch(InterruptedException e){
                     System.out.println(e);
                 }
-
+                
                 repartoAppartenenza.notificaProdottoPronto(ordineCorrente.get(), numTavoloOrdine);
+                System.out.println(this.getIdDipendente() + " ha terminato la preparazione.");
                 this.ordineCorrente = Optional.empty();
                 this.disponibile = true;
             }

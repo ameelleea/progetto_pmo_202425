@@ -81,6 +81,7 @@ public class CassaImpl implements Cassa {
 
     @Override
     public void smistaOrdine(Ordine o) {
+        System.out.println("Cassa smista ordine del tavolo " + o.getTavoloRiferimento().getNumero());
         Map<TipoReparto, Map<Prodotto, Integer>> mappaPerReparto =
             o.getProdotti().entrySet().stream()
                 .collect(Collectors.groupingBy(
@@ -94,22 +95,14 @@ public class CassaImpl implements Cassa {
         mappaPerReparto.entrySet().forEach(e -> {
             Ordine ordineReparto = new OrdineImpl(o.getTavoloRiferimento(), e.getValue());
             Reparto reparto = reparti.stream().filter(r -> r.getTipoReparto() == e.getKey()).findAny().orElse(null);
-            reparto.aggiungiOrdinazione(ordineReparto);
+            reparto.gestisciOrdine(ordineReparto);
         });
 
         this.ordiniInCorso.add(o);
     }
 
     @Override
-    public void notificaProdottoPronto(Prodotto prodotto, Ordine ordine) {
-        this.ordiniInCorso.stream()
-                        .filter(o -> o.getTavoloRiferimento().equals(ordine.getTavoloRiferimento()))
-                        .findFirst()
-                        .ifPresent(o -> o.notificaProdottoPronto(prodotto));
-    }
-
-    @Override
-    public void notificaOrdineCompletato(Ordine ordine) {
+    public synchronized void notificaOrdineCompletato(Ordine ordine) {
         Ordine ordineOriginale = this.ordiniInCorso.stream()
                         .filter(o -> o.getTavoloRiferimento().getNumero() == ordine.getTavoloRiferimento().getNumero())
                         .findFirst()
@@ -121,6 +114,8 @@ public class CassaImpl implements Cassa {
 
         if(ordineOriginale.isCompletato()){
             ordineOriginale.getTavoloRiferimento().setStatoTavolo(StatoTavolo.ORDINE_PRONTO);
+
+            System.out.println("Tavolo " + ordineOriginale.getTavoloRiferimento().getNumero() + " " + ordineOriginale.getTavoloRiferimento().getStatoTavolo());
         }
     }
 

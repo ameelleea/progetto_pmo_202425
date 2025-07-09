@@ -22,8 +22,9 @@ public class GruppoClientiFactory {
     public void generaClienti(Ristorante ristorante){
         while(this.numeroClienti > 0){
 
-            int max = Math.min(numeroClienti, 9); 
-            int dimensioneGruppo = 2 + (int)(Math.random() * (max));
+            int max = Math.min(numeroClienti, 8); 
+            int dimensioneGruppo = 2 + (int)(Math.random() * (max - 1 + 1));
+
 
             GruppoClienti nuovGruppo = new GruppoClientiImpl(gruppiCreati, dimensioneGruppo, ristorante);
             this.gruppiAttivi.add(nuovGruppo);
