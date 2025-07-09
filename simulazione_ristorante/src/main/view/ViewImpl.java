@@ -44,9 +44,8 @@ public class ViewImpl implements SwingView{
 	}
 
 	@Override
-	public void aggiornaStatoTavolo(Tavolo tavolo) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'aggiornaStatoTavolo'");
+	public void aggiornaStatoTavoli() {
+		this.frame.aggiornaTavoli();
 	}
 
 	@Override
@@ -62,14 +61,17 @@ public class ViewImpl implements SwingView{
 	}
 
 	@Override
-	public void notificaSimulazioneAvviata() {
+	public void simula(){
         controller.setNumeroTavoli(frame.getNumTavoli());
         controller.setNumeroClienti(frame.getNumClienti());
         controller.setDurataSimulazione(frame.getDurataInserita());
         controller.setMenuPath(frame.getPathInserito());
 		controller.simula();
-		frame.inizializzaTavoli();
+	}
 
+	@Override
+	public void notificaSimulazioneAvviata() {
+		frame.inizializzaTavoli();
 	}
 
 	@Override

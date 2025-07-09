@@ -7,6 +7,8 @@ import main.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class ControllerImpl implements Controller, ModelListener {
 
@@ -24,6 +26,7 @@ public class ControllerImpl implements Controller, ModelListener {
         this.model = model;
         this.view = view;
         this.gruppiInAttesa = new ArrayList<>();
+        this.model.aggiungiModelListener(this);
     }
 
     public void simula(){
@@ -31,7 +34,15 @@ public class ControllerImpl implements Controller, ModelListener {
         this.model.setNumClienti(numClienti);
         this.model.setNumeroTavoli(numeroTavoli);
         this.model.setDurataSimulazione(durata);
-        this.model.simula();
+        		ExecutorService executor = Executors.newSingleThreadExecutor();
+		executor.submit(() -> {
+            try{
+		    this.model.simula();
+            }catch (Exception e) {
+    e.printStackTrace();
+}
+		});
+        
     }
 
     @Override
@@ -111,9 +122,8 @@ public class ControllerImpl implements Controller, ModelListener {
     }
 
     @Override
-    public void notificaTavoloOccupato() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificaTavoloOccupato'");
+    public void notificaStatoTavoloCambiato() {
+        this.view.aggiornaStatoTavoli();
     }
 
     @Override
@@ -132,5 +142,16 @@ public class ControllerImpl implements Controller, ModelListener {
     public void notificaContoRichiesto() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'notificaContoRichiesto'");
+    }
+
+    @Override
+    public void notificaSimulazioneAvviata() {
+        this.view.notificaSimulazioneAvviata();
+    }
+
+    @Override
+    public void notificaSimulazioneFermata() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'notificaSimulazioneFermata'");
     }
 }

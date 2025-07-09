@@ -23,7 +23,7 @@ public class RistoranteImpl implements Ristorante {
     private final List<Reparto> reparti;
     private Queue<GruppoClienti> gruppiInAttesa;
     private Maitre maitre;
-    private boolean isAperto;
+    private volatile boolean isAperto;
 
     public RistoranteImpl(String nome, int numTavoli, String menuPath){
         this.nome = nome;
@@ -41,13 +41,28 @@ public class RistoranteImpl implements Ristorante {
 
     @Override
     public void apriLocale() {
+        System.out.println("Avvio maitre...");
+        new Thread(() -> this.maitre.lavora()).start();
+
+        System.out.println("Avvio camerieri...");
+        this.sala.getRanghi().forEach(r -> {
+            System.out.println(" -> Cameriere di rango " + r.getId());
+            new Thread(() -> r.getCameriere().lavora()).start();
+        });
+
+        System.out.println("Avvio reparti...");
+        this.reparti.forEach(r -> {
+            System.out.println(" -> Reparto ");
+            r.apriReparto();
+        });
+
         this.isAperto = true;
+        System.out.println("Locale aperto.");
     }
 
     @Override
     public void chiudiLocale() {
-        this.isAperto = true;
-        //Fai tutti i calcoli
+        this.isAperto = false;
     }
 
     @Override
@@ -70,6 +85,7 @@ public class RistoranteImpl implements Ristorante {
 
     @Override
     public void accogliClienti(GruppoClienti gruppo) {
+        System.out.println("Gruppo " + gruppo.getId() + "passato al maitre");
         this.gruppiInAttesa.add(gruppo);
         this.maitre.nuovoGruppo();
     }

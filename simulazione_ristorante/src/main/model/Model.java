@@ -15,8 +15,7 @@ public interface Model {
     List<Tavolo> getTavoli();
     Menu getMenu();
     void simula();
-    void notificaTavoloOccupato();
-    void notficaTavoloLibero();
+    void notificaStatoTavoloCambiato();
     void notificaNuovoOrdine();
     void notificaContoRichiesto();
     void getOrdiniInCorso();

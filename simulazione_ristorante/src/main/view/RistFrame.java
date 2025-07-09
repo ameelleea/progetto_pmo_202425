@@ -71,17 +71,16 @@ public class RistFrame extends javax.swing.JFrame {
     }
 
     public void aggiornaTavoli() {
-        for (Map.Entry<Tavolo, JPanel> entry : tavoliMap.entrySet()) {
-            Tavolo tavolo = entry.getKey();
-            JPanel bottone = entry.getValue();
+        for(Tavolo t : controller.getTavoli()){
 
-            if (tavolo.isOccupato()) {
-                bottone.setBackground(Color.RED);
-            } else {
-                bottone.setBackground(Color.GREEN);
-            }
+        JPanel panel = tavoliMap.get(t);
+        if (t.isOccupato()) {
+            panel.setBackground(Color.RED);
+        } else {
+            panel.setBackground(Color.GREEN);
         }
-
+        
+        }
         tavoliPanel.revalidate();
         tavoliPanel.repaint();
     }
@@ -497,7 +496,7 @@ public class RistFrame extends javax.swing.JFrame {
     }  
 
     private void avviaButtonActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        view.notificaSimulazioneAvviata();
+        view.simula();
     }                                        
 
     private void fermaButtonActionPerformed(java.awt.event.ActionEvent evt) {                                         

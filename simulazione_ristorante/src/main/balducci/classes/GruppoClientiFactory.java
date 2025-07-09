@@ -29,7 +29,7 @@ public class GruppoClientiFactory {
             this.gruppiAttivi.add(nuovGruppo);
             this.gruppiCreati++;
             this.numeroClienti -= dimensioneGruppo;
-            System.out.println("Creato gruppo " + nuovGruppo.getId() + " con nr clienti " + nuovGruppo.getNumeroClienti());
+            System.out.println("Creato " + nuovGruppo.getId() + " con nr clienti " + nuovGruppo.getNumeroClienti());
         }
     }
 

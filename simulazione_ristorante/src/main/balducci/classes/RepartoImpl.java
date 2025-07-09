@@ -90,7 +90,7 @@ public class RepartoImpl implements Reparto {
 
     @Override
     public void avviLavoratori() {
-        this.lavoratori.forEach(l -> l.lavora());
+        this.lavoratori.forEach(l -> new Thread(() -> l.lavora()).start());
     }
 
     @Override

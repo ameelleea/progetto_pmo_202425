@@ -20,6 +20,7 @@ public class Maitre extends DipendenteImpl{
     public void lavora(){
         while(this.ristorante.isAperto()){
             if(this.gruppiDaGestire > 0){
+                System.out.println("Assegnazione gruppo...");
                 GruppoClienti prossimo = this.ristorante.getProssimoGruppo();
                 Optional<Tavolo> libero = Optional.empty();
                 
@@ -31,8 +32,12 @@ public class Maitre extends DipendenteImpl{
 
                 if(libero.isPresent()){
                     libero.ifPresent(t -> {
+                        System.out.println("Assegnazione tavolo...");
                         prossimo.setTavoloAssegnato(t);
+                        System.out.println("Occupazione tavolo...");
                         t.occupa(prossimo);
+                        System.out.println("Gruppo " +prossimo.getId() + " assegnato al tavolo " + t.getNumero());
+                        new Thread(() -> prossimo.cena()).start();
                     });
                 }else{
                     ristorante.accogliClienti(prossimo);

@@ -7,13 +7,14 @@ import main.palazzetti.interfaces.Tavolo;
 public interface View {
 
     void mostraMessaggio(String messaggio);
-    void aggiornaStatoTavolo(Tavolo tavolo);
+    void aggiornaStatoTavoli();
     void aggiornaOrdine(Tavolo tavolo, Ordine ordine);
     void mostraConto(Tavolo tavolo, double importo);
     void mostraGUI();
     void setController(Controller c);
     Controller getController();
     int getDurata();
+    void simula();
     void notificaSimulazioneAvviata();
     void notificaSimulazioneFermata();
 }

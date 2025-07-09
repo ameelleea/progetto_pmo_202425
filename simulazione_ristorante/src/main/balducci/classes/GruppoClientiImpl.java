@@ -40,6 +40,7 @@ public class GruppoClientiImpl implements GruppoClienti {
 
     @Override
     public void cena() {
+        System.out.println(id + " inizia la cena.");
         Stream<List<Prodotto>> liste = this.clienti.stream()
                                             .map(c -> c.ordina(this.ristorante.getMenu(), 1));
 

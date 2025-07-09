@@ -2,7 +2,10 @@ package main.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import main.balducci.classes.GruppoClientiFactory;
@@ -32,16 +35,26 @@ public class ModelImpl implements Model{
 	}
 	
 	public void simula() {
+		System.out.println("Simulazione: inizializzazione...");
 		this.ristorante = new RistoranteImpl("Borgo", numTavoli, menuPath);
 		this.generatoreClienti = new GruppoClientiFactory(numClienti);
-		LocalDateTime tempoInizio = LocalDateTime.now();
+		System.out.println("Simulazione: listener...");
+		this.listeners.forEach(ModelListener::notificaSimulazioneAvviata);
+		System.out.println("Simulazione: apriLocale...");
 		this.ristorante.apriLocale();
+		System.out.println("Simulazione: generaClienti...");
 		this.generatoreClienti.generaClienti(ristorante);
 
-		//while(LocalDateTime.now().isBefore(tempoInizio.plusMinutes((long) durata))) {
-		//	
-		//
-		//}
+		LocalDateTime tempoInizio = LocalDateTime.now();
+		System.out.println("Simulazione: ciclo inizio, durata = " + durata + " minuti");
+    	Iterator<GruppoClienti> it = this.generatoreClienti.getGruppi().iterator();
+		while (it.hasNext()) {
+			it.next().richiediTavolo(ristorante);
+		}
+
+		while (LocalDateTime.now().isBefore(tempoInizio.plusMinutes((long) durata))) {
+			this.notificaStatoTavoloCambiato();
+		}
 	}
 
 	@Override
@@ -78,15 +91,8 @@ public class ModelImpl implements Model{
 	}
 
 	@Override
-	public void notificaTavoloOccupato() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'notificaTavoloOccupato'");
-	}
-
-	@Override
-	public void notficaTavoloLibero() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'notficaTavoloLibero'");
+	public void notificaStatoTavoloCambiato() {
+		this.listeners.forEach(ModelListener::notificaStatoTavoloCambiato);
 	}
 
 	@Override
