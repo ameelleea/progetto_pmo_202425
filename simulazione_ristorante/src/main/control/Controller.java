@@ -9,29 +9,17 @@ import main.view.View;
 public interface Controller{
 
 	void simula();
-
-	void simulazioneFermata();
-
+	void simulazioneFermata();	
 	void setView(View view);
-	
 	View getView();
-	
 	void setModel(Model model);
-	
 	Model getModel();
-	
-	int getDurataMinimaSimulazione();
-
-	int getDurataMassimaSimulazione();
-
+	int getDurataMinimaSimulazione();	
+	int getDurataMassimaSimulazione();	
 	int getNumeroTavoli();
-    
 	void setNumeroClienti(int numero);
-    
 	void setDurataSimulazione(int durata);
-    
-	void setMenuPath(String path);
-
+	void setMenuPath(String path);	
 	List<Tavolo> getTavoli();
 }
 

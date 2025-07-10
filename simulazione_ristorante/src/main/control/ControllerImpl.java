@@ -111,12 +111,6 @@ public class ControllerImpl implements Controller, ModelListener {
     }
 
     @Override
-    public void notificaSimulazioneFermata() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificaSimulazioneFermata'");
-    }
-
-    @Override
     public void notificaGruppiInAttesaCambiati(List<GruppoClienti> gruppiInAttesa) {
         this.view.aggiornaGruppiInAttesa(gruppiInAttesa);
     }
@@ -124,5 +118,21 @@ public class ControllerImpl implements Controller, ModelListener {
     @Override
     public void simulazioneFermata() {
         this.model.fermaSimulazione();
+    }
+
+    @Override
+    public void notificaNuovoMessaggio(String messaggio) {
+        this.view.mostraMessaggi(messaggio);
+    }
+
+    @Override
+    public void notificaTotaliCambiati(String totali) {
+        this.view.aggiornaTotali(totali);
+    }
+
+    @Override
+    public void notificaSimulazioneTerminata() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'notificaSimulazioneTerminata'");
     }
 }

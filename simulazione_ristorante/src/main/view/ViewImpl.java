@@ -40,9 +40,8 @@ public class ViewImpl implements SwingView{
     }
 
 	@Override
-	public void mostraMessaggio(String messaggio) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'mostraMessaggio'");
+	public void mostraMessaggi(String messaggio) {
+		this.frame.printMessaggi(messaggio);
 	}
 
 	@Override
@@ -81,5 +80,17 @@ public class ViewImpl implements SwingView{
 	@Override
 	public void aggiornaGruppiInAttesa(List<GruppoClienti> gruppiInAttesa) {
 		this.frame.printGruppiInAttesa(gruppiInAttesa);
+	}
+
+	@Override
+	public void aggiornaTotali(String totali) {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'aggiornaTotali'");
+	}
+
+	@Override
+	public void notificaSimulazioneTerminata() {
+		// TODO Auto-generated method stub
+		throw new UnsupportedOperationException("Unimplemented method 'notificaSimulazioneTerminata'");
 	}
 }

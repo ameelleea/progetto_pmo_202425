@@ -54,6 +54,7 @@ public class Cameriere extends DipendenteImpl {
                         e.printStackTrace();
                     }
                     System.out.println(t.getGruppoCorrente().getId() + " ha pagato e lascia il locale.");
+                    this.ristorante.addNuovoMessaggio(t.getGruppoCorrente().getId() + " ha pagato e lascia il locale.");
                     t.libera();
                 }
 
@@ -64,4 +65,5 @@ public class Cameriere extends DipendenteImpl {
         }
     }
 }
+
 

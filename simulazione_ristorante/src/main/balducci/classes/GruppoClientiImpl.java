@@ -64,6 +64,7 @@ public class GruppoClientiImpl implements GruppoClienti {
             e.printStackTrace();
         }
         System.out.println(this.id + " ha finito di mangiare il primo giro.");
+        this.ristorante.addNuovoMessaggio(this.id + " ha finito di mangiare il primo giro.");
         if(new Random().nextInt() > 0){
             System.out.println(this.id + " sta ordinando il secondo giro.");
             liste = this.clienti.stream()
@@ -82,7 +83,15 @@ public class GruppoClientiImpl implements GruppoClienti {
             while(!this.secondoGiro.isCompletato());
 
             try{
-                Thread.sleep(Duration.ofSeconds(40));
+            Thread.sleep(Duration.ofSeconds(5));
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+            System.out.println(this.id + " ha finito di mangiare il secondo giro.");
+            this.ristorante.addNuovoMessaggio(this.id + " ha finito di mangiare il secondo giro.");
+            
+            try{
+                Thread.sleep(Duration.ofSeconds(5));
             }catch(InterruptedException e){
                 e.printStackTrace();
             }

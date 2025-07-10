@@ -19,6 +19,8 @@ public interface Model {
     void notificaStatoTavoloCambiato();
     void notificaOrdiniInAttesaCambiati();
     void notificaRichiesteContoCambiate();
+    void notificaNuovoMessaggio();
+    void notificaTotaliCambiati();
     void setNumClienti(int num);
 	void setDurataSimulazione(int durata);
 	void setMenuPath(String path);

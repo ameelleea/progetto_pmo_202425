@@ -25,4 +25,8 @@ public interface Ristorante {
     public Sala getSala();
 
     public GruppoClienti getProssimoGruppo();
+
+    public String getMessaggi();
+
+    public void addNuovoMessaggio(String messaggio);
 }

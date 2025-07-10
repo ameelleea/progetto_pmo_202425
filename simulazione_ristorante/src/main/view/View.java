@@ -8,11 +8,12 @@ import main.palazzetti.interfaces.Ordine;
 
 public interface View {
 
-    void mostraMessaggio(String messaggio);
+    void mostraMessaggi(String messaggio);
     void aggiornaGruppiInAttesa(List<GruppoClienti> gruppiInAttesa);
     void aggiornaStatoTavoli();
     void aggiornaOrdini(List<Ordine> ordini);
     void aggiornaRichiesteConto(List<GruppoClienti> richieste);
+    void aggiornaTotali(String totali);
     void mostraGUI();
     void setController(Controller c);
     Controller getController();
@@ -20,6 +21,7 @@ public interface View {
     void simula();
     void notificaSimulazioneAvviata();
     void notificaSimulazioneFermata();
+    void notificaSimulazioneTerminata();
 }
 
 

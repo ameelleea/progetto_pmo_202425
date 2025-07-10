@@ -1,6 +1,7 @@
 package main.balducci.classes;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -79,10 +80,27 @@ public class RepartoImpl implements Reparto {
     //}
 
     public void gestisciOrdine(Ordine ordine) {
-    System.out.println("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
-    Map<Prodotto, Integer> prodotti = ordine.getProdotti();
+        System.out.println("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
+        this.ristorante.addNuovoMessaggio("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
+        Map<Prodotto, Integer> prodotti = ordine.getProdotti();
 
-    for (Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) {
+        for (Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) {
+            Preparatore migliorPreparatore = lavoratori.stream()
+                .filter(l -> l instanceof Preparatore)
+                .map(l -> (Preparatore) l)
+                .min(Comparator.comparingInt(p -> p.getDimensioneCoda())) // seleziona coda più corta
+                .orElse(null);
+
+            if (migliorPreparatore != null) {
+                System.out.println("Trovato preparatore libero: " + migliorPreparatore.getIdDipendente());
+                migliorPreparatore.aggiungiProdottoInCoda(new Pair<Integer, Map.Entry<Prodotto, Integer>>(ordine.getTavoloRiferimento().getNumero(), entry));
+            } else {
+                // gestisci caso nessun preparatore disponibile (se necessario)
+            }
+        }
+        this.codaOrdini.add(ordine);
+    }
+    /*for (Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) {
         boolean assegnato = false;
 
         while (!assegnato) {
@@ -91,7 +109,7 @@ public class RepartoImpl implements Reparto {
                     Preparatore p = (Preparatore) l;
                     if (p.isDisponibile()) {
                         System.out.println("Trovato preparatore libero: " + p.getIdDipendente());
-                        p.setOrdineCorrente(ordine.getTavoloRiferimento().getNumero(), entry);
+                        p.aggiungiProdottoInCoda(new Pair<Integer, Map.Entry<Prodotto, Integer>>(ordine.getTavoloRiferimento().getNumero(), entry));
                         assegnato = true;
                         break;
                     }
@@ -109,7 +127,7 @@ public class RepartoImpl implements Reparto {
     }
 
     this.codaOrdini.add(ordine);
-}
+}*/
     @Override
     public void notificaProdottoPronto(Prodotto prodotto, int numT) {
         this.codaOrdini.stream()
@@ -119,6 +137,7 @@ public class RepartoImpl implements Reparto {
                             o.notificaProdottoPronto(prodotto);
                             if(o.isCompletato()){
                                 System.out.println("Ordine " + this.tipoReparto + " tavolo " + o.getTavoloRiferimento().getNumero() + " completato");
+                                this.ristorante.addNuovoMessaggio("Ordine " + this.tipoReparto + " tavolo " + o.getTavoloRiferimento().getNumero() + " completato");
                                 this.ristorante.getCassa().notificaOrdineCompletato(o);
                                 
                             }

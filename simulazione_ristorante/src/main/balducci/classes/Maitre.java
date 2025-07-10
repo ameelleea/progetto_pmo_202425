@@ -24,10 +24,11 @@ public class Maitre extends DipendenteImpl{
                 GruppoClienti prossimo = this.ristorante.getProssimoGruppo();
                 Optional<Tavolo> libero = Optional.empty();
                 
-                libero = this.ristorante.getCassa()
+            libero = this.ristorante.getCassa()
                 .getTavoliLiberi()
                 .stream()
-                .filter(t -> t.getNumeroPosti() >= prossimo.getNumeroClienti())
+                .filter(t -> t.getNumeroPosti() >= prossimo.getNumeroClienti()
+                          && t.getNumeroPosti() <= prossimo.getNumeroClienti() + 1)
                 .findAny();
 
                 if(libero.isPresent()){
@@ -37,9 +38,10 @@ public class Maitre extends DipendenteImpl{
                         System.out.println("Occupazione tavolo...");
                         t.occupa(prossimo);
                         System.out.println("Gruppo " +prossimo.getId() + " assegnato al tavolo " + t.getNumero());
+                        this.ristorante.addNuovoMessaggio("Gruppo " +prossimo.getId() + " assegnato al tavolo " + t.getNumero());
                     });
                 }else{
-                    ristorante.accogliClienti(prossimo);
+                    //ristorante.accogliClienti(prossimo);
                 }
 
                 this.gruppiDaGestire--;

@@ -24,6 +24,7 @@ public class RistoranteImpl implements Ristorante {
     private Queue<GruppoClienti> gruppiInAttesa;
     private Maitre maitre;
     private volatile boolean isAperto;
+    private String messaggi;
 
     public RistoranteImpl(String nome, int numTavoli, String menuPath){
         this.nome = nome;
@@ -37,6 +38,7 @@ public class RistoranteImpl implements Ristorante {
         this.maitre = new Maitre("Maitre", StipendiDipendenti.MAITRE.getPaga(), this);
         this.gruppiInAttesa = new LinkedList<>();
         this.isAperto = true;
+        this.messaggi = "";
     }
 
     @Override
@@ -61,6 +63,8 @@ public class RistoranteImpl implements Ristorante {
     public void chiudiLocale() {
         this.reparti.forEach(Reparto::chiudiReparto);
         this.isAperto = false;
+        this.cassa.calcolaTotalePerDipendente();
+        this.cassa.calcolaTotalePerReparto();
     }
 
     @Override
@@ -106,5 +110,15 @@ public class RistoranteImpl implements Ristorante {
     @Override
     public GruppoClienti getProssimoGruppo() {
         return this.gruppiInAttesa.poll();
+    }
+
+    @Override
+    public String getMessaggi() {
+        return this.messaggi;
+    }
+
+    @Override
+    public void addNuovoMessaggio(String messaggio){
+        this.messaggi += messaggio + "\n";
     }
 }

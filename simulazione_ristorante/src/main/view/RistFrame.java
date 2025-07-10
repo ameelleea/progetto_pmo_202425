@@ -120,6 +120,10 @@ public class RistFrame extends javax.swing.JFrame {
         this.rcPanelTA.setText(listaGruppi);
     }
 
+    public void printMessaggi(String messaggi){
+        this.logTextArea.setText(messaggi);
+    }
+
     public int getNumTavoli(){
         return (int)tavoliSpin.getValue();
     }
@@ -204,6 +208,8 @@ public class RistFrame extends javax.swing.JFrame {
         logTextArea.setRows(5);
         logTextArea.setBorder(null);
         logTextArea.setEditable(false);
+        logTextArea.setLineWrap(true);
+        logTextArea.setWrapStyleWord(true);
         logScrollPane.setViewportView(logTextArea);
 
         javax.swing.GroupLayout logPanelLayout = new javax.swing.GroupLayout(logPanel);

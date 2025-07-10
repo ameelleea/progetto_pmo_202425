@@ -15,9 +15,8 @@ public class GruppoClientiFactory {
 
     public GruppoClienti creaGruppo(Ristorante ristorante){
 
-        int max = Math.min(numeroClienti, 8); 
-        int dimensioneGruppo = 2 + (int)(Math.random() * (max - 1 + 1));
-
+        int max = Math.min(numeroClienti, 10);
+        int dimensioneGruppo = 2 + (int)(Math.random() * (max - 2 + 1));
 
         GruppoClienti nuovGruppo = new GruppoClientiImpl(gruppiCreati, dimensioneGruppo, ristorante);
         this.gruppiCreati++;

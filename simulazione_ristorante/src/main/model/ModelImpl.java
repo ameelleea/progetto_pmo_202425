@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 import main.balducci.classes.GruppoClientiFactory;
 import main.balducci.classes.RistoranteImpl;
+import main.balducci.interfaces.Cassa;
 import main.balducci.interfaces.GruppoClienti;
 import main.balducci.interfaces.Ristorante;
 import main.control.ModelListener;
@@ -50,7 +51,7 @@ public class ModelImpl implements Model{
 		System.out.println("Simulazione: ciclo inizio, durata = " + durata + " minuti");
 
 		while (LocalDateTime.now().isBefore(tempoInizio.plusMinutes((long) durata))) {
-			if (generatoreClienti.getNumeroClienti() > 0) {
+			if (generatoreClienti.getNumeroClienti() > 1) {
 				GruppoClienti nuovoGruppo = generatoreClienti.creaGruppo(ristorante);
 				gruppiInAttesa.add(nuovoGruppo);
 				
@@ -72,13 +73,17 @@ public class ModelImpl implements Model{
 				gruppiInAttesa.remove(nuovoGruppo);
 				this.notificaGruppoInAttesa();
 				gruppiSeduti.add(nuovoGruppo);
-				new Thread(() -> nuovoGruppo.cena()).start();
+				new Thread(() -> {
+					nuovoGruppo.cena();
+					this.gruppiSeduti.remove(nuovoGruppo);
+				}).start();
 			}else{
 				this.notificaGruppoInAttesa();
 			}
 
 			this.notificaOrdiniInAttesaCambiati();
 			this.notificaRichiesteContoCambiate();
+			this.notificaNuovoMessaggio();
 			//try {
 			//	Thread.sleep(10000); // attende 10 secondi
 			//} catch (InterruptedException e) {
@@ -86,6 +91,9 @@ public class ModelImpl implements Model{
 			//	break;
 			//}
 		}
+
+		this.fermaSimulazione();
+		this.listeners.forEach(ModelListener::notificaSimulazioneTerminata);
 	}
 
 	@Override
@@ -161,8 +169,29 @@ public class ModelImpl implements Model{
 	@Override
 	public void fermaSimulazione() {
 		this.ristorante.chiudiLocale();
-		this.ristorante = null;
+		this.notificaTotaliCambiati();
 		this.gruppiInAttesa.clear();
 		this.gruppiSeduti.clear();
+	}
+
+	@Override
+	public void notificaNuovoMessaggio() {
+		this.listeners.forEach(l -> l.notificaNuovoMessaggio(this.ristorante.getMessaggi()));
+	}
+
+	@Override
+	public void notificaTotaliCambiati() {
+		Cassa cassa = this.ristorante.getCassa();
+		String totali = "Totale giornata: " + Double.valueOf(cassa.totaleGiornata()).toString() + "\n" 
+		+ "Totali per dipendente: \n" + cassa.getTotalePerDipendente().entrySet()
+				.stream()
+				.map(e -> e.getKey().getIdDipendente() + ": " + e.getValue() + " euro\n")
+            	.collect(Collectors.joining("\n"))
+		+ "Totali per reparto: \n" + cassa.getTotalePerReparto().entrySet()
+				.stream()
+				.map(e -> e.getKey() + ": " + e.getValue() + " euro\n")
+            	.collect(Collectors.joining("\n"));
+		
+		this.listeners.forEach(l -> l.notificaTotaliCambiati(totali));
 	}
 }
