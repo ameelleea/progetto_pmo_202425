@@ -161,5 +161,8 @@ public class ModelImpl implements Model{
 	@Override
 	public void fermaSimulazione() {
 		this.ristorante.chiudiLocale();
+		this.ristorante = null;
+		this.gruppiInAttesa.clear();
+		this.gruppiSeduti.clear();
 	}
 }

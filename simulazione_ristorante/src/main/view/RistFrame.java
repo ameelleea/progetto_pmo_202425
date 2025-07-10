@@ -497,7 +497,14 @@ public class RistFrame extends javax.swing.JFrame {
         view.simula();
     }                                        
 
-    private void fermaButtonActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    private void fermaButtonActionPerformed(java.awt.event.ActionEvent evt) {  
+        this.tavoliMap.clear();
+        innerTavoliPanel.removeAll();
+        innerTavoliPanel.revalidate();
+        innerTavoliPanel.repaint();
+        this.gruppiPanelTA.setText("");  
+        this.ordiniPanelTA.setText("");
+        this.rcPanelTA.setText("");                                 
         view.notificaSimulazioneFermata();
     }                                        
 

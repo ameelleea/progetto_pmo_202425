@@ -65,15 +65,15 @@ public class RepartoImpl implements Reparto {
         Map<Prodotto, Integer> prodotti = ordine.getProdotti();
         
         prodotti.entrySet().forEach(e -> {
-            this.lavoratori.stream()
-                .filter(l -> l instanceof Preparatore) 
-                .map(l -> (Preparatore) l)             
-                .filter(Preparatore::isDisponibile)    
-                .findFirst()
-                .ifPresent(prep -> {
-                    System.out.println("Trovato preparatore libero");
-                    prep.setOrdineCorrente(ordine.getTavoloRiferimento().getNumero(), e);
-                }); 
+            //this.lavoratori.stream()
+            //    .filter(l -> l instanceof Preparatore) 
+            //    .map(l -> (Preparatore) l)             
+            //    .filter(Preparatore::isDisponibile)    
+            //    .findFirst()
+            //    .ifPresent(prep -> {
+            //        System.out.println("Trovato preparatore libero: " +prep.getIdDipendente());
+            //        prep.setOrdineCorrente(ordine.getTavoloRiferimento().getNumero(), e);
+            //    }); 
         });
         this.codaOrdini.add(ordine);
     }
