@@ -167,9 +167,9 @@ if (t.isOccupato()) {
         settingsPanel = new javax.swing.JPanel();
         impostazioniLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        clientiSpin = new javax.swing.JSpinner(new SpinnerNumberModel(2, 1, 100, 1));
+        clientiSpin = new javax.swing.JSpinner(new SpinnerNumberModel(50, 1, 100, 1));
         jLabel11 = new javax.swing.JLabel();
-        durataSpin = new javax.swing.JSpinner(new SpinnerNumberModel(2, controller.getDurataMinimaSimulazione(), controller.getDurataMassimaSimulazione(), 1));
+        durataSpin = new javax.swing.JSpinner(new SpinnerNumberModel(5, controller.getDurataMinimaSimulazione(), controller.getDurataMassimaSimulazione(), 1));
         buttonPanel = new javax.swing.JPanel();
         avviaButton = new javax.swing.JButton();
         fermaButton = new javax.swing.JButton();
@@ -196,6 +196,21 @@ if (t.isOccupato()) {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
+
+        avviaButton.setBackground(bluBottoni);
+        avviaButton.setForeground(Color.WHITE);
+        avviaButton.setFocusPainted(false);
+        avviaButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 15, 15));
+
+        fermaButton.setBackground(new Color(220, 53, 69)); 
+        fermaButton.setForeground(Color.WHITE);
+        fermaButton.setFocusPainted(false);
+        fermaButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 15, 15));
+
+        apriButton.setBackground(new Color(40, 167, 69)); 
+        apriButton.setForeground(Color.WHITE);
+        apriButton.setFocusPainted(false);
+        apriButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
 
         mainPanel.setBackground(sfondoPrincipale);
         mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder());
@@ -327,6 +342,13 @@ if (t.isOccupato()) {
 
         menuLabel.setText("Menu:");
 
+        clientiSpin.setPreferredSize(new Dimension(64, 25));
+        clientiSpin.setMinimumSize(new Dimension(64, 25));
+        clientiSpin.setMaximumSize(new Dimension(64, 25));
+        durataSpin.setPreferredSize(new Dimension(64, 25));
+        durataSpin.setMinimumSize(new Dimension(64, 25));
+        durataSpin.setMaximumSize(new Dimension(64, 25));
+
         percorsoField.setFont(new java.awt.Font("Roboto Condensed", 0, 13)); // NOI18N
         percorsoField.setText(defaultPath);
         percorsoField.setPreferredSize(new Dimension(181, 25));
@@ -410,7 +432,7 @@ if (t.isOccupato()) {
                 .addComponent(apriButton)
                 .addGap(28, 28, 28)
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addComponent(incassiPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -420,7 +442,7 @@ if (t.isOccupato()) {
         bottomPanel.setBackground(new java.awt.Color(255, 255, 255));
         bottomPanel.setLayout(new java.awt.GridLayout());
 
-        gruppiPanel.setBackground(new java.awt.Color(255, 255, 255));
+        gruppiPanel.setBackground(sfondoSecondario);
         gruppiPanel.setLayout(new java.awt.BorderLayout());
 
         gruppiPanelLabel.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
@@ -438,7 +460,7 @@ if (t.isOccupato()) {
 
         bottomPanel.add(gruppiPanel);
 
-        ordiniPanel.setBackground(new java.awt.Color(255, 255, 255));
+        ordiniPanel.setBackground(sfondoSecondario);
         ordiniPanel.setLayout(new java.awt.BorderLayout());
 
         ordiniPanelLabel.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
@@ -456,7 +478,7 @@ if (t.isOccupato()) {
 
         bottomPanel.add(ordiniPanel);
 
-        richiesteContoPanel.setBackground(new java.awt.Color(255, 255, 255));
+        richiesteContoPanel.setBackground(sfondoSecondario);
         richiesteContoPanel.setLayout(new java.awt.BorderLayout());
 
         rcPanelLabel.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
@@ -503,7 +525,7 @@ if (t.isOccupato()) {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-        
+
         pack();
     }// </editor-fold>                        
 
