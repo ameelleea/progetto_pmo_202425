@@ -48,6 +48,8 @@ public class CassaImpl implements Cassa {
                                 .sum();
 
         this.incassoTotaleGiornaliero += totaleTavolo;
+        this.calcolaTotalePerDipendente();
+        this.calcolaTotalePerReparto();
         return totaleTavolo;
     }
 
@@ -61,10 +63,8 @@ public class CassaImpl implements Cassa {
     
             Dipendente cameriere = rango.getCameriere();
     
-            // Calcolo il totale degli ordini per quel tavolo
             double totaleOrdini = 0.0;
             for (Ordine ordine : ordini) {
-                // Somma dei prezzi dei prodotti ordinati
                 double totaleOrdine = ordine.getProdotti().entrySet().stream()
                     .mapToDouble(e -> e.getKey().getPrezzo() * e.getValue())
                     .sum();
@@ -128,6 +128,11 @@ public class CassaImpl implements Cassa {
             Reparto reparto = reparti.stream().filter(r -> r.getTipoReparto() == e.getKey()).findAny().orElse(null);
             reparto.gestisciOrdine(ordineReparto);
         });
+
+        this.ordiniPerTavolo
+            .computeIfAbsent(o.getTavoloRiferimento(), k -> new ArrayList<>())
+            .add(o);
+
     }
 
     @Override

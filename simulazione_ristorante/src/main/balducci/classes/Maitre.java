@@ -41,10 +41,21 @@ public class Maitre extends DipendenteImpl{
                         this.ristorante.addNuovoMessaggio("Gruppo " +prossimo.getId() + " assegnato al tavolo " + t.getNumero());
                     });
                 }else{
-                    //ristorante.accogliClienti(prossimo);
+                    try{
+                        Thread.sleep(2000);
+                    }catch(InterruptedException e){
+                        e.printStackTrace();
+                    }
+                    ristorante.accogliClienti(prossimo);
                 }
 
                 this.gruppiDaGestire--;
+            }else{
+                try{
+                    Thread.sleep(1000);
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }
             }
         }
     }

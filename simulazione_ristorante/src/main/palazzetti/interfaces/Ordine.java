@@ -10,10 +10,10 @@ public interface Ordine {
     
     public Tavolo getTavoloRiferimento();
     
-    public void setStatoProdotto(Prodotto prodotto, StatoProdotto stato); //Aggiorna lo stato di un prodotto.
-    
     public boolean isCompletato(); //Controlla se tutti i prodotti sono pronti.
     
     //Chiamato da un reparto quando un prodotto è pronto. Se tutti i prodotti sono pronti, notifica l'ordine come completato.
     public void notificaProdottoPronto(Prodotto prodotto); 
+
+    public void getStatoProdotti();
 }

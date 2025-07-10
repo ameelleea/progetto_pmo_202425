@@ -15,7 +15,6 @@ public class Preparatore extends DipendenteImpl{
 
     public Preparatore(int id, double stipendioOra, Reparto reparto){
         super("Preparatore " + id + " " + reparto.getTipoReparto(), stipendioOra);
-        System.out.println(reparto);
         this.repartoAppartenenza = reparto;
         this.codaProdotti = new ConcurrentLinkedQueue<>();
     }
@@ -31,7 +30,7 @@ public class Preparatore extends DipendenteImpl{
                 Integer numTavoloOrdine = ordineCorrente.getX();
                 System.out.println(this.getIdDipendente() + " prepara " + quantità + " " + prodotto.getNome());
                 try{
-                    Thread.sleep(Duration.ofMillis(prodotto.getTempoPreparazione() * quantità));
+                    Thread.sleep(Duration.ofSeconds(prodotto.getTempoPreparazione() * quantità).toMillis());
                 }catch(InterruptedException e){
                     System.out.println(e);
                 }

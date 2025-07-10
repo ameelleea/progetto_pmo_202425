@@ -60,74 +60,32 @@ public class RepartoImpl implements Reparto {
         return this.tipoReparto;
     }
 
-    //@Override
-    //public void gestisciOrdine(Ordine ordine) {
-    //    System.out.println("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
-    //    Map<Prodotto, Integer> prodotti = ordine.getProdotti();
-    //    
-    //    prodotti.entrySet().forEach(e -> {
-    //        //this.lavoratori.stream()
-    //        //    .filter(l -> l instanceof Preparatore) 
-    //        //    .map(l -> (Preparatore) l)             
-    //        //    .filter(Preparatore::isDisponibile)    
-    //        //    .findFirst()
-    //        //    .ifPresent(prep -> {
-    //        //        System.out.println("Trovato preparatore libero: " +prep.getIdDipendente());
-    //        //        prep.setOrdineCorrente(ordine.getTavoloRiferimento().getNumero(), e);
-    //        //    }); 
-    //    });
-    //    this.codaOrdini.add(ordine);
-    //}
-
     public void gestisciOrdine(Ordine ordine) {
         System.out.println("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
         this.ristorante.addNuovoMessaggio("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
         Map<Prodotto, Integer> prodotti = ordine.getProdotti();
-
+        ordine.getStatoProdotti();
         for (Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) {
             Preparatore migliorPreparatore = lavoratori.stream()
                 .filter(l -> l instanceof Preparatore)
                 .map(l -> (Preparatore) l)
-                .min(Comparator.comparingInt(p -> p.getDimensioneCoda())) // seleziona coda più corta
+                .min(Comparator.comparingInt(p -> p.getDimensioneCoda()))
                 .orElse(null);
 
-            if (migliorPreparatore != null) {
+            if (migliorPreparatore == null) {
+                try{
+                    Thread.sleep(10000);
+                }catch(InterruptedException e){
+                    e.printStackTrace();
+                }
+            } else {
                 System.out.println("Trovato preparatore libero: " + migliorPreparatore.getIdDipendente());
                 migliorPreparatore.aggiungiProdottoInCoda(new Pair<Integer, Map.Entry<Prodotto, Integer>>(ordine.getTavoloRiferimento().getNumero(), entry));
-            } else {
-                // gestisci caso nessun preparatore disponibile (se necessario)
             }
         }
         this.codaOrdini.add(ordine);
     }
-    /*for (Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) {
-        boolean assegnato = false;
 
-        while (!assegnato) {
-            for (Dipendente l : this.lavoratori) {
-                if (l instanceof Preparatore) {
-                    Preparatore p = (Preparatore) l;
-                    if (p.isDisponibile()) {
-                        System.out.println("Trovato preparatore libero: " + p.getIdDipendente());
-                        p.aggiungiProdottoInCoda(new Pair<Integer, Map.Entry<Prodotto, Integer>>(ordine.getTavoloRiferimento().getNumero(), entry));
-                        assegnato = true;
-                        break;
-                    }
-                }
-            }
-
-            if (!assegnato) {
-                try {
-                    Thread.sleep(100); // Attesa per non sovraccaricare la CPU
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    this.codaOrdini.add(ordine);
-}*/
     @Override
     public void notificaProdottoPronto(Prodotto prodotto, int numT) {
         this.codaOrdini.stream()
@@ -135,10 +93,12 @@ public class RepartoImpl implements Reparto {
                         .findFirst()
                         .ifPresent(o -> {
                             o.notificaProdottoPronto(prodotto);
+                            o.getStatoProdotti();
                             if(o.isCompletato()){
                                 System.out.println("Ordine " + this.tipoReparto + " tavolo " + o.getTavoloRiferimento().getNumero() + " completato");
                                 this.ristorante.addNuovoMessaggio("Ordine " + this.tipoReparto + " tavolo " + o.getTavoloRiferimento().getNumero() + " completato");
                                 this.ristorante.getCassa().notificaOrdineCompletato(o);
+                                this.codaOrdini.remove(o);
                                 
                             }
                         });

@@ -11,5 +11,4 @@ public interface Prodotto {
    public TipoProdotto getTipo();
    public double getPrezzo();
    public void setPrezzo(Double prezzo);
-
 }

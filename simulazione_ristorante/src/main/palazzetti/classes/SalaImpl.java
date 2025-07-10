@@ -25,12 +25,11 @@ public class SalaImpl implements Sala {
         int tavoliCreati = 0;
             
         for (int i = 1; i <= numeroParti; i++) {
-        
             List<Tavolo> tavoliRango = new ArrayList<>();
             for (int j = 0; j < dimensioneRanghi; j++) {
-                // Calcola il numero di posti: varia ogni 5 tavoli, da 2 a 10 a gruppi di 2
-                int blocco = (tavoliCreati / 5) % 5; // 0-4 ciclicamente
-                int posti = 2 + blocco * 2;
+                // Ogni 4 tavoli aumenta di 2 posti, da 2 a 10
+                int blocco = (tavoliCreati / 4) % 5; // 0,1,2,3,4
+                int posti = 2 + blocco * 2;          // 2,4,6,8,10
             
                 tavoliRango.add(new TavoloImpl(idContatore, posti));
                 idContatore++;
@@ -46,7 +45,7 @@ public class SalaImpl implements Sala {
         if (resto > 0) {
             List<Tavolo> tavoliRango = new ArrayList<>();
             for (int j = 0; j < resto; j++) {
-                int blocco = (tavoliCreati / 5) % 5;
+                int blocco = (tavoliCreati / 4) % 5; // stesso calcolo anche qui
                 int posti = 2 + blocco * 2;
             
                 tavoliRango.add(new TavoloImpl(idContatore, posti));
@@ -59,6 +58,7 @@ public class SalaImpl implements Sala {
             rango.setCameriere(cameriereRango);
             this.ranghi.add(rango);
         }
+
 
     }
 

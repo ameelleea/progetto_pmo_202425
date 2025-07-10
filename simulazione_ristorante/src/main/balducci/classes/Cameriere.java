@@ -29,6 +29,12 @@ public class Cameriere extends DipendenteImpl {
         while(this.ristorante.isAperto()){
             Cassa cassa = this.ristorante.getCassa();
 
+            try{
+                Thread.sleep(1000);
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+
             for (Tavolo t : rangoAppartenenza.getTavoli()) {
                 if (!t.isOccupato()) continue;
 
@@ -45,9 +51,12 @@ public class Cameriere extends DipendenteImpl {
                     System.out.println("Ordine tavolo " +t.getNumero() + ":\n" + ordineSecondo.toString());
                     this.ordiniRaccolti.add(ordineSecondo);
                     cassa.smistaOrdine(ordineSecondo);
-                }else if (gruppo.richiedeConto()) {
+                }else if (t.getStatoTavolo() == StatoTavolo.RICHIESTA_CONTO) {
+                    try{Thread.sleep(5000);}catch(InterruptedException e){e.printStackTrace();}
                     double conto= cassa.calcolaConto(t);
+                    t.setStatoTavolo(StatoTavolo.CONTO_CONSEGNATO);
                     System.out.println("Il tavolo " + t.getNumero() + " paga " + conto + " euro.");
+                    this.ristorante.addNuovoMessaggio("Il tavolo " + t.getNumero() + " paga " + conto + " euro.");
                     try{
                         Thread.sleep(1000);
                     }catch(InterruptedException e){
@@ -55,7 +64,8 @@ public class Cameriere extends DipendenteImpl {
                     }
                     System.out.println(t.getGruppoCorrente().getId() + " ha pagato e lascia il locale.");
                     this.ristorante.addNuovoMessaggio(t.getGruppoCorrente().getId() + " ha pagato e lascia il locale.");
-                    t.libera();
+                    cassa.chiudiTavolo(t);
+                    System.out.println("Tavolo occupato: " + t.isOccupato());
                 }
 
                 if (t.getStatoTavolo() == StatoTavolo.ORDINE_PRONTO) {

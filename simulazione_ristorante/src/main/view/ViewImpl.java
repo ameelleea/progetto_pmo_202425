@@ -84,13 +84,11 @@ public class ViewImpl implements SwingView{
 
 	@Override
 	public void aggiornaTotali(String totali) {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'aggiornaTotali'");
+		this.frame.printTotali(totali);
 	}
 
 	@Override
 	public void notificaSimulazioneTerminata() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'notificaSimulazioneTerminata'");
+		this.frame.fermaSimulazione();
 	}
 }

@@ -34,12 +34,6 @@ public class OrdineImpl implements Ordine {
     }
 
     @Override
-    public void setStatoProdotto(Prodotto prodotto, StatoProdotto stato) {
-        this.statoProdotti.put(prodotto, stato);
-        
-    }
-
-    @Override
     public boolean isCompletato() {
         return this.completato;
     }
@@ -59,6 +53,13 @@ public class OrdineImpl implements Ordine {
                 .stream()
                 .map(e -> e.getKey().getNome() + ", " + e.getValue())
                 .collect(Collectors.joining("\n"));
+    }
+
+    public void getStatoProdotti(){
+        System.out.println(this.statoProdotti.entrySet()
+                .stream()
+                .map(e->e.getKey().getNome() +": " + e.getValue())
+                .collect(Collectors.joining("\n")));
     }
 }
    

@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -31,24 +30,17 @@ import main.palazzetti.interfaces.Tavolo;
  *
  * @author milena
  */
-public class RistFrame extends javax.swing.JFrame {
+public class RistFrame2 extends javax.swing.JFrame {
 
     private final Controller controller;
     private final View view;
     private final Map<Tavolo, JPanel> tavoliMap;
     private String defaultPath = "/home/milena/Documenti/Coding/progetto_pmo_202425/simulazione_ristorante/Prodotti.json";
-
-    private Color sfondoPrincipale = new Color(245, 245, 245); // grigio molto chiaro
-    private Color sfondoSecondario = new Color(230, 230, 230); // leggermente più scuro
-    private Color bordoColore = new Color(100, 100, 100); // grigio scuro per bordi
-    private Color verdeTavoli = new Color(144, 238, 144); // verde chiaro
-    private Color rossoTavoli = new Color(255, 105, 97); // rosso chiaro
-    private Color bluBottoni = new Color(100, 149, 237); // blu moderato
     
     /**
      * Creates new form RistoranteFrame
      */
-    public RistFrame(Controller controller, View view) {
+    public RistFrame2(Controller controller, View view) {
         this.controller = controller;
 		this.view = view;
         this.tavoliMap = new HashMap<>();
@@ -67,7 +59,7 @@ public class RistFrame extends javax.swing.JFrame {
         for (Tavolo t : controller.getTavoli()) {
             JPanel tavoloPanel = new JPanel();
             tavoloPanel.setPreferredSize(new Dimension(120, 80));
-            tavoloPanel.setBackground(t.isOccupato() ? rossoTavoli : verdeTavoli);
+            tavoloPanel.setBackground(t.isOccupato() ? Color.RED : Color.GREEN);
             tavoloPanel.setBorder(new LineBorder(Color.BLACK, 2));
             tavoloPanel.setLayout(new GridLayout(3, 1));
 
@@ -85,11 +77,11 @@ public class RistFrame extends javax.swing.JFrame {
     public void aggiornaTavoli() {
         for(Tavolo t : controller.getTavoli()){
         JPanel panel = tavoliMap.get(t);
-if (t.isOccupato()) {
-    panel.setBackground(rossoTavoli);
-} else {
-    panel.setBackground(verdeTavoli);
-}
+        if (t.isOccupato()) {
+            panel.setBackground(Color.RED);
+        } else {
+            panel.setBackground(Color.GREEN);
+        }
         tavoliMap.put(t, panel);
         }
         
@@ -195,14 +187,11 @@ if (t.isOccupato()) {
         jScrollPane2 = new JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setFont(new java.awt.Font("Roboto", 0, 10)); // NOI18N
         setResizable(false);
 
-        mainPanel.setBackground(sfondoPrincipale);
+        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
         mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder());
-        mainPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(1, 1, 1, 1, bordoColore),
-            BorderFactory.createEmptyBorder(5, 5, 5, 5)
-        ));
 
         topPanel.setBackground(new java.awt.Color(51, 255, 51));
         topPanel.setLayout(new java.awt.BorderLayout());
@@ -503,7 +492,7 @@ if (t.isOccupato()) {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(mainPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
-        
+
         pack();
     }// </editor-fold>                        
 

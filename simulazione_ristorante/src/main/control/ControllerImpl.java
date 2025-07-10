@@ -132,7 +132,6 @@ public class ControllerImpl implements Controller, ModelListener {
 
     @Override
     public void notificaSimulazioneTerminata() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificaSimulazioneTerminata'");
+        this.view.notificaSimulazioneTerminata();
     }
 }

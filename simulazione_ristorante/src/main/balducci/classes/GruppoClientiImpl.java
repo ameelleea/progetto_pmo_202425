@@ -14,6 +14,7 @@ import main.palazzetti.classes.OrdineImpl;
 import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Prodotto;
 import main.palazzetti.interfaces.Tavolo;
+import main.palazzetti.interfaces.Tavolo.StatoTavolo;
 
 public class GruppoClientiImpl implements GruppoClienti {
 
@@ -21,12 +22,11 @@ public class GruppoClientiImpl implements GruppoClienti {
     private int numeroClienti;
     private List<Cliente> clienti;
     private Tavolo tavoloAssegnato;
-    private Ristorante ristorante; // Riferimento al ristorante
+    private Ristorante ristorante;
     private Ordine primoGiro;
     private Ordine secondoGiro;
     private boolean haOrdinatoPrimoGiro;
     private boolean haOrdinatoSecondoGiro;
-    private boolean haRichiestoConto;
 
     public GruppoClientiImpl(int id, int numClienti, Ristorante ristorante){
         this.id = "Gruppo clienti " + id;
@@ -56,15 +56,19 @@ public class GruppoClientiImpl implements GruppoClienti {
         this.primoGiro = new OrdineImpl(tavoloAssegnato, ordiniPrimoGiro);
         this.haOrdinatoPrimoGiro = true;
         System.out.println(id + " ha ordinato primo giro.");
-        while(!this.primoGiro.isCompletato());
-
+        
         try{
-        Thread.sleep(Duration.ofSeconds(5));
+            while(!this.primoGiro.isCompletato()){
+                Thread.sleep(1000);
+            }
+            System.out.println(this.id + " ha ricevuto il primo giro");
+            Thread.sleep(Duration.ofSeconds(5).toMillis());
         }catch(InterruptedException e){
             e.printStackTrace();
         }
         System.out.println(this.id + " ha finito di mangiare il primo giro.");
         this.ristorante.addNuovoMessaggio(this.id + " ha finito di mangiare il primo giro.");
+
         if(new Random().nextInt() > 0){
             System.out.println(this.id + " sta ordinando il secondo giro.");
             liste = this.clienti.stream()
@@ -80,25 +84,19 @@ public class GruppoClientiImpl implements GruppoClienti {
             this.secondoGiro = new OrdineImpl(tavoloAssegnato, ordiniSecondoGiro);
             this.haOrdinatoSecondoGiro = true;
             System.out.println(id + " ha ordinato secondo giro.");
-            while(!this.secondoGiro.isCompletato());
-
+            
             try{
-            Thread.sleep(Duration.ofSeconds(5));
+                while(!this.secondoGiro.isCompletato()){
+                    Thread.sleep(1000);
+                }
+                System.out.println(this.id + " ha ricevuto il secondo giro");
+                Thread.sleep(Duration.ofSeconds(5).toMillis());
             }catch(InterruptedException e){
                 e.printStackTrace();
             }
             System.out.println(this.id + " ha finito di mangiare il secondo giro.");
             this.ristorante.addNuovoMessaggio(this.id + " ha finito di mangiare il secondo giro.");
-            
-            try{
-                Thread.sleep(Duration.ofSeconds(5));
-            }catch(InterruptedException e){
-                e.printStackTrace();
-            }
         }
-
-        System.out.println(id + " ha chiesto il conto.");
-        this.haRichiestoConto = true;
     }
 
     @Override
@@ -154,8 +152,16 @@ public class GruppoClientiImpl implements GruppoClienti {
     }
 
     @Override
-    public boolean richiedeConto() {
-        return this.haRichiestoConto;
+    public void richiedeConto() {
+        System.out.println(id + " ha chiesto il conto.");
+        this.tavoloAssegnato.setStatoTavolo(StatoTavolo.RICHIESTA_CONTO);
+        while(this.tavoloAssegnato.getStatoTavolo() == StatoTavolo.RICHIESTA_CONTO){
+            try{
+                Thread.sleep(1000);
+            }catch(InterruptedException e){
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override

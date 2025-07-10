@@ -3,18 +3,26 @@ package main.model;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import main.balducci.classes.GruppoClientiFactory;
 import main.balducci.classes.RistoranteImpl;
+import main.balducci.classes.TipoReparto;
 import main.balducci.interfaces.Cassa;
+import main.balducci.interfaces.Dipendente;
 import main.balducci.interfaces.GruppoClienti;
 import main.balducci.interfaces.Ristorante;
 import main.control.ModelListener;
 import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Tavolo;
+import main.palazzetti.interfaces.Tavolo.StatoTavolo;
 
 public class ModelImpl implements Model{
 	
@@ -39,62 +47,80 @@ public class ModelImpl implements Model{
 	}
 	
 	public void simula() {
-		System.out.println("Simulazione: inizializzazione...");
-		this.ristorante = new RistoranteImpl("Borgo", NUMERO_TAVOLI, menuPath);
-		this.generatoreClienti = new GruppoClientiFactory(numClienti);
-		System.out.println("Simulazione: listener...");
-		this.listeners.forEach(ModelListener::notificaSimulazioneAvviata);
-		System.out.println("Simulazione: apriLocale...");
-		this.ristorante.apriLocale();
+    	System.out.println("Simulazione: inizializzazione...");
+    	this.ristorante = new RistoranteImpl("Borgo", NUMERO_TAVOLI, menuPath);
+    	this.generatoreClienti = new GruppoClientiFactory(numClienti);
+    	this.listeners.forEach(ModelListener::notificaSimulazioneAvviata);
+    	this.ristorante.apriLocale();
 
-		LocalDateTime tempoInizio = LocalDateTime.now();
-		System.out.println("Simulazione: ciclo inizio, durata = " + durata + " minuti");
+    	LocalDateTime tempoInizio = LocalDateTime.now();
+    	System.out.println("Simulazione: ciclo inizio, durata = " + durata + " minuti");
 
-		while (LocalDateTime.now().isBefore(tempoInizio.plusMinutes((long) durata))) {
-			if (generatoreClienti.getNumeroClienti() > 1) {
-				GruppoClienti nuovoGruppo = generatoreClienti.creaGruppo(ristorante);
-				gruppiInAttesa.add(nuovoGruppo);
-				
-				this.notificaGruppoInAttesa();
-				nuovoGruppo.richiediTavolo(ristorante);
-				// Aspetta finché non gli viene assegnato un tavolo
+    	// Esegui ogni 3 secondi la creazione di un nuovo gruppo
+    	ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
+    	scheduler.scheduleAtFixedRate(() -> {
+        if (generatoreClienti.getNumeroClienti() > 1 &&
+            LocalDateTime.now().isBefore(tempoInizio.plusMinutes(durata))) {
+
+            GruppoClienti nuovoGruppo = generatoreClienti.creaGruppo(ristorante);
+            gruppiInAttesa.add(nuovoGruppo);
+            notificaGruppoInAttesa();
+
+            new Thread(() -> {
+				//Simula attesa
 				try{
-					Thread.sleep(Duration.ofSeconds(3).toMillis());
-					synchronized (nuovoGruppo) {
-					    while (nuovoGruppo.getTavolo() == null) {
-					        nuovoGruppo.wait();
-				    	}
-					}
+					Thread.sleep(3000);
 				}catch(InterruptedException e){
 					e.printStackTrace();
 				}
+                nuovoGruppo.richiediTavolo(ristorante);
 
-				this.notificaStatoTavoloCambiato();
-				gruppiInAttesa.remove(nuovoGruppo);
-				this.notificaGruppoInAttesa();
-				gruppiSeduti.add(nuovoGruppo);
-				new Thread(() -> {
-					nuovoGruppo.cena();
-					this.gruppiSeduti.remove(nuovoGruppo);
-				}).start();
-			}else{
-				this.notificaGruppoInAttesa();
-			}
+                // Aspetta finché non ha un tavolo
+                synchronized (nuovoGruppo) {
+                    while (nuovoGruppo.getTavolo() == null) {
+                        try {
+                            nuovoGruppo.wait();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
 
-			this.notificaOrdiniInAttesaCambiati();
-			this.notificaRichiesteContoCambiate();
-			this.notificaNuovoMessaggio();
-			//try {
-			//	Thread.sleep(10000); // attende 10 secondi
-			//} catch (InterruptedException e) {
-			//	System.err.println("Simulazione interrotta: " + e.getMessage());
-			//	break;
-			//}
-		}
+                notificaStatoTavoloCambiato();
+                gruppiInAttesa.remove(nuovoGruppo);
+                notificaGruppoInAttesa();
 
-		this.fermaSimulazione();
-		this.listeners.forEach(ModelListener::notificaSimulazioneTerminata);
-	}
+                gruppiSeduti.add(nuovoGruppo);
+                new Thread(() -> {
+                    nuovoGruppo.cena();
+					nuovoGruppo.richiedeConto();
+					this.notificaRichiesteContoCambiate();
+                    gruppiSeduti.remove(nuovoGruppo);
+                    notificaStatoTavoloCambiato();
+                }).start();
+            }).start();
+        }
+    }, 0, 3, TimeUnit.SECONDS);
+
+    // Ciclo principale che notifica ogni mezzo secondo lo stato della simulazione
+    while (LocalDateTime.now().isBefore(tempoInizio.plusMinutes(durata))) {
+        notificaOrdiniInAttesaCambiati();
+        notificaRichiesteContoCambiate();
+        notificaNuovoMessaggio();
+        notificaTotaliCambiati();
+
+        try {
+            Thread.sleep(500); // controllo frequente
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    scheduler.shutdownNow(); // Ferma la generazione dei gruppi
+    this.fermaSimulazione();
+    this.listeners.forEach(ModelListener::notificaSimulazioneTerminata);
+}
+
 
 	@Override
 	public boolean isLocaleAperto() {
@@ -140,9 +166,11 @@ public class ModelImpl implements Model{
 
 	@Override
 	public void notificaRichiesteContoCambiate() {
-		List <GruppoClienti> richiedonoConto = this.gruppiSeduti.stream()
-												.filter(g -> g.richiedeConto())
-												.collect(Collectors.toList());
+	List<GruppoClienti> copiaGruppi = new ArrayList<>(this.gruppiSeduti);
+	List<GruppoClienti> richiedonoConto = copiaGruppi.stream()
+	    .filter(g -> g.getTavolo().getStatoTavolo() == StatoTavolo.RICHIESTA_CONTO)
+	    .collect(Collectors.toList());
+
 		this.listeners.forEach(l -> l.notificaRichiesteContoCambiate(richiedonoConto));
 	}
 
@@ -182,15 +210,19 @@ public class ModelImpl implements Model{
 	@Override
 	public void notificaTotaliCambiati() {
 		Cassa cassa = this.ristorante.getCassa();
-		String totali = "Totale giornata: " + Double.valueOf(cassa.totaleGiornata()).toString() + "\n" 
-		+ "Totali per dipendente: \n" + cassa.getTotalePerDipendente().entrySet()
-				.stream()
-				.map(e -> e.getKey().getIdDipendente() + ": " + e.getValue() + " euro\n")
-            	.collect(Collectors.joining("\n"))
-		+ "Totali per reparto: \n" + cassa.getTotalePerReparto().entrySet()
-				.stream()
-				.map(e -> e.getKey() + ": " + e.getValue() + " euro\n")
-            	.collect(Collectors.joining("\n"));
+		Map<Dipendente, Double> totaliDip = new HashMap<>(cassa.getTotalePerDipendente());
+		Map<TipoReparto, Double> totaliReparti = new HashMap<>(cassa.getTotalePerReparto());
+
+		String totali = "Totale giornata: " + cassa.totaleGiornata() + "\n" 
+		    + "Totali per dipendente: \n" + totaliDip.entrySet()
+		        .stream()
+		        .map(e -> e.getKey().getIdDipendente() + ": " + e.getValue() + " euro")
+		        .collect(Collectors.joining("\n")) + "\n"
+		    + "Totali per reparto: \n" + totaliReparti.entrySet()
+		        .stream()
+		        .map(e -> e.getKey() + ": " + e.getValue() + " euro")
+		        .collect(Collectors.joining("\n"));
+
 		
 		this.listeners.forEach(l -> l.notificaTotaliCambiati(totali));
 	}
