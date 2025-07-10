@@ -3,7 +3,7 @@ package main.balducci.classes;
 public enum TipoReparto {
     CUCINA(5),
     PIZZERIA(3),
-    BAR(1);
+    BAR(2);
 
     private int numDipendenti;
     private TipoReparto(int num){

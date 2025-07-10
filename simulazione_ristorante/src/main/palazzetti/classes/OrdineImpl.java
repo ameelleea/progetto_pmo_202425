@@ -2,6 +2,7 @@ package main.palazzetti.classes;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Prodotto;
@@ -19,6 +20,7 @@ public class OrdineImpl implements Ordine {
         this.prodottiOrdinati = prodotti;
         this.completato = false;
         this.statoProdotti = new HashMap<>();
+        this.prodottiOrdinati.keySet().stream().forEach(p -> statoProdotti.put(p, StatoProdotto.IN_ATTESA));
     }
 
     @Override
@@ -49,6 +51,14 @@ public class OrdineImpl implements Ordine {
         if(this.statoProdotti.values().stream().allMatch(p -> p == StatoProdotto.PRONTO)){
             this.completato = true;
         }
+    }
+
+    @Override
+    public String toString(){
+        return this.prodottiOrdinati.entrySet()
+                .stream()
+                .map(e -> e.getKey().getNome() + ", " + e.getValue())
+                .collect(Collectors.joining("\n"));
     }
 }
    

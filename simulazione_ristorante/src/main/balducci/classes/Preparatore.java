@@ -1,5 +1,6 @@
 package main.balducci.classes;
 
+import java.time.Duration;
 import java.util.Map;
 import java.util.Optional;
 
@@ -12,7 +13,7 @@ public class Preparatore extends DipendenteImpl{
     private int numTavoloOrdine;
     private Optional<Prodotto> ordineCorrente;
     private Optional<Integer> quantità;
-    private boolean disponibile;
+    private volatile boolean disponibile;
 
     public Preparatore(int id, double stipendioOra, Reparto reparto){
         super("Preparatore " + id + " " + reparto.getTipoReparto(), stipendioOra);
@@ -33,13 +34,13 @@ public class Preparatore extends DipendenteImpl{
 
                 System.out.println(this.getIdDipendente() + " prepara " + quantità.get() + " " + ordineCorrente.get().getNome());
                 try{
-                    Thread.sleep(ordineCorrente.get().getTempoPreparazione() * quantità.get());
+                    Thread.sleep(Duration.ofSeconds(ordineCorrente.get().getTempoPreparazione() * quantità.get()).toMillis());
                 }catch(InterruptedException e){
                     System.out.println(e);
                 }
-                
-                repartoAppartenenza.notificaProdottoPronto(ordineCorrente.get(), numTavoloOrdine);
                 System.out.println(this.getIdDipendente() + " ha terminato la preparazione.");
+                repartoAppartenenza.notificaProdottoPronto(ordineCorrente.get(), numTavoloOrdine);
+                
                 this.ordineCorrente = Optional.empty();
                 this.disponibile = true;
             }

@@ -30,4 +30,6 @@ public interface Cassa {
     //Aggiunge l'importo all'incasso totale e al conto del tavolo.
     public void registraIncasso(double importo, Tavolo tavolo);  
 
+    public List<Ordine> getCodaOrdini();
+
 }

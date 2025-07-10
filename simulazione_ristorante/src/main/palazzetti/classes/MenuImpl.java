@@ -67,10 +67,10 @@ public class MenuImpl implements Menu {
     }
 
     @Override
-    public Prodotto getProdottoCasuale(TipoReparto reparto, TipoProdotto tipo) {
+    public Prodotto getProdottoCasuale(TipoProdotto tipo) {
         List<Prodotto> filtrati = new ArrayList<>();
         for (Prodotto p : prodotti) {
-            if (p.getReparto().equals(reparto) && p.getTipo().equals(tipo)) {
+            if (p.getTipo().equals(tipo)) {
                 filtrati.add(p);
             }
         }

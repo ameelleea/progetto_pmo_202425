@@ -4,7 +4,7 @@ import java.util.Map;
 
 public interface Ordine {
 
-    public enum StatoProdotto { IN_ATTESA, IN_PREPARAZIONE, PRONTO }
+    public enum StatoProdotto { IN_ATTESA, PRONTO }
 
     public Map<Prodotto, Integer> getProdotti();
     

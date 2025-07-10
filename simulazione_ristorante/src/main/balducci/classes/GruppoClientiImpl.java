@@ -166,6 +166,9 @@ public class GruppoClientiImpl implements GruppoClienti {
     }
     @Override
     public void setTavoloAssegnato(Tavolo tavolo) {
-        this.tavoloAssegnato = tavolo;
+        synchronized (this) {
+            this.tavoloAssegnato = tavolo;
+            notifyAll(); 
+        }
     }
 }

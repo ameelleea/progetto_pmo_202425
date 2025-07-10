@@ -37,7 +37,6 @@ public class Maitre extends DipendenteImpl{
                         System.out.println("Occupazione tavolo...");
                         t.occupa(prossimo);
                         System.out.println("Gruppo " +prossimo.getId() + " assegnato al tavolo " + t.getNumero());
-                        new Thread(() -> prossimo.cena()).start();
                     });
                 }else{
                     ristorante.accogliClienti(prossimo);

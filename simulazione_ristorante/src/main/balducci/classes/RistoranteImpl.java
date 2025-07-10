@@ -51,10 +51,7 @@ public class RistoranteImpl implements Ristorante {
         });
 
         System.out.println("Avvio reparti...");
-        this.reparti.forEach(r -> {
-            System.out.println(" -> Reparto ");
-            r.apriReparto();
-        });
+        this.reparti.forEach(r -> r.apriReparto());
 
         this.isAperto = true;
         System.out.println("Locale aperto.");
@@ -62,6 +59,7 @@ public class RistoranteImpl implements Ristorante {
 
     @Override
     public void chiudiLocale() {
+        this.reparti.forEach(Reparto::chiudiReparto);
         this.isAperto = false;
     }
 

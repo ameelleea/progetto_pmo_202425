@@ -86,7 +86,7 @@ public class RepartoImpl implements Reparto {
                         .ifPresent(o -> {
                             o.notificaProdottoPronto(prodotto);
                             if(o.isCompletato()){
-                                System.out.println("Ordine tavolo " + o.getTavoloRiferimento().getNumero() + " completato");
+                                System.out.println("Ordine " + this.tipoReparto + " tavolo " + o.getTavoloRiferimento().getNumero() + " completato");
                                 this.ristorante.getCassa().notificaOrdineCompletato(o);
                                 
                             }
@@ -107,5 +107,10 @@ public class RepartoImpl implements Reparto {
     @Override
     public void chiudiReparto() {
         this.aperto = false;
+    }
+
+    @Override
+    public Queue<Ordine> getCodaOrdini() {
+        return this.codaOrdini;
     }
 }

@@ -10,6 +10,8 @@ public interface Controller{
 
 	void simula();
 
+	void simulazioneFermata();
+
 	void setView(View view);
 	
 	View getView();
@@ -17,26 +19,18 @@ public interface Controller{
 	void setModel(Model model);
 	
 	Model getModel();
-		
-	int getDurataSimulazione();
 	
 	int getDurataMinimaSimulazione();
 
 	int getDurataMassimaSimulazione();
 
-	int getNumeroClienti();
-	
 	int getNumeroTavoli();
-	
-	void setNumeroTavoli(int numero);
     
 	void setNumeroClienti(int numero);
     
 	void setDurataSimulazione(int durata);
     
 	void setMenuPath(String path);
-	
-	String getMenuPath();
 
 	List<Tavolo> getTavoli();
 }

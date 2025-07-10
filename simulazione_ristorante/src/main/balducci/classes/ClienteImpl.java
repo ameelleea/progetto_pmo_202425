@@ -27,25 +27,18 @@ public class ClienteImpl implements Cliente {
     public List<Prodotto> ordina(Menu m, int giro) {
 
         if(giro == 1){
-            ordineBevandeEPiatto.add(m.getProdottoCasuale(TipoReparto.BAR, TipoProdotto.BEVANDA));
-            m.getProdottiPerTipo(TipoProdotto.PORTATA)
-            .stream()
-            .findAny()
-            .ifPresent(p -> ordineBevandeEPiatto.add(p));
+            ordineBevandeEPiatto.add(m.getProdottoCasuale(TipoProdotto.BEVANDA));
+            ordineBevandeEPiatto.add(m.getProdottoCasuale(TipoProdotto.PORTATA));
+            //m.getProdottiPerTipo(TipoProdotto.PORTATA)
+            //.stream()
+            //.findAny()
+            //.ifPresent(p -> ordineBevandeEPiatto.add(p));
 
             return this.ordineBevandeEPiatto;
         }else if(giro == 2){
-            ordineBevandeEPiatto.add(m.getProdottoCasuale(TipoReparto.BAR, TipoProdotto.CAFFETTERIA));
-            m.getProdottiPerTipo(TipoProdotto.PORTATA)
-            .stream()
-            .findAny()
-            .ifPresent(p -> ordineBevandeEPiatto.add(p));
+            ordineCaffeEDessert.add(m.getProdottoCasuale(TipoProdotto.CAFFETTERIA));
 
-            ordineBevandeEPiatto.add(m.getProdottoCasuale(TipoReparto.BAR, TipoProdotto.DESSERT));
-            m.getProdottiPerTipo(TipoProdotto.PORTATA)
-            .stream()
-            .findAny()
-            .ifPresent(p -> ordineBevandeEPiatto.add(p));
+            ordineCaffeEDessert.add(m.getProdottoCasuale(TipoProdotto.DESSERT));
 
             return this.ordineCaffeEDessert;
         }

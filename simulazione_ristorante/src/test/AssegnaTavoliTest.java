@@ -1,29 +1,39 @@
 package test;
 
-import main.palazzetti.classes.TavoloImpl;
+import main.balducci.classes.GruppoClientiImpl;
+import main.balducci.classes.RistoranteImpl;
 import main.balducci.interfaces.GruppoClienti;
-import main.palazzetti.interfaces.Rango;
+import main.balducci.interfaces.Ristorante;
+import main.palazzetti.interfaces.Tavolo;
+
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
 
-import java.time.Duration;
-import java.util.*;
+import java.util.List;
 
 public class AssegnaTavoliTest {
     @Test
     public void testAssegnazioneTavolo() {
-        // Crea un mock per Rango e GruppoClienti
-        Rango rangoMock = mock(Rango.class);
-        GruppoClienti gruppoMock = mock(GruppoClienti.class);
 
-        TavoloImpl tavolo = new TavoloImpl(1, 4);
+        Ristorante ristorante = new RistoranteImpl("Test", 20, "/home/milena/Documenti/Coding/progetto_pmo_202425/simulazione_ristorante/Prodotti.json");
+        ristorante.apriLocale();
+        GruppoClienti gruppo1 = new GruppoClientiImpl(1, 5, ristorante);
+        List<Tavolo> tavoli = ristorante.getCassa().getTavoliLiberi();
 
-        assertTrue(!tavolo.isOccupato(), "Il tavolo dovrebbe essere inizialmente libero");
+        assertTrue(tavoli.size() == 20, "Tutti i tavoli dovrebbero essere liberi");
+        gruppo1.richiediTavolo(ristorante);
+        try{
+            synchronized (gruppo1) {
+                while (gruppo1.getTavolo() == null) {
+                    gruppo1.wait(); // attenzione: va dentro blocco synchronized
+                }
+            }
+        }catch(InterruptedException e){
+            e.printStackTrace();
+        }
 
-        tavolo.occupa(gruppoMock);
-
-        assertFalse(tavolo.isOccupato(), "Il tavolo dovrebbe essere occupato dopo la chiamata a occupa()");
-        assertEquals(gruppoMock, tavolo.getGruppoCorrente(), "Il gruppo clienti assegnato non corrisponde");
+        tavoli = ristorante.getCassa().getTavoliLiberi();
+        assertTrue(gruppo1.getTavolo().getNumeroPosti() >= gruppo1.getNumeroClienti(), "Il tavolo dovrebbe essere inizialmente libero");
+        assertFalse(tavoli.size() == 20, "Un tavolo dovrebbe essere occupato");
     }
 }

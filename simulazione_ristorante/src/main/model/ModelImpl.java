@@ -1,11 +1,10 @@
 package main.model;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 import main.balducci.classes.GruppoClientiFactory;
@@ -18,16 +17,20 @@ import main.palazzetti.interfaces.Tavolo;
 
 public class ModelImpl implements Model{
 	
+	private final int NUMERO_TAVOLI = 20;
 	private List<ModelListener> listeners = new ArrayList<>();
 	private int durata;
 	private Ristorante ristorante;
 	private GruppoClientiFactory generatoreClienti;
 	private int numClienti;
-	private int numTavoli;
 	private String menuPath;
+	private List<GruppoClienti> gruppiInAttesa;
+	private List<GruppoClienti> gruppiSeduti;
 	
 	public ModelImpl(final int durata) {
 		this.durata = durata;
+		this.gruppiInAttesa = new LinkedList<>();
+		this.gruppiSeduti = new LinkedList<>();
 	}
 	
 	public void setDurata(int durata) {
@@ -36,24 +39,52 @@ public class ModelImpl implements Model{
 	
 	public void simula() {
 		System.out.println("Simulazione: inizializzazione...");
-		this.ristorante = new RistoranteImpl("Borgo", numTavoli, menuPath);
+		this.ristorante = new RistoranteImpl("Borgo", NUMERO_TAVOLI, menuPath);
 		this.generatoreClienti = new GruppoClientiFactory(numClienti);
 		System.out.println("Simulazione: listener...");
 		this.listeners.forEach(ModelListener::notificaSimulazioneAvviata);
 		System.out.println("Simulazione: apriLocale...");
 		this.ristorante.apriLocale();
-		System.out.println("Simulazione: generaClienti...");
-		this.generatoreClienti.generaClienti(ristorante);
 
 		LocalDateTime tempoInizio = LocalDateTime.now();
 		System.out.println("Simulazione: ciclo inizio, durata = " + durata + " minuti");
-    	Iterator<GruppoClienti> it = this.generatoreClienti.getGruppi().iterator();
-		while (it.hasNext()) {
-			it.next().richiediTavolo(ristorante);
-		}
 
 		while (LocalDateTime.now().isBefore(tempoInizio.plusMinutes((long) durata))) {
-			this.notificaStatoTavoloCambiato();
+			if (generatoreClienti.getNumeroClienti() > 0) {
+				GruppoClienti nuovoGruppo = generatoreClienti.creaGruppo(ristorante);
+				gruppiInAttesa.add(nuovoGruppo);
+				
+				this.notificaGruppoInAttesa();
+				nuovoGruppo.richiediTavolo(ristorante);
+				// Aspetta finché non gli viene assegnato un tavolo
+				try{
+					Thread.sleep(Duration.ofSeconds(3).toMillis());
+					synchronized (nuovoGruppo) {
+					    while (nuovoGruppo.getTavolo() == null) {
+					        nuovoGruppo.wait();
+				    	}
+					}
+				}catch(InterruptedException e){
+					e.printStackTrace();
+				}
+
+				this.notificaStatoTavoloCambiato();
+				gruppiInAttesa.remove(nuovoGruppo);
+				this.notificaGruppoInAttesa();
+				gruppiSeduti.add(nuovoGruppo);
+				new Thread(() -> nuovoGruppo.cena()).start();
+			}else{
+				this.notificaGruppoInAttesa();
+			}
+
+			this.notificaOrdiniInAttesaCambiati();
+			this.notificaRichiesteContoCambiate();
+			//try {
+			//	Thread.sleep(10000); // attende 10 secondi
+			//} catch (InterruptedException e) {
+			//	System.err.println("Simulazione interrotta: " + e.getMessage());
+			//	break;
+			//}
 		}
 	}
 
@@ -73,12 +104,6 @@ public class ModelImpl implements Model{
 	}
 
 	@Override
-	public List<GruppoClienti> getGruppiInAttesa() {
-		//this.ristorante.g
-		throw new UnsupportedOperationException("Unimplemented method 'notificaTavoloOccupato'");
-	}
-
-	@Override
 	public List<Tavolo> getTavoli() {
 		return this.ristorante.getSala().getRanghi().stream()
 													.flatMap(r -> r.getTavoli().stream())
@@ -91,36 +116,31 @@ public class ModelImpl implements Model{
 	}
 
 	@Override
+	public void notificaGruppoInAttesa(){
+		this.listeners.forEach(l -> l.notificaGruppiInAttesaCambiati(this.gruppiInAttesa));
+	}
+
+	@Override
 	public void notificaStatoTavoloCambiato() {
 		this.listeners.forEach(ModelListener::notificaStatoTavoloCambiato);
 	}
 
 	@Override
-	public void notificaNuovoOrdine() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'notificaNuovoOrdine'");
+	public void notificaOrdiniInAttesaCambiati() {
+		this.listeners.forEach(l -> l.notificaNuovoOrdine(this.ristorante.getCassa().getCodaOrdini()));
 	}
 
 	@Override
-	public void notificaContoRichiesto() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'notificaContoRichiesto'");
-	}
-
-	@Override
-	public void getOrdiniInCorso() {
-		// TODO Auto-generated method stub
-		throw new UnsupportedOperationException("Unimplemented method 'getOrdiniInCorso'");
+	public void notificaRichiesteContoCambiate() {
+		List <GruppoClienti> richiedonoConto = this.gruppiSeduti.stream()
+												.filter(g -> g.richiedeConto())
+												.collect(Collectors.toList());
+		this.listeners.forEach(l -> l.notificaRichiesteContoCambiate(richiedonoConto));
 	}
 
 	@Override
 	public void setNumClienti(int num) {
 		this.numClienti = num;
-	}
-
-	@Override
-	public void setNumeroTavoli(int numero) {
-		this.numTavoli = numero;
 	}
 
 	@Override
@@ -131,5 +151,15 @@ public class ModelImpl implements Model{
 	@Override
 	public void setMenuPath(String path) {
 		this.menuPath = path;
+	}
+
+	@Override
+	public int getNumeroTavoli() {
+		return this.NUMERO_TAVOLI;
+	}
+
+	@Override
+	public void fermaSimulazione() {
+		this.ristorante.chiudiLocale();
 	}
 }

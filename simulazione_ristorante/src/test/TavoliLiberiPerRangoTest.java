@@ -2,14 +2,13 @@ package test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
 
-import main.balducci.interfaces.Dipendente;
+import main.balducci.classes.GruppoClientiImpl;
 import main.balducci.interfaces.GruppoClienti;
 import main.palazzetti.classes.RangoImpl;
 import main.palazzetti.classes.TavoloImpl;
@@ -20,8 +19,7 @@ public class TavoliLiberiPerRangoTest {
     @Test
     void testTavoliLiberiNelRango() {
         // Mock necessari
-        Dipendente cameriereMock = mock(Dipendente.class);
-        GruppoClienti gruppoMock = mock(GruppoClienti.class);
+        GruppoClienti gruppoMock = new GruppoClientiImpl(0, 4, null);
 
         // Crea tavoli
         TavoloImpl t1 = new TavoloImpl(1, 2);

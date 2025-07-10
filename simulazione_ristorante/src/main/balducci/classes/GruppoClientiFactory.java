@@ -2,39 +2,31 @@ package main.balducci.classes;
 
 import main.balducci.interfaces.Ristorante;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import main.balducci.interfaces.GruppoClienti;
 
 public class GruppoClientiFactory {
-
-    private List<GruppoClienti> gruppiAttivi;
     private int numeroClienti;
     private int gruppiCreati;
 
     public GruppoClientiFactory(int numeroClienti){
         this.numeroClienti = numeroClienti;
         this.gruppiCreati = 1;
-        this.gruppiAttivi = new ArrayList<>();
     }
 
-    public void generaClienti(Ristorante ristorante){
-        while(this.numeroClienti > 0){
+    public GruppoClienti creaGruppo(Ristorante ristorante){
 
-            int max = Math.min(numeroClienti, 8); 
-            int dimensioneGruppo = 2 + (int)(Math.random() * (max - 1 + 1));
+        int max = Math.min(numeroClienti, 8); 
+        int dimensioneGruppo = 2 + (int)(Math.random() * (max - 1 + 1));
 
 
-            GruppoClienti nuovGruppo = new GruppoClientiImpl(gruppiCreati, dimensioneGruppo, ristorante);
-            this.gruppiAttivi.add(nuovGruppo);
-            this.gruppiCreati++;
-            this.numeroClienti -= dimensioneGruppo;
-            System.out.println("Creato " + nuovGruppo.getId() + " con nr clienti " + nuovGruppo.getNumeroClienti());
-        }
+        GruppoClienti nuovGruppo = new GruppoClientiImpl(gruppiCreati, dimensioneGruppo, ristorante);
+        this.gruppiCreati++;
+        this.numeroClienti -= dimensioneGruppo;
+        System.out.println("Creato " + nuovGruppo.getId() + " con nr clienti " + nuovGruppo.getNumeroClienti());
+        return nuovGruppo;
     }
 
-    public List<GruppoClienti> getGruppi(){
-        return this.gruppiAttivi;
+    public int getNumeroClienti(){
+        return this.numeroClienti;
     }
 }

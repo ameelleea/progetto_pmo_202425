@@ -1,15 +1,18 @@
 package main.view;
 
+import java.util.List;
+
+import main.balducci.interfaces.GruppoClienti;
 import main.control.Controller;
 import main.palazzetti.interfaces.Ordine;
-import main.palazzetti.interfaces.Tavolo;
 
 public interface View {
 
     void mostraMessaggio(String messaggio);
+    void aggiornaGruppiInAttesa(List<GruppoClienti> gruppiInAttesa);
     void aggiornaStatoTavoli();
-    void aggiornaOrdine(Tavolo tavolo, Ordine ordine);
-    void mostraConto(Tavolo tavolo, double importo);
+    void aggiornaOrdini(List<Ordine> ordini);
+    void aggiornaRichiesteConto(List<GruppoClienti> richieste);
     void mostraGUI();
     void setController(Controller c);
     Controller getController();

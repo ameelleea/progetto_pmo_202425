@@ -8,8 +8,6 @@ import java.util.stream.Collectors;
 
 import main.balducci.interfaces.*;
 import main.palazzetti.classes.OrdineImpl;
-import main.balducci.classes.TipoReparto;
-import main.palazzetti.interfaces.Menu;
 import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Prodotto;
 import main.palazzetti.interfaces.Sala;
@@ -82,6 +80,7 @@ public class CassaImpl implements Cassa {
     @Override
     public void smistaOrdine(Ordine o) {
         System.out.println("Cassa smista ordine del tavolo " + o.getTavoloRiferimento().getNumero());
+        this.ordiniInCorso.add(o);
         Map<TipoReparto, Map<Prodotto, Integer>> mappaPerReparto =
             o.getProdotti().entrySet().stream()
                 .collect(Collectors.groupingBy(
@@ -97,8 +96,6 @@ public class CassaImpl implements Cassa {
             Reparto reparto = reparti.stream().filter(r -> r.getTipoReparto() == e.getKey()).findAny().orElse(null);
             reparto.gestisciOrdine(ordineReparto);
         });
-
-        this.ordiniInCorso.add(o);
     }
 
     @Override
@@ -114,13 +111,18 @@ public class CassaImpl implements Cassa {
 
         if(ordineOriginale.isCompletato()){
             ordineOriginale.getTavoloRiferimento().setStatoTavolo(StatoTavolo.ORDINE_PRONTO);
-
-            System.out.println("Tavolo " + ordineOriginale.getTavoloRiferimento().getNumero() + " " + ordineOriginale.getTavoloRiferimento().getStatoTavolo());
+            this.ordiniInCorso.remove(ordineOriginale);
+        System.out.println("Tavolo " + ordineOriginale.getTavoloRiferimento().getNumero() + " " + ordineOriginale.getTavoloRiferimento().getStatoTavolo());
         }
     }
 
     @Override
     public void registraIncasso(double importo, Tavolo tavolo) {
         
+    }
+
+    @Override
+    public List<Ordine> getCodaOrdini(){
+        return this.ordiniInCorso;
     }
 }

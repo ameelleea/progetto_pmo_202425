@@ -1,6 +1,7 @@
 package main.balducci.interfaces;
 
 import java.util.List;
+import java.util.Queue;
 
 import main.balducci.classes.TipoReparto;
 import main.palazzetti.interfaces.Ordine;
@@ -27,4 +28,5 @@ public interface Reparto {
 
     public void notificaProdottoPronto(Prodotto p, int numT); 
     public void avviLavoratori();
+    public Queue<Ordine> getCodaOrdini();
 }

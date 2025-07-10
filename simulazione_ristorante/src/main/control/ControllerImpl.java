@@ -2,10 +2,10 @@ package main.control;
 
 import main.balducci.interfaces.GruppoClienti;
 import main.model.Model;
+import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Tavolo;
 import main.view.View;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,25 +16,16 @@ public class ControllerImpl implements Controller, ModelListener {
 	private static final int DURATA_MINIMA = 1; // durata minima della simulazione in numero di giorni
 	private Model model;
 	private View view;
-	private int durata;
-    private final List<GruppoClienti> gruppiInAttesa;
-    private String menuPath;
-    private int numClienti;
-    private int numeroTavoli;
+    
 
     public ControllerImpl(Model model, View view) {
         this.model = model;
         this.view = view;
-        this.gruppiInAttesa = new ArrayList<>();
         this.model.aggiungiModelListener(this);
     }
 
-    public void simula(){
-        this.model.setMenuPath(menuPath);
-        this.model.setNumClienti(numClienti);
-        this.model.setNumeroTavoli(numeroTavoli);
-        this.model.setDurataSimulazione(durata);
-        		ExecutorService executor = Executors.newSingleThreadExecutor();
+    public void simula(){        
+        ExecutorService executor = Executors.newSingleThreadExecutor();
 		executor.submit(() -> {
             try{
 		    this.model.simula();
@@ -66,11 +57,6 @@ public class ControllerImpl implements Controller, ModelListener {
     }
 
     @Override
-    public int getDurataSimulazione() {
-        return this.durata;
-    }
-
-    @Override
     public int getDurataMinimaSimulazione() {
         return DURATA_MINIMA;
     }
@@ -81,29 +67,22 @@ public class ControllerImpl implements Controller, ModelListener {
     }
 
     @Override
-    public void setNumeroTavoli(int numero) {
-        this.numeroTavoli = numero;
+    public int getNumeroTavoli(){
+        return this.model.getNumeroTavoli();
     }
-
     @Override
     public void setNumeroClienti(int numero) {
-        this.numClienti = numero;
         this.model.setNumClienti(numero);
     }
 
     @Override
     public void setDurataSimulazione(int durata) {
-        this.durata = durata;
+        this.model.setDurataSimulazione(durata);
     }
 
     @Override
     public void setMenuPath(String path) {
-        this.menuPath = path;
-    }
-
-    @Override
-    public String getMenuPath() {
-        return this.menuPath;
+        this.model.setMenuPath(path);
     }
 
     @Override
@@ -112,36 +91,18 @@ public class ControllerImpl implements Controller, ModelListener {
     }
 
     @Override
-    public int getNumeroClienti() {
-        return this.numClienti;
-    }
-
-    @Override
-    public int getNumeroTavoli() {
-        return this.numeroTavoli;
-    }
-
-    @Override
     public void notificaStatoTavoloCambiato() {
         this.view.aggiornaStatoTavoli();
     }
 
     @Override
-    public void notficaTavoloLibero() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notficaTavoloLibero'");
+    public void notificaNuovoOrdine(List<Ordine> ordini) {
+        this.view.aggiornaOrdini(ordini);
     }
 
     @Override
-    public void notificaNuovoOrdine() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificaNuovoOrdine'");
-    }
-
-    @Override
-    public void notificaContoRichiesto() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'notificaContoRichiesto'");
+    public void notificaRichiesteContoCambiate(List<GruppoClienti> richieste) {
+        this.view.aggiornaRichiesteConto(richieste);
     }
 
     @Override
@@ -153,5 +114,15 @@ public class ControllerImpl implements Controller, ModelListener {
     public void notificaSimulazioneFermata() {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'notificaSimulazioneFermata'");
+    }
+
+    @Override
+    public void notificaGruppiInAttesaCambiati(List<GruppoClienti> gruppiInAttesa) {
+        this.view.aggiornaGruppiInAttesa(gruppiInAttesa);
+    }
+
+    @Override
+    public void simulazioneFermata() {
+        this.model.fermaSimulazione();
     }
 }

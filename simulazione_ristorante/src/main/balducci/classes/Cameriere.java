@@ -37,10 +37,12 @@ public class Cameriere extends DipendenteImpl {
                 if (gruppo.haOrdinato(1) && !this.ordiniRaccolti.contains(gruppo.getOrdineGruppo(1))) {
                     System.out.println(this.getIdDipendente() + " raccoglie ordine dal " + gruppo.getId());
                     Ordine ordinePrimo = gruppo.getOrdineGruppo(1);
+                    System.out.println("Ordine tavolo " +t.getNumero() + ":\n" +ordinePrimo.toString());
                     this.ordiniRaccolti.add(ordinePrimo);
                     cassa.smistaOrdine(ordinePrimo);
                 }else if (gruppo.haOrdinato(2) && !this.ordiniRaccolti.contains(gruppo.getOrdineGruppo(2))) {
                     Ordine ordineSecondo = gruppo.getOrdineGruppo(2);
+                    System.out.println("Ordine tavolo " +t.getNumero() + ":\n" + ordineSecondo.toString());
                     this.ordiniRaccolti.add(ordineSecondo);
                     cassa.smistaOrdine(ordineSecondo);
                 }else if (gruppo.richiedeConto()) {

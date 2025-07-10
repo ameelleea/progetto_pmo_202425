@@ -4,9 +4,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.util.List;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -19,7 +21,9 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
 
+import main.balducci.interfaces.GruppoClienti;
 import main.control.Controller;
+import main.palazzetti.interfaces.Ordine;
 import main.palazzetti.interfaces.Tavolo;
 
 /**
@@ -49,8 +53,8 @@ public class RistFrame extends javax.swing.JFrame {
 
         initComponents();
 
-    }
 
+    }
     public void inizializzaTavoli() {
         for (Tavolo t : controller.getTavoli()) {
             JPanel tavoloPanel = new JPanel();
@@ -83,6 +87,37 @@ public class RistFrame extends javax.swing.JFrame {
         }
         tavoliPanel.revalidate();
         tavoliPanel.repaint();
+    }
+
+    public void printGruppiInAttesa(List<GruppoClienti> gruppi){
+        String listaGruppi = gruppi.stream()
+            .map(g -> g.getId() + ", " + g.getNumeroClienti() + " clienti")
+            .collect(Collectors.joining("\n"));
+        this.gruppiPanelTA.setText(listaGruppi);
+    }
+
+    public void printListaOrdini(List<Ordine> ordini){
+        String risultato = ordini.stream()
+            .map(ordine -> {
+                StringBuilder sb = new StringBuilder();
+                sb.append("Tavolo: ").append(ordine.getTavoloRiferimento().getNumero()).append("\n");
+                sb.append(ordine.toString());
+                //ordine.getProdotti().keySet().forEach(prodotto -> 
+                //    sb.append(prodotto.getNome()).append("\n")
+                //);
+            
+                return sb.toString().trim();
+            })
+            .collect(Collectors.joining("\n\n"));    
+        
+        ordiniPanelTA.setText(risultato);
+    }
+
+    public void printRichiesteConto(List<GruppoClienti> gruppi){
+        String listaGruppi = gruppi.stream()
+            .map(GruppoClienti::getId)
+            .collect(Collectors.joining("\n"));
+        this.rcPanelTA.setText(listaGruppi);
     }
 
     public int getNumTavoli(){
@@ -144,14 +179,6 @@ public class RistFrame extends javax.swing.JFrame {
         rcPanelLabel = new javax.swing.JLabel();
         rcPanelScroll = new javax.swing.JScrollPane();
         rcPanelTA = new javax.swing.JTextArea();
-        jPanel7 = new javax.swing.JPanel();
-        jLabel7 = new javax.swing.JLabel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jTextArea4 = new javax.swing.JTextArea();
-        jPanel8 = new javax.swing.JPanel();
-        jLabel8 = new javax.swing.JLabel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setFont(new java.awt.Font("Roboto", 0, 10)); // NOI18N
@@ -285,6 +312,11 @@ public class RistFrame extends javax.swing.JFrame {
 
         percorsoField.setFont(new java.awt.Font("Roboto Condensed", 0, 13)); // NOI18N
         percorsoField.setText(defaultPath);
+        percorsoField.setPreferredSize(new Dimension(181, 25));
+        percorsoField.setMinimumSize(new Dimension(181, 25));
+        percorsoField.setMaximumSize(new Dimension(181, 25));
+
+        percorsoField.setHorizontalAlignment(JTextField.LEFT);
 
         apriButton.setFont(new java.awt.Font("Roboto Condensed", 1, 12)); // NOI18N
         apriButton.setText("Apri");
@@ -415,40 +447,6 @@ public class RistFrame extends javax.swing.JFrame {
 
         bottomPanel.add(richiesteContoPanel);
 
-        jPanel7.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel7.setLayout(new java.awt.BorderLayout());
-
-        jLabel7.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
-        jLabel7.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel7.setText("jLabel7");
-        jLabel7.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel7.add(jLabel7, java.awt.BorderLayout.NORTH);
-
-        jTextArea4.setColumns(20);
-        jTextArea4.setRows(5);
-        jScrollPane5.setViewportView(jTextArea4);
-
-        jPanel7.add(jScrollPane5, java.awt.BorderLayout.CENTER);
-
-        bottomPanel.add(jPanel7);
-
-        jPanel8.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel8.setLayout(new java.awt.BorderLayout());
-
-        jLabel8.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
-        jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("jLabel8");
-        jLabel8.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jPanel8.add(jLabel8, java.awt.BorderLayout.NORTH);
-
-        jTextArea2.setColumns(20);
-        jTextArea2.setRows(5);
-        jScrollPane6.setViewportView(jTextArea2);
-
-        jPanel8.add(jScrollPane6, java.awt.BorderLayout.CENTER);
-
-        bottomPanel.add(jPanel8);
-
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
@@ -518,21 +516,13 @@ public class RistFrame extends javax.swing.JFrame {
     private JLabel jLabel2;
     private JLabel jLabel3;
     private JLabel jLabel4;
-    private JLabel jLabel7;
-    private JLabel jLabel8;
     private JLabel jLabel9;
     private JPanel innerTavoliPanel;
-    private JPanel jPanel7;
-    private JPanel jPanel8;
     private JScrollPane logScrollPane;
-    private JScrollPane jScrollPane5;
-    private JScrollPane jScrollPane6;
     private JSpinner clientiSpin;
     private JSpinner tavoliSpin;
     private JSpinner durataSpin;
     private JTextArea logTextArea;
-    private JTextArea jTextArea2;
-    private JTextArea jTextArea4;
     private JTextField percorsoField;
     private JPanel logPanel;
     private JPanel mainPanel;
