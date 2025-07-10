@@ -59,25 +59,57 @@ public class RepartoImpl implements Reparto {
         return this.tipoReparto;
     }
 
-    @Override
+    //@Override
+    //public void gestisciOrdine(Ordine ordine) {
+    //    System.out.println("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
+    //    Map<Prodotto, Integer> prodotti = ordine.getProdotti();
+    //    
+    //    prodotti.entrySet().forEach(e -> {
+    //        //this.lavoratori.stream()
+    //        //    .filter(l -> l instanceof Preparatore) 
+    //        //    .map(l -> (Preparatore) l)             
+    //        //    .filter(Preparatore::isDisponibile)    
+    //        //    .findFirst()
+    //        //    .ifPresent(prep -> {
+    //        //        System.out.println("Trovato preparatore libero: " +prep.getIdDipendente());
+    //        //        prep.setOrdineCorrente(ordine.getTavoloRiferimento().getNumero(), e);
+    //        //    }); 
+    //    });
+    //    this.codaOrdini.add(ordine);
+    //}
+
     public void gestisciOrdine(Ordine ordine) {
-        System.out.println("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
-        Map<Prodotto, Integer> prodotti = ordine.getProdotti();
-        
-        prodotti.entrySet().forEach(e -> {
-            //this.lavoratori.stream()
-            //    .filter(l -> l instanceof Preparatore) 
-            //    .map(l -> (Preparatore) l)             
-            //    .filter(Preparatore::isDisponibile)    
-            //    .findFirst()
-            //    .ifPresent(prep -> {
-            //        System.out.println("Trovato preparatore libero: " +prep.getIdDipendente());
-            //        prep.setOrdineCorrente(ordine.getTavoloRiferimento().getNumero(), e);
-            //    }); 
-        });
-        this.codaOrdini.add(ordine);
+    System.out.println("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
+    Map<Prodotto, Integer> prodotti = ordine.getProdotti();
+
+    for (Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) {
+        boolean assegnato = false;
+
+        while (!assegnato) {
+            for (Dipendente l : this.lavoratori) {
+                if (l instanceof Preparatore) {
+                    Preparatore p = (Preparatore) l;
+                    if (p.isDisponibile()) {
+                        System.out.println("Trovato preparatore libero: " + p.getIdDipendente());
+                        p.setOrdineCorrente(ordine.getTavoloRiferimento().getNumero(), entry);
+                        assegnato = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!assegnato) {
+                try {
+                    Thread.sleep(100); // Attesa per non sovraccaricare la CPU
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
+    this.codaOrdini.add(ordine);
+}
     @Override
     public void notificaProdottoPronto(Prodotto prodotto, int numT) {
         this.codaOrdini.stream()
