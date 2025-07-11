@@ -6,6 +6,8 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
 import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -36,7 +38,7 @@ public class RistFrame extends javax.swing.JFrame {
     private final Controller controller;
     private final View view;
     private final Map<Tavolo, JPanel> tavoliMap;
-    private String defaultPath = "/home/milena/Documenti/Coding/progetto_pmo_202425/simulazione_ristorante/Prodotti.json";
+    private String defaultPath = Paths.get(System.getProperty("user.dir")).resolve("simulazione_ristorante/Prodotti.json").toAbsolutePath().toString();
 
     private Color sfondoPrincipale = new Color(245, 245, 245); // grigio molto chiaro
     private Color sfondoSecondario = new Color(230, 230, 230); // leggermente più scuro
@@ -52,6 +54,8 @@ public class RistFrame extends javax.swing.JFrame {
         this.controller = controller;
 		this.view = view;
         this.tavoliMap = new HashMap<>();
+
+        System.out.println("Path completo: " + defaultPath);
 
         setTitle("Simulazione Ristorante");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
