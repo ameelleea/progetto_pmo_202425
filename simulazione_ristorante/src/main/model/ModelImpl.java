@@ -36,6 +36,7 @@ public class ModelImpl implements Model{
 	private List<GruppoClienti> gruppiInAttesa;
 	private List<GruppoClienti> gruppiSeduti;
 	private ScheduledExecutorService scheduler;
+	private boolean simulazione = false;
 	
 	public ModelImpl(final int durata) {
 		this.durata = durata;
@@ -49,6 +50,7 @@ public class ModelImpl implements Model{
 	}
 	
 	public void simula() {
+		this.simulazione = true;
     	System.out.println("Simulazione: inizializzazione...");
     	this.ristorante = RistoranteImpl.getInstance("Borgo", NUMERO_TAVOLI, menuPath);
     	this.generatoreClienti = new GruppoClientiFactory(numClienti);
@@ -106,12 +108,11 @@ public class ModelImpl implements Model{
     }, 0, 3, TimeUnit.SECONDS);
 
     // Ciclo principale che notifica ogni mezzo secondo lo stato della simulazione
-    while (LocalDateTime.now().isBefore(tempoInizio.plusMinutes(durata))) {
+    while (LocalDateTime.now().isBefore(tempoInizio.plusMinutes(durata)) && this.simulazione == true) {
         notificaOrdiniInAttesaCambiati();
         notificaRichiesteContoCambiate();
         notificaNuovoMessaggio();
         notificaTotaliCambiati();
-		notificaStatoTavoloCambiato();
 
         try {
             Thread.sleep(500); // controllo frequente
@@ -205,6 +206,7 @@ public class ModelImpl implements Model{
 		this.gruppiInAttesa.clear();
 		this.gruppiSeduti.clear();
 		this.threadGruppi.forEach(Thread::interrupt);
+		this.simulazione = false;
 	}
 
 	@Override
