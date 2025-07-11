@@ -29,7 +29,7 @@ public class GruppoClientiImpl implements GruppoClienti {
     private boolean haOrdinatoSecondoGiro;
 
     public GruppoClientiImpl(int id, int numClienti, Ristorante ristorante){
-        this.id = "Gruppo clienti " + id;
+        this.id = "Gruppo " + id;
         this.ristorante = ristorante;
         this.numeroClienti = numClienti;
         this.clienti = new ArrayList<>();
@@ -56,6 +56,7 @@ public class GruppoClientiImpl implements GruppoClienti {
         this.primoGiro = new OrdineImpl(tavoloAssegnato, ordiniPrimoGiro);
         this.haOrdinatoPrimoGiro = true;
         System.out.println(id + " ha ordinato primo giro.");
+        this.ristorante.addNuovoMessaggio(id + " ha ordinato primo giro.");
         
         try{
             while(!this.primoGiro.isCompletato()){
@@ -84,6 +85,7 @@ public class GruppoClientiImpl implements GruppoClienti {
             this.secondoGiro = new OrdineImpl(tavoloAssegnato, ordiniSecondoGiro);
             this.haOrdinatoSecondoGiro = true;
             System.out.println(id + " ha ordinato secondo giro.");
+            this.ristorante.addNuovoMessaggio(id + " ha ordinato secondo giro.");
             
             try{
                 while(!this.secondoGiro.isCompletato()){

@@ -13,19 +13,11 @@ public interface Reparto {
     public void apriReparto();
     public void chiudiReparto();
     public List<Dipendente> getDipendenti();
-    
-    //Aggiunge un lavoratore.
     public void aggiungiDipendente(Dipendente d);
-
     public void aggiungiOrdinazione(Ordine o);
-
     public void rimuoviDipendente(Dipendente d);
-
     public TipoReparto getTipoReparto();
-   
-    //Metodo astratto per la logica specifica di preparazione.
     public void gestisciOrdine(Ordine ordine);
-
     public void notificaProdottoPronto(Prodotto p, int numT); 
     public void avviLavoratori();
     public Queue<Ordine> getCodaOrdini();

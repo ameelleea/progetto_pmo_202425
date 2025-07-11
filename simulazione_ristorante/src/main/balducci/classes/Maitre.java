@@ -37,8 +37,8 @@ public class Maitre extends DipendenteImpl{
                         prossimo.setTavoloAssegnato(t);
                         System.out.println("Occupazione tavolo...");
                         t.occupa(prossimo);
-                        System.out.println("Gruppo " +prossimo.getId() + " assegnato al tavolo " + t.getNumero());
-                        this.ristorante.addNuovoMessaggio("Gruppo " +prossimo.getId() + " assegnato al tavolo " + t.getNumero());
+                        System.out.println(prossimo.getId() + " assegnato al tavolo " + t.getNumero());
+                        this.ristorante.addNuovoMessaggio(prossimo.getId() + " assegnato al tavolo " + t.getNumero());
                     });
                 }else{
                     try{
@@ -58,6 +58,7 @@ public class Maitre extends DipendenteImpl{
                 }
             }
         }
+        System.out.println(getIdDipendente() + " fermato");
     }
 
     public void nuovoGruppo(){

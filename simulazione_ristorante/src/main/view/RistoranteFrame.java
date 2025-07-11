@@ -2,14 +2,17 @@ package main.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.List;
 import java.io.File;
+import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -30,20 +33,31 @@ import main.palazzetti.interfaces.Tavolo;
  *
  * @author milena
  */
-public class RistFrame2 extends javax.swing.JFrame {
+public class RistoranteFrame extends javax.swing.JFrame {
 
+    private boolean simulazioneAttiva;
     private final Controller controller;
     private final View view;
     private final Map<Tavolo, JPanel> tavoliMap;
-    private String defaultPath = "/home/milena/Documenti/Coding/progetto_pmo_202425/simulazione_ristorante/Prodotti.json";
+    private String defaultPath = Paths.get(System.getProperty("user.dir")).resolve("simulazione_ristorante/Prodotti.json").toAbsolutePath().toString();
+
+    private Color sfondoPrincipale = new Color(245, 245, 245); // grigio molto chiaro
+    private Color sfondoSecondario = new Color(230, 230, 230); // leggermente più scuro
+    private Color bordoColore = new Color(100, 100, 100); // grigio scuro per bordi
+    private Color verdeTavoli = new Color(144, 238, 144); // verde chiaro
+    private Color rossoTavoli = new Color(255, 105, 97); // rosso chiaro
+    private Color bluBottoni = new Color(100, 149, 237); // blu moderato
     
     /**
      * Creates new form RistoranteFrame
      */
-    public RistFrame2(Controller controller, View view) {
+    public RistoranteFrame(Controller controller, View view) {
+        this.simulazioneAttiva = false;
         this.controller = controller;
 		this.view = view;
         this.tavoliMap = new HashMap<>();
+
+        System.out.println("Path completo: " + defaultPath);
 
         setTitle("Simulazione Ristorante");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -59,12 +73,17 @@ public class RistFrame2 extends javax.swing.JFrame {
         for (Tavolo t : controller.getTavoli()) {
             JPanel tavoloPanel = new JPanel();
             tavoloPanel.setPreferredSize(new Dimension(120, 80));
-            tavoloPanel.setBackground(t.isOccupato() ? Color.RED : Color.GREEN);
+            tavoloPanel.setBackground(t.isOccupato() ? rossoTavoli : verdeTavoli);
             tavoloPanel.setBorder(new LineBorder(Color.BLACK, 2));
             tavoloPanel.setLayout(new GridLayout(3, 1));
 
             tavoloPanel.add(new JLabel("Tavolo: " + t.getNumero()));
             tavoloPanel.add(new JLabel("Posti: " + t.getNumeroPosti()));
+
+            JLabel label = new JLabel("Gruppo: nessuno");
+            label.setName("gruppoLabel");
+            tavoloPanel.add(label);
+
             tavoliMap.put(t, tavoloPanel);
             innerTavoliPanel.add(tavoloPanel);
         }
@@ -77,10 +96,18 @@ public class RistFrame2 extends javax.swing.JFrame {
     public void aggiornaTavoli() {
         for(Tavolo t : controller.getTavoli()){
         JPanel panel = tavoliMap.get(t);
+        JLabel label = null;
+        for (Component c : panel.getComponents()) {
+            if (c instanceof JLabel l && "gruppoLabel".equals(l.getName())) {
+                label = l;
+            }
+}
         if (t.isOccupato()) {
-            panel.setBackground(Color.RED);
+            panel.setBackground(rossoTavoli);
+            label.setText("Gruppo: " + t.getGruppoCorrente().getId());
         } else {
-            panel.setBackground(Color.GREEN);
+            panel.setBackground(verdeTavoli);
+            label.setText("Gruppo: nessuno");
         }
         tavoliMap.put(t, panel);
         }
@@ -159,9 +186,9 @@ public class RistFrame2 extends javax.swing.JFrame {
         settingsPanel = new javax.swing.JPanel();
         impostazioniLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        clientiSpin = new javax.swing.JSpinner(new SpinnerNumberModel(2, 1, 100, 1));
+        clientiSpin = new javax.swing.JSpinner(new SpinnerNumberModel(50, 1, 100, 1));
         jLabel11 = new javax.swing.JLabel();
-        durataSpin = new javax.swing.JSpinner(new SpinnerNumberModel(2, controller.getDurataMinimaSimulazione(), controller.getDurataMassimaSimulazione(), 1));
+        durataSpin = new javax.swing.JSpinner(new SpinnerNumberModel(5, controller.getDurataMinimaSimulazione(), controller.getDurataMassimaSimulazione(), 1));
         buttonPanel = new javax.swing.JPanel();
         avviaButton = new javax.swing.JButton();
         fermaButton = new javax.swing.JButton();
@@ -187,11 +214,29 @@ public class RistFrame2 extends javax.swing.JFrame {
         jScrollPane2 = new JScrollPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setFont(new java.awt.Font("Roboto", 0, 10)); // NOI18N
         setResizable(false);
 
-        mainPanel.setBackground(new java.awt.Color(255, 255, 255));
+        avviaButton.setBackground(bluBottoni);
+        avviaButton.setForeground(Color.WHITE);
+        avviaButton.setFocusPainted(false);
+        avviaButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 15, 15));
+
+        fermaButton.setBackground(new Color(220, 53, 69)); 
+        fermaButton.setForeground(Color.WHITE);
+        fermaButton.setFocusPainted(false);
+        fermaButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 15, 15));
+
+        apriButton.setBackground(new Color(40, 167, 69)); 
+        apriButton.setForeground(Color.WHITE);
+        apriButton.setFocusPainted(false);
+        apriButton.setBorder(BorderFactory.createEmptyBorder(5, 15, 5, 15));
+
+        mainPanel.setBackground(sfondoPrincipale);
         mainPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder());
+        mainPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(1, 1, 1, 1, bordoColore),
+            BorderFactory.createEmptyBorder(5, 5, 5, 5)
+        ));
 
         topPanel.setBackground(new java.awt.Color(51, 255, 51));
         topPanel.setLayout(new java.awt.BorderLayout());
@@ -212,6 +257,7 @@ public class RistFrame2 extends javax.swing.JFrame {
         logTextArea.setEditable(false);
         logTextArea.setLineWrap(true);
         logTextArea.setWrapStyleWord(true);
+        logTextArea.setCaretPosition(logTextArea.getDocument().getLength());
         logScrollPane.setViewportView(logTextArea);
 
         javax.swing.GroupLayout logPanelLayout = new javax.swing.GroupLayout(logPanel);
@@ -316,6 +362,13 @@ public class RistFrame2 extends javax.swing.JFrame {
 
         menuLabel.setText("Menu:");
 
+        clientiSpin.setPreferredSize(new Dimension(64, 25));
+        clientiSpin.setMinimumSize(new Dimension(64, 25));
+        clientiSpin.setMaximumSize(new Dimension(64, 25));
+        durataSpin.setPreferredSize(new Dimension(64, 25));
+        durataSpin.setMinimumSize(new Dimension(64, 25));
+        durataSpin.setMaximumSize(new Dimension(64, 25));
+
         percorsoField.setFont(new java.awt.Font("Roboto Condensed", 0, 13)); // NOI18N
         percorsoField.setText(defaultPath);
         percorsoField.setPreferredSize(new Dimension(181, 25));
@@ -399,7 +452,7 @@ public class RistFrame2 extends javax.swing.JFrame {
                 .addComponent(apriButton)
                 .addGap(28, 28, 28)
                 .addComponent(buttonPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
+                .addGap(25, 25, 25)
                 .addComponent(incassiPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
                 .addContainerGap())
         );
@@ -409,7 +462,7 @@ public class RistFrame2 extends javax.swing.JFrame {
         bottomPanel.setBackground(new java.awt.Color(255, 255, 255));
         bottomPanel.setLayout(new java.awt.GridLayout());
 
-        gruppiPanel.setBackground(new java.awt.Color(255, 255, 255));
+        gruppiPanel.setBackground(sfondoSecondario);
         gruppiPanel.setLayout(new java.awt.BorderLayout());
 
         gruppiPanelLabel.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
@@ -427,7 +480,7 @@ public class RistFrame2 extends javax.swing.JFrame {
 
         bottomPanel.add(gruppiPanel);
 
-        ordiniPanel.setBackground(new java.awt.Color(255, 255, 255));
+        ordiniPanel.setBackground(sfondoSecondario);
         ordiniPanel.setLayout(new java.awt.BorderLayout());
 
         ordiniPanelLabel.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
@@ -445,7 +498,7 @@ public class RistFrame2 extends javax.swing.JFrame {
 
         bottomPanel.add(ordiniPanel);
 
-        richiesteContoPanel.setBackground(new java.awt.Color(255, 255, 255));
+        richiesteContoPanel.setBackground(sfondoSecondario);
         richiesteContoPanel.setLayout(new java.awt.BorderLayout());
 
         rcPanelLabel.setFont(new java.awt.Font("Roboto Condensed", 1, 14)); // NOI18N
@@ -509,13 +562,20 @@ public class RistFrame2 extends javax.swing.JFrame {
         }
     }  
 
-    private void avviaButtonActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        view.simula();
+    private void avviaButtonActionPerformed(java.awt.event.ActionEvent evt) { 
+        if(this.simulazioneAttiva == false){   
+            this.incassiTA.setText("");                                     
+            view.simula();
+            this.simulazioneAttiva = true;
+        }
     }                                        
 
     private void fermaButtonActionPerformed(java.awt.event.ActionEvent evt) {  
-        this.fermaSimulazione();                                
-        view.notificaSimulazioneFermata();
+        if(this.simulazioneAttiva = true){
+            this.fermaSimulazione();                                
+            view.notificaSimulazioneFermata();
+            this.simulazioneAttiva = false;
+        }
     }                        
     
     public void fermaSimulazione(){
@@ -525,7 +585,8 @@ public class RistFrame2 extends javax.swing.JFrame {
         innerTavoliPanel.repaint();
         this.gruppiPanelTA.setText("");  
         this.ordiniPanelTA.setText("");
-        this.rcPanelTA.setText(""); 
+        this.rcPanelTA.setText("");
+        this.logTextArea.setText(""); 
     }
 
     // Variables declaration - do not modify                     

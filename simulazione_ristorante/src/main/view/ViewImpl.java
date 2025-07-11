@@ -6,11 +6,10 @@ import main.balducci.interfaces.GruppoClienti;
 import main.control.Controller;
 import main.palazzetti.interfaces.Ordine;
 
-public class ViewImpl implements SwingView{
+public class ViewImpl implements View{
 
 	private Controller controller;
-    //private RistoranteFrame frame;
-	private RistFrame frame;
+	private RistoranteFrame frame;
 
     public ViewImpl() {
         this.controller = null;
@@ -28,15 +27,8 @@ public class ViewImpl implements SwingView{
 	
 	@Override
     public void mostraGUI() {
-    	//frame = new RistoranteFrame(controller, this.observer);
-		frame = new RistFrame(this.controller, this);
+		frame = new RistoranteFrame(this.controller, this);
 		frame.setVisible(true);
-    }
-
-    @Override
-    public int getDurata() {
-    	//return frame.getDurataInserita();
-		throw new UnsupportedOperationException("Unimplemented method 'mostraMessaggio'");
     }
 
 	@Override

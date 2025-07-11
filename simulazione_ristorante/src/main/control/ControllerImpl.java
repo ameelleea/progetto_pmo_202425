@@ -7,8 +7,6 @@ import main.palazzetti.interfaces.Tavolo;
 import main.view.View;
 
 import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class ControllerImpl implements Controller, ModelListener {
 
@@ -16,6 +14,8 @@ public class ControllerImpl implements Controller, ModelListener {
 	private static final int DURATA_MINIMA = 1; // durata minima della simulazione in numero di giorni
 	private Model model;
 	private View view;
+    private boolean simulazioneAttiva = false;
+    private Thread executor;
     
 
     public ControllerImpl(Model model, View view) {
@@ -25,15 +25,17 @@ public class ControllerImpl implements Controller, ModelListener {
     }
 
     public void simula(){        
-        ExecutorService executor = Executors.newSingleThreadExecutor();
-		executor.submit(() -> {
+        if(this.simulazioneAttiva == false){
+            this.simulazioneAttiva = true;
+        executor = new Thread(() -> {
             try{
 		    this.model.simula();
             }catch (Exception e) {
             e.printStackTrace();
             }
 		});
-        
+        executor.start();
+    }   
     }
 
     @Override
@@ -117,7 +119,11 @@ public class ControllerImpl implements Controller, ModelListener {
 
     @Override
     public void simulazioneFermata() {
-        this.model.fermaSimulazione();
+        if(this.simulazioneAttiva = true){
+            this.model.fermaSimulazione();
+            executor.interrupt();
+            this.simulazioneAttiva = false;
+        }
     }
 
     @Override
@@ -133,5 +139,6 @@ public class ControllerImpl implements Controller, ModelListener {
     @Override
     public void notificaSimulazioneTerminata() {
         this.view.notificaSimulazioneTerminata();
+        this.simulazioneAttiva = false;
     }
 }

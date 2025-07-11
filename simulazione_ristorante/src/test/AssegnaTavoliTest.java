@@ -15,7 +15,7 @@ public class AssegnaTavoliTest {
     @Test
     public void testAssegnazioneTavolo() {
 
-        Ristorante ristorante = new RistoranteImpl("Test", 20, "/home/milena/Documenti/Coding/progetto_pmo_202425/simulazione_ristorante/Prodotti.json");
+        Ristorante ristorante = RistoranteImpl.getInstance("Test", 20, "/home/milena/Documenti/Coding/progetto_pmo_202425/simulazione_ristorante/Prodotti.json");
         ristorante.apriLocale();
         GruppoClienti gruppo1 = new GruppoClientiImpl(1, 5, ristorante);
         List<Tavolo> tavoli = ristorante.getCassa().getTavoliLiberi();

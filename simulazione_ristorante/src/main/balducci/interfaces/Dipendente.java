@@ -6,5 +6,5 @@ public interface Dipendente {
 
     public Double getPaga();
 
-    public void lavora();
+    public void lavora() throws InterruptedException;
 }

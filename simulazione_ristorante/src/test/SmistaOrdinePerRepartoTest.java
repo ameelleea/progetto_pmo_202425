@@ -24,7 +24,7 @@ public class SmistaOrdinePerRepartoTest {
     @Test
     void testSmistamentoOrdinePerReparto() {
         Tavolo tavoloMock = new TavoloImpl(1, 2);
-        Ristorante r = new RistoranteImpl(null, 0, "/home/milena/Documenti/Coding/progetto_pmo_202425/simulazione_ristorante/Prodotti.json");
+        Ristorante r = RistoranteImpl.getInstance(null, 0, "/home/milena/Documenti/Coding/progetto_pmo_202425/simulazione_ristorante/Prodotti.json");
         r.apriLocale();
 
         // Creo la mappa dei prodotti con quantità

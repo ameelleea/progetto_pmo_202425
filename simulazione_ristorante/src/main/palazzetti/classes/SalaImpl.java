@@ -13,10 +13,11 @@ import java.util.*;
 
 public class SalaImpl implements Sala {
 
+    private static volatile Sala instance;
     private Ristorante ristorante;
     private List<Rango> ranghi; 
 
-    public SalaImpl(int numeroTavoli, int dimensioneRanghi, Ristorante ristorante) {
+    private SalaImpl(int numeroTavoli, int dimensioneRanghi, Ristorante ristorante) {
         this.ristorante = ristorante;
         this.ranghi = new ArrayList<>();
         int numeroParti = numeroTavoli / dimensioneRanghi;
@@ -60,6 +61,21 @@ public class SalaImpl implements Sala {
         }
 
 
+    }
+
+    public static Sala getInstance(int numeroTavoli, int dimensioneRanghi, Ristorante ristorante) {
+      if (instance == null) {
+        synchronized(Sala.class) {
+          if (instance == null) {
+            instance = new SalaImpl(numeroTavoli, dimensioneRanghi, ristorante);
+          }
+        }
+      }
+      return instance;
+    }
+
+    public static void resetInstance(){
+        instance = null;
     }
 
     @Override

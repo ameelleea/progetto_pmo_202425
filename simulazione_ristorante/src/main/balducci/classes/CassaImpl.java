@@ -18,6 +18,7 @@ import main.palazzetti.interfaces.Tavolo.StatoTavolo;
 
 public class CassaImpl implements Cassa {
 
+    private static volatile Cassa instance;
     private double incassoTotaleGiornaliero;
     private List<Ordine> ordiniInCorso; // Ordini attivi per ogni tavolo
     private Map<Tavolo, List<Ordine>> ordiniPerTavolo; //Ordini totali di ciascun tavolo in tutta la simulazione
@@ -26,26 +27,47 @@ public class CassaImpl implements Cassa {
     private Sala sala; // Riferimento alla sala per conoscere i tavoli
     private List<Reparto> reparti;
 
-    public CassaImpl(Sala sala, List<Reparto> reparti){
-        this.sala = sala;
-        this.reparti = reparti;
-        this.incassoTotaleGiornaliero = 0;
-        this.ordiniInCorso = new ArrayList<>(); 
-        this.ordiniPerTavolo = new HashMap<>();
-        this.guadagniPerDipendente = new HashMap<>(); 
-        this.guadagniPerReparto = new HashMap<>(); 
+    private CassaImpl(Sala sala, List<Reparto> reparti) {
+          this.sala = sala;
+          this.reparti = reparti;
+          this.incassoTotaleGiornaliero = 0;
+          this.ordiniInCorso = new ArrayList<>(); 
+          this.ordiniPerTavolo = new HashMap<>();
+          this.guadagniPerDipendente = new HashMap<>(); 
+          this.guadagniPerReparto = new HashMap<>(); 
     }
+
+    public static Cassa getInstance(Sala sala, List<Reparto> reparti) {
+      if (instance == null) {
+        synchronized(Cassa.class) {
+          if (instance == null) {
+            instance = new CassaImpl(sala, reparti);
+          }
+        }
+      }
+      return instance;
+    }
+
+    public static void resetInstance(){
+        instance = null;
+    }
+
 
     @Override
     public double calcolaConto(Tavolo t) {
 
-        double totaleTavolo =  t.getGruppoCorrente()
-                                .getOrdineGruppo()
+        Ordine ordineTavolo = t.getGruppoCorrente()
+                                .getOrdineGruppo();
+        double totaleTavolo =  ordineTavolo
                                 .getProdotti()
                                 .entrySet()
                                 .stream()
                                 .mapToDouble(p -> p.getKey().getPrezzo() * p.getValue())
                                 .sum();
+
+        this.ordiniPerTavolo
+            .computeIfAbsent(ordineTavolo.getTavoloRiferimento(), k -> new ArrayList<>())
+            .add(ordineTavolo);
 
         this.incassoTotaleGiornaliero += totaleTavolo;
         this.calcolaTotalePerDipendente();
@@ -129,10 +151,9 @@ public class CassaImpl implements Cassa {
             reparto.gestisciOrdine(ordineReparto);
         });
 
-        this.ordiniPerTavolo
+        /*this.ordiniPerTavolo
             .computeIfAbsent(o.getTavoloRiferimento(), k -> new ArrayList<>())
-            .add(o);
-
+            .add(o);*/
     }
 
     @Override

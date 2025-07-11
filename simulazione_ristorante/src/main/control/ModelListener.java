@@ -16,3 +16,4 @@ public interface ModelListener extends EventListener{
     void notificaNuovoMessaggio(String messaggio);
     void notificaTotaliCambiati(String totali);
 }
+

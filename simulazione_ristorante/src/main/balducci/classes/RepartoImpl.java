@@ -15,6 +15,7 @@ public class RepartoImpl implements Reparto {
     
     private Ristorante ristorante;
     private List<Dipendente> lavoratori;
+    private List<Thread> threadLavoratori;
     private Queue<Ordine> codaOrdini;
     private TipoReparto tipoReparto;
     private volatile boolean aperto;
@@ -22,6 +23,7 @@ public class RepartoImpl implements Reparto {
     public RepartoImpl(TipoReparto tipo, Ristorante ristorante, int numDipendenti){
         this.ristorante = ristorante;
         this.lavoratori = new ArrayList<>();
+        this.threadLavoratori = new ArrayList<>();
         this.tipoReparto = tipo;
         for(int i = 1; i <= numDipendenti; i++){
             this.lavoratori.add(new Preparatore(i, StipendiDipendenti.PREPARATORE.getPaga(), this));
@@ -61,8 +63,8 @@ public class RepartoImpl implements Reparto {
     }
 
     public void gestisciOrdine(Ordine ordine) {
-        System.out.println("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
-        this.ristorante.addNuovoMessaggio("Reparto " + this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
+        System.out.println(this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
+        this.ristorante.addNuovoMessaggio(this.tipoReparto + " gestisce ordine del tavolo " + ordine.getTavoloRiferimento().getNumero());
         Map<Prodotto, Integer> prodotti = ordine.getProdotti();
         ordine.getStatoProdotti();
         for (Map.Entry<Prodotto, Integer> entry : prodotti.entrySet()) {
@@ -106,7 +108,16 @@ public class RepartoImpl implements Reparto {
 
     @Override
     public void avviLavoratori() {
-        this.lavoratori.forEach(l -> new Thread(() -> l.lavora()).start());
+        this.lavoratori.forEach(l -> {
+            Thread lavT = new Thread(() -> {
+                try{
+                    l.lavora();
+                }catch(InterruptedException e){
+                    System.out.println(l.getIdDipendente() + " fermato");
+                }});
+            lavT.start();
+            this.threadLavoratori.add(lavT);
+        });
     }
 
     @Override
@@ -118,6 +129,7 @@ public class RepartoImpl implements Reparto {
     @Override
     public void chiudiReparto() {
         this.aperto = false;
+        this.threadLavoratori.forEach(Thread::interrupt);
     }
 
     @Override

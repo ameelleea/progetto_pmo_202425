@@ -1,6 +1,5 @@
 package main.model;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,13 +32,16 @@ public class ModelImpl implements Model{
 	private GruppoClientiFactory generatoreClienti;
 	private int numClienti;
 	private String menuPath;
+	private List<Thread> threadGruppi;
 	private List<GruppoClienti> gruppiInAttesa;
 	private List<GruppoClienti> gruppiSeduti;
+	private ScheduledExecutorService scheduler;
 	
 	public ModelImpl(final int durata) {
 		this.durata = durata;
 		this.gruppiInAttesa = new LinkedList<>();
 		this.gruppiSeduti = new LinkedList<>();
+		this.threadGruppi = new ArrayList<>();
 	}
 	
 	public void setDurata(int durata) {
@@ -48,7 +50,7 @@ public class ModelImpl implements Model{
 	
 	public void simula() {
     	System.out.println("Simulazione: inizializzazione...");
-    	this.ristorante = new RistoranteImpl("Borgo", NUMERO_TAVOLI, menuPath);
+    	this.ristorante = RistoranteImpl.getInstance("Borgo", NUMERO_TAVOLI, menuPath);
     	this.generatoreClienti = new GruppoClientiFactory(numClienti);
     	this.listeners.forEach(ModelListener::notificaSimulazioneAvviata);
     	this.ristorante.apriLocale();
@@ -57,8 +59,8 @@ public class ModelImpl implements Model{
     	System.out.println("Simulazione: ciclo inizio, durata = " + durata + " minuti");
 
     	// Esegui ogni 3 secondi la creazione di un nuovo gruppo
-    	ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
-    	scheduler.scheduleAtFixedRate(() -> {
+		this.scheduler = Executors.newSingleThreadScheduledExecutor();
+    	this.scheduler.scheduleAtFixedRate(() -> {
         if (generatoreClienti.getNumeroClienti() > 1 &&
             LocalDateTime.now().isBefore(tempoInizio.plusMinutes(durata))) {
 
@@ -66,7 +68,7 @@ public class ModelImpl implements Model{
             gruppiInAttesa.add(nuovoGruppo);
             notificaGruppoInAttesa();
 
-            new Thread(() -> {
+            Thread ngThread = new Thread(() -> {
 				//Simula attesa
 				try{
 					Thread.sleep(3000);
@@ -91,14 +93,15 @@ public class ModelImpl implements Model{
                 notificaGruppoInAttesa();
 
                 gruppiSeduti.add(nuovoGruppo);
-                new Thread(() -> {
                     nuovoGruppo.cena();
 					nuovoGruppo.richiedeConto();
 					this.notificaRichiesteContoCambiate();
                     gruppiSeduti.remove(nuovoGruppo);
                     notificaStatoTavoloCambiato();
-                }).start();
-            }).start();
+            });
+
+			ngThread.start();
+			this.threadGruppi.add(ngThread);
         }
     }, 0, 3, TimeUnit.SECONDS);
 
@@ -108,6 +111,7 @@ public class ModelImpl implements Model{
         notificaRichiesteContoCambiate();
         notificaNuovoMessaggio();
         notificaTotaliCambiati();
+		notificaStatoTavoloCambiato();
 
         try {
             Thread.sleep(500); // controllo frequente
@@ -116,7 +120,6 @@ public class ModelImpl implements Model{
         }
     }
 
-    scheduler.shutdownNow(); // Ferma la generazione dei gruppi
     this.fermaSimulazione();
     this.listeners.forEach(ModelListener::notificaSimulazioneTerminata);
 }
@@ -196,10 +199,12 @@ public class ModelImpl implements Model{
 
 	@Override
 	public void fermaSimulazione() {
+		scheduler.shutdownNow(); // Ferma la generazione dei gruppi
 		this.ristorante.chiudiLocale();
 		this.notificaTotaliCambiati();
 		this.gruppiInAttesa.clear();
 		this.gruppiSeduti.clear();
+		this.threadGruppi.forEach(Thread::interrupt);
 	}
 
 	@Override
@@ -216,11 +221,11 @@ public class ModelImpl implements Model{
 		String totali = "Totale giornata: " + cassa.totaleGiornata() + "\n" 
 		    + "Totali per dipendente: \n" + totaliDip.entrySet()
 		        .stream()
-		        .map(e -> e.getKey().getIdDipendente() + ": " + e.getValue() + " euro")
+		        .map(e -> e.getKey().getIdDipendente() + ": " + String.format("%.2f", e.getValue()) + " euro")
 		        .collect(Collectors.joining("\n")) + "\n"
 		    + "Totali per reparto: \n" + totaliReparti.entrySet()
 		        .stream()
-		        .map(e -> e.getKey() + ": " + e.getValue() + " euro")
+		        .map(e -> e.getKey() + ": " + String.format("%.2f", e.getValue()) + " euro")
 		        .collect(Collectors.joining("\n"));
 
 		

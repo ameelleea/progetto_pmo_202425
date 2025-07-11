@@ -17,7 +17,6 @@ public interface View {
     void mostraGUI();
     void setController(Controller c);
     Controller getController();
-    int getDurata();
     void simula();
     void notificaSimulazioneAvviata();
     void notificaSimulazioneFermata();

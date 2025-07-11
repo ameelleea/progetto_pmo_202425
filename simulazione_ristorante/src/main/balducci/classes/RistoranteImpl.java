@@ -16,6 +16,7 @@ import main.palazzetti.interfaces.Sala;
 
 public class RistoranteImpl implements Ristorante {
 
+    public static volatile Ristorante instance;
     private final String nome;
     private final Sala sala;
     private final Menu menu;
@@ -23,33 +24,59 @@ public class RistoranteImpl implements Ristorante {
     private final List<Reparto> reparti;
     private Queue<GruppoClienti> gruppiInAttesa;
     private Maitre maitre;
+    private Thread maitreThread;
+    private List<Thread> camerieriThreads;
     private volatile boolean isAperto;
     private String messaggi;
 
-    public RistoranteImpl(String nome, int numTavoli, String menuPath){
+    private RistoranteImpl(String nome, int numTavoli, String menuPath) {
         this.nome = nome;
         this.reparti = new ArrayList<>();
         for(TipoReparto t : TipoReparto.values()){
             this.reparti.add(new RepartoImpl(t, this, t.getNumDipendenti()));
         }
-        this.sala = new SalaImpl(numTavoli, 4, this);
+        this.sala = SalaImpl.getInstance(numTavoli, 4, this);
         this.menu = MenuImpl.fromJson(menuPath);
-        this.cassa = new CassaImpl(this.sala, this.reparti);
+        this.cassa = CassaImpl.getInstance(this.sala, this.reparti);
         this.maitre = new Maitre("Maitre", StipendiDipendenti.MAITRE.getPaga(), this);
+        this.camerieriThreads = new ArrayList<>();
         this.gruppiInAttesa = new LinkedList<>();
         this.isAperto = true;
         this.messaggi = "";
     }
 
+    public static Ristorante getInstance(String nome, int numTavoli, String menuPath) {
+      if (instance == null) {
+        synchronized(Ristorante.class) {
+          if (instance == null) {
+            instance = new RistoranteImpl(nome, numTavoli, menuPath);
+          }
+        }
+      }
+      return instance;
+    }
+
+    public static void resetInstance(){
+        instance = null;
+    }
+
     @Override
     public void apriLocale() {
         System.out.println("Avvio maitre...");
-        new Thread(() -> this.maitre.lavora()).start();
+        maitreThread = new Thread(() -> this.maitre.lavora());
+        maitreThread.start();
 
         System.out.println("Avvio camerieri...");
         this.sala.getRanghi().forEach(r -> {
             System.out.println(" -> Cameriere di rango " + r.getId());
-            new Thread(() -> r.getCameriere().lavora()).start();
+            Thread ct = new Thread(() -> {
+                try{
+                    r.getCameriere().lavora();
+                }catch(InterruptedException e){
+                    System.out.println(r.getCameriere().getIdDipendente() + " fermato");
+                }});
+            ct.start();
+            this.camerieriThreads.add(ct);
         });
 
         System.out.println("Avvio reparti...");
@@ -63,8 +90,13 @@ public class RistoranteImpl implements Ristorante {
     public void chiudiLocale() {
         this.reparti.forEach(Reparto::chiudiReparto);
         this.isAperto = false;
+        this.maitreThread.interrupt();
+        this.camerieriThreads.forEach(Thread::interrupt);
         this.cassa.calcolaTotalePerDipendente();
         this.cassa.calcolaTotalePerReparto();
+        CassaImpl.resetInstance();
+        SalaImpl.resetInstance();
+        RistoranteImpl.resetInstance();
     }
 
     @Override
@@ -87,7 +119,7 @@ public class RistoranteImpl implements Ristorante {
 
     @Override
     public void accogliClienti(GruppoClienti gruppo) {
-        System.out.println("Gruppo " + gruppo.getId() + "passato al maitre");
+        System.out.println(gruppo.getId() + "passato al maitre");
         this.gruppiInAttesa.add(gruppo);
         this.maitre.nuovoGruppo();
     }
@@ -119,6 +151,6 @@ public class RistoranteImpl implements Ristorante {
 
     @Override
     public void addNuovoMessaggio(String messaggio){
-        this.messaggi += messaggio + "\n";
+        this.messaggi += messaggio + "\n\n";
     }
 }
