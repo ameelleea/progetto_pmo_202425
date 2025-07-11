@@ -11,8 +11,8 @@ public interface Tavolo {
      public int getNumero();
      public int getNumeroPosti();
      public boolean isOccupato();
-     public void occupa(GruppoClienti gruppo); //Segna il tavolo come occupato e associa il gruppo.
-     public void libera(); //Segna il tavolo come libero.
+     public void occupa(GruppoClienti gruppo);
+     public void libera();
      public GruppoClienti getGruppoCorrente();
      public StatoTavolo getStatoTavolo();
      public void setStatoTavolo(StatoTavolo stato);

@@ -10,8 +10,8 @@ import java.util.List;
 
 public class ControllerImpl implements Controller, ModelListener {
 
-    private static final int DURATA_MASSIMA = 50; // durata massima della simulazione in numero di giorni
-	private static final int DURATA_MINIMA = 1; // durata minima della simulazione in numero di giorni
+    private static final int DURATA_MASSIMA = 50; // durata massima della simulazione
+	private static final int DURATA_MINIMA = 1; // durata minima della simulazione
 	private Model model;
 	private View view;
     private boolean simulazioneAttiva = false;

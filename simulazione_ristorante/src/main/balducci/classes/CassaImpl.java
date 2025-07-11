@@ -20,11 +20,11 @@ public class CassaImpl implements Cassa {
 
     private static volatile Cassa instance;
     private double incassoTotaleGiornaliero;
-    private List<Ordine> ordiniInCorso; // Ordini attivi per ogni tavolo
-    private Map<Tavolo, List<Ordine>> ordiniPerTavolo; //Ordini totali di ciascun tavolo in tutta la simulazione
-    private Map<Dipendente, Double> guadagniPerDipendente; // Per calcolare i guadagni di ciascuno
+    private List<Ordine> ordiniInCorso; 
+    private Map<Tavolo, List<Ordine>> ordiniPerTavolo; 
+    private Map<Dipendente, Double> guadagniPerDipendente; 
     private Map<TipoReparto, Double> guadagniPerReparto;
-    private Sala sala; // Riferimento alla sala per conoscere i tavoli
+    private Sala sala;
     private List<Reparto> reparti;
 
     private CassaImpl(Sala sala, List<Reparto> reparti) {
@@ -150,10 +150,6 @@ public class CassaImpl implements Cassa {
             Reparto reparto = reparti.stream().filter(r -> r.getTipoReparto() == e.getKey()).findAny().orElse(null);
             reparto.gestisciOrdine(ordineReparto);
         });
-
-        /*this.ordiniPerTavolo
-            .computeIfAbsent(o.getTavoloRiferimento(), k -> new ArrayList<>())
-            .add(o);*/
     }
 
     @Override

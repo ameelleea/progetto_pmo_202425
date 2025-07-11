@@ -115,7 +115,7 @@ public class ModelImpl implements Model{
         notificaTotaliCambiati();
 
         try {
-            Thread.sleep(500); // controllo frequente
+            Thread.sleep(500);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -200,7 +200,7 @@ public class ModelImpl implements Model{
 
 	@Override
 	public void fermaSimulazione() {
-		scheduler.shutdownNow(); // Ferma la generazione dei gruppi
+		scheduler.shutdownNow();
 		this.ristorante.chiudiLocale();
 		this.notificaTotaliCambiati();
 		this.gruppiInAttesa.clear();

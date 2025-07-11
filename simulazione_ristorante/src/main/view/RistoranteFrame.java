@@ -43,7 +43,7 @@ public class RistoranteFrame extends javax.swing.JFrame {
 
     private Color sfondoPrincipale = new Color(245, 245, 245); // grigio molto chiaro
     private Color sfondoSecondario = new Color(230, 230, 230); // leggermente più scuro
-    private Color bordoColore = new Color(100, 100, 100); // grigio scuro per bordi
+    private Color bordoColore = new Color(100, 100, 100); // grigio scuro
     private Color verdeTavoli = new Color(144, 238, 144); // verde chiaro
     private Color rossoTavoli = new Color(255, 105, 97); // rosso chiaro
     private Color bluBottoni = new Color(100, 149, 237); // blu moderato
@@ -186,7 +186,7 @@ public class RistoranteFrame extends javax.swing.JFrame {
         settingsPanel = new javax.swing.JPanel();
         impostazioniLabel = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        clientiSpin = new javax.swing.JSpinner(new SpinnerNumberModel(50, 1, 100, 1));
+        clientiSpin = new javax.swing.JSpinner(new SpinnerNumberModel(50, 2, 100, 1));
         jLabel11 = new javax.swing.JLabel();
         durataSpin = new javax.swing.JSpinner(new SpinnerNumberModel(5, controller.getDurataMinimaSimulazione(), controller.getDurataMassimaSimulazione(), 1));
         buttonPanel = new javax.swing.JPanel();
